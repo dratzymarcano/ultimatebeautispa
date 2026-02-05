@@ -1,0 +1,278 @@
+---
+import { Icon } from 'astro-icon/components';
+import DatePicker from './DatePicker.astro';
+
+const services = [
+  { id: 'haircuts', name: 'Haircuts & Styling', price: 'À partir de 35 000 XAF' },
+  { id: 'shaves', name: 'Traditional Shaves', price: 'À partir de 30 000 XAF' },
+  { id: 'massage', name: 'Massage Therapy', price: 'À partir de 50 000 XAF' },
+  { id: 'tattoo', name: 'Tattoo Consultation', price: 'Gratuit' },
+  { id: 'skincare', name: 'Skincare Treatments', price: 'À partir de 45 000 XAF' },
+  { id: 'hair-styling', name: 'Hair Braiding & Styling', price: 'À partir de 40 000 XAF' },
+];
+
+const timeSlots = [
+  '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
+  '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM',
+  '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM',
+  '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM'
+];
+---
+
+<section class="section bg-snow" id="booking">
+  <div class="container">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <!-- Booking Info -->
+      <div class="lg:col-span-1" data-animate="slide-left">
+        <div class="flex items-center gap-4 mb-4">
+          <span class="w-12 h-0.5 bg-red"></span>
+          <span class="text-red text-sm uppercase tracking-[0.3em] font-semibold">Book Now</span>
+        </div>
+        
+        <h2 class="text-4xl sm:text-5xl font-bold text-black mb-6">
+          Reserve Your Experience
+        </h2>
+        
+        <p class="text-charcoal mb-8">
+          Select your preferred service, date, and time. We'll confirm your appointment within 24 hours.
+        </p>
+        
+        <!-- Contact Info -->
+        <div class="space-y-4 mb-8">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center">
+              <Icon name="lucide:map-pin" class="w-5 h-5 text-red" />
+            </div>
+            <div>
+              <span class="text-charcoal text-sm">Location</span>
+              <p class="text-black">Avant Saint James hôtel, Bonamoussadi, Douala</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center">
+              <Icon name="lucide:clock" class="w-5 h-5 text-red" />
+            </div>
+            <div>
+              <span class="text-charcoal text-sm">Hours</span>
+              <p class="text-black">Mon-Sat: 9am-9pm, Sun: 10am-6pm</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center">
+              <Icon name="lucide:phone" class="w-5 h-5 text-red" />
+            </div>
+            <div>
+              <span class="text-charcoal text-sm">Phone</span>
+              <a href="tel:+237-000-000-000" class="text-black hover:text-red transition-colors">+237 000 000 000</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Important Notes -->
+        <div class="glass rounded-lg p-6">
+          <h4 class="text-black font-semibold mb-3 flex items-center gap-2">
+            <Icon name="lucide:info" class="w-5 h-5 text-red" />
+            Booking Notes
+          </h4>
+          <ul class="space-y-2 text-sm text-charcoal">
+            <li class="flex items-start gap-2">
+              <span class="text-red mt-1">•</span>
+              <span>Appointments confirmed within 24 hours</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red mt-1">•</span>
+              <span>48-hour cancellation policy applies</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red mt-1">•</span>
+              <span>Complimentary consultation for tattoos</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red mt-1">•</span>
+              <span>Group bookings available on request</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Booking Form -->
+      <div class="lg:col-span-2" data-animate="slide-right">
+        <div class="glass rounded-xl p-8 lg:p-10">
+          <form id="booking-form" class="space-y-8">
+            <!-- Service Selection -->
+            <div>
+              <h3 class="text-lg font-semibold text-black mb-4">1. Select Service</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {services.map((service) => (
+                  <label class="relative cursor-pointer group">
+                    <input 
+                      type="radio" 
+                      name="service" 
+                      value={service.id}
+                      class="peer sr-only"
+                      required
+                    />
+                    <div class="p-4 rounded-lg border border-mist bg-white peer-checked:border-red peer-checked:bg-red/5 transition-all duration-300 group-hover:border-red/50">
+                      <span class="block text-black font-medium">{service.name}</span>
+                      <span class="text-sm text-red">{service.price}</span>
+                    </div>
+                    <div class="absolute top-3 right-3 w-5 h-5 rounded-full border border-mist peer-checked:border-red peer-checked:bg-red flex items-center justify-center transition-all">
+                      <Icon name="lucide:check" class="w-3 h-3 text-white" />
+                    </div>
+                  </label>
+                ))}
+              </div>
+            </div>
+            
+            <!-- Date & Time -->
+            <div>
+              <h3 class="text-lg font-semibold text-black mb-4">2. Choose Date & Time</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <DatePicker />
+                </div>
+                <div>
+                  <label for="time" class="form-label">Preferred Time</label>
+                  <select id="time" name="time" required class="form-input">
+                    <option value="">Select time</option>
+                    {timeSlots.map(slot => (
+                      <option value={slot}>{slot}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Personal Information -->
+            <div>
+              <h3 class="text-lg font-semibold text-black mb-4">3. Your Information</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label for="booking-first-name" class="form-label">First Name</label>
+                  <input 
+                    type="text" 
+                    id="booking-first-name" 
+                    name="firstName"
+                    required
+                    class="form-input"
+                    placeholder="John"
+                  />
+                </div>
+                <div>
+                  <label for="booking-last-name" class="form-label">Last Name</label>
+                  <input 
+                    type="text" 
+                    id="booking-last-name" 
+                    name="lastName"
+                    required
+                    class="form-input"
+                    placeholder="Doe"
+                  />
+                </div>
+                <div>
+                  <label for="booking-email" class="form-label">Email Address</label>
+                  <input 
+                    type="email" 
+                    id="booking-email" 
+                    name="email"
+                    required
+                    class="form-input"
+                    placeholder="john@example.com"
+                  />
+                </div>
+                <div>
+                  <label for="booking-phone" class="form-label">Phone Number</label>
+                  <input 
+                    type="tel" 
+                    id="booking-phone" 
+                    name="phone"
+                    required
+                    class="form-input"
+                    placeholder="+237 6XX XXX XXX"
+                  />
+                </div>
+              </div>
+              
+              <div class="mt-5">
+                <label for="notes" class="form-label">Special Requests (Optional)</label>
+                <textarea 
+                  id="notes" 
+                  name="notes"
+                  rows="3"
+                  class="form-input resize-none"
+                  placeholder="Any specific requests or information we should know..."
+                ></textarea>
+              </div>
+            </div>
+            
+            <!-- Submit -->
+            <div class="flex flex-col sm:flex-row items-center gap-4 pt-4">
+              <button type="submit" class="btn-primary w-full sm:w-auto justify-center py-4 px-12">
+                <span>Request Appointment</span>
+                <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+              </button>
+              <p class="text-sm text-charcoal text-center sm:text-left">
+                We'll confirm your appointment within 24 hours
+              </p>
+            </div>
+            <div id="booking-alert" class="hidden text-sm rounded-lg px-4 py-3 border"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('booking-form') as HTMLFormElement | null;
+  const alertEl = document.getElementById('booking-alert');
+
+  const setAlert = (message: string, type: string) => {
+    if (!alertEl) return;
+    alertEl.textContent = message;
+    alertEl.classList.remove('hidden');
+    alertEl.className = `text-sm rounded-lg px-4 py-3 border ${type === 'error' ? 'bg-red/10 text-red border-red/20' : 'bg-success/10 text-success border-success/20'}`;
+  };
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (!form) return;
+
+    const formData = new FormData(form);
+    const payload: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      payload[key] = value.toString();
+    });
+
+    // Validate required fields
+    if (!payload.service || !payload.date || !payload.time || !payload.firstName || !payload.lastName || !payload.email || !payload.phone) {
+      setAlert('Please fill in all required fields.', 'error');
+      return;
+    }
+
+    // Build WhatsApp message
+    const message = [
+      `📋 *New Booking Request*`,
+      ``,
+      `*Service:* ${payload.service}`,
+      `*Date:* ${payload.date}`,
+      `*Time:* ${payload.time}`,
+      ``,
+      `*Name:* ${payload.firstName} ${payload.lastName}`,
+      `*Email:* ${payload.email}`,
+      `*Phone:* ${payload.phone}`,
+      payload.notes ? `*Notes:* ${payload.notes}` : '',
+    ].filter(Boolean).join('\n');
+
+    const whatsappUrl = `https://wa.me/237000000000?text=${encodeURIComponent(message)}`;
+    
+    setAlert('Redirecting you to WhatsApp to confirm your booking...', 'success');
+    
+    setTimeout(() => {
+      window.open(whatsappUrl, '_blank');
+    }, 500);
+  });
+</script>

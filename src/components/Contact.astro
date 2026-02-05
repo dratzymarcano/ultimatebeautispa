@@ -1,0 +1,251 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const contactInfo = [
+  {
+    iconName: 'lucide:map-pin',
+    title: 'Visit Us',
+    lines: ['Avant Saint James hôtel', 'Bonamoussadi', 'Douala, Cameroon'],
+    action: { text: 'Get Directions', href: 'https://maps.google.com/?q=Avant+Saint+James+hotel+Bonamoussadi+Douala+Cameroon' }
+  },
+  {
+    iconName: 'lucide:phone',
+    title: 'Call Us',
+    lines: ['Main: +237 000 000 000', 'Booking: +237 000 000 001'],
+    action: { text: 'Call Now', href: 'tel:+237000000000' }
+  },
+  {
+    iconName: 'lucide:mail',
+    title: 'Email Us',
+    lines: ['hello@ultimatebeautyspa.com', 'bookings@ultimatebeautyspa.com'],
+    action: { text: 'Send Email', href: 'mailto:hello@ultimatebeautyspa.com' }
+  },
+  {
+    iconName: 'lucide:clock',
+    title: 'Hours',
+    lines: ['Mon - Sat: 9:00am - 9:00pm', 'Sunday: 10:00am - 6:00pm'],
+    action: { text: 'Book Now', href: '/book' }
+  }
+];
+---
+
+<section class="section bg-white" id="contact">
+  <div class="container">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+      <!-- Contact Info -->
+      <div data-animate="slide-left">
+        <div class="flex items-center gap-4 mb-4">
+          <span class="w-12 h-0.5 bg-red"></span>
+          <span class="text-red text-sm uppercase tracking-[0.3em] font-semibold">Get In Touch</span>
+        </div>
+        
+        <h2 class="text-4xl sm:text-5xl font-bold text-black mb-6">
+          Let's Connect
+        </h2>
+        
+        <p class="text-charcoal text-lg mb-10">
+          Have questions about our services or ready to schedule your visit? We'd love to hear from you. Reach out through any of the channels below.
+        </p>
+        
+        <!-- Contact Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+          {contactInfo.map((info, index) => (
+            <div 
+              class="glass rounded-lg p-6 hover:border-red/30 transition-all duration-300"
+              data-animate="fade-in-up"
+              style={`animation-delay: ${index * 100}ms`}
+            >
+              <div class="w-12 h-12 rounded-full bg-red/10 flex items-center justify-center mb-4">
+                <Icon name={info.iconName} class="w-5 h-5 text-red" />
+              </div>
+              <h3 class="text-black font-semibold mb-2">{info.title}</h3>
+              <div class="space-y-1 mb-4">
+                {info.lines.map(line => (
+                  <p class="text-charcoal text-sm">{line}</p>
+                ))}
+              </div>
+              <a href={info.action.href} class="text-red text-sm font-medium hover:underline inline-flex items-center gap-1">
+                {info.action.text}
+                <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+              </a>
+            </div>
+          ))}
+        </div>
+        
+        <!-- Map Placeholder -->
+        <div class="rounded-lg overflow-hidden h-64 bg-mist" data-animate="fade-in-up">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.8!2d9.7!3d4.07!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sBonamoussadi%2C%20Douala!5e0!3m2!1sen!2scm"
+            width="100%"
+            height="100%"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Ultimate Beauty Spa Location"
+          ></iframe>
+        </div>
+      </div>
+      
+      <!-- Contact Form -->
+      <div data-animate="slide-right">
+        <div class="glass rounded-xl p-8 lg:p-10">
+          <h3 class="text-2xl font-bold text-black mb-2">
+            Send Us a Message
+          </h3>
+          <p class="text-charcoal text-sm mb-8">
+            We typically respond within 24 hours
+          </p>
+          
+          <form id="contact-form" class="space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="contact-first-name" class="form-label">First Name</label>
+                <input 
+                  type="text" 
+                  id="contact-first-name" 
+                  name="firstName"
+                  required
+                  class="form-input"
+                  placeholder="John"
+                />
+              </div>
+              <div>
+                <label for="contact-last-name" class="form-label">Last Name</label>
+                <input 
+                  type="text" 
+                  id="contact-last-name" 
+                  name="lastName"
+                  required
+                  class="form-input"
+                  placeholder="Doe"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <label for="contact-email" class="form-label">Email Address</label>
+              <input 
+                type="email" 
+                id="contact-email" 
+                name="email"
+                required
+                class="form-input"
+                placeholder="john@example.com"
+              />
+            </div>
+            
+            <div>
+              <label for="contact-phone" class="form-label">Phone Number (Optional)</label>
+              <input 
+                type="tel" 
+                id="contact-phone" 
+                name="phone"
+                class="form-input"
+                placeholder="+237 6XX XXX XXX"
+              />
+            </div>
+            
+            <div>
+              <label for="subject" class="form-label">Subject</label>
+              <select id="subject" name="subject" required class="form-input">
+                <option value="">Select a topic</option>
+                <option value="general">General Inquiry</option>
+                <option value="booking">Booking Question</option>
+                <option value="services">Services Information</option>
+                <option value="feedback">Feedback</option>
+                <option value="partnership">Partnership Opportunity</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div>
+              <label for="message" class="form-label">Message</label>
+              <textarea 
+                id="message" 
+                name="message"
+                required
+                rows="5"
+                class="form-input resize-none"
+                placeholder="How can we help you?"
+              ></textarea>
+            </div>
+            
+            <div class="flex items-start gap-3">
+              <input 
+                type="checkbox" 
+                id="contact-consent" 
+                name="consent"
+                required
+                class="mt-1 w-4 h-4 accent-red"
+              />
+              <label for="contact-consent" class="text-sm text-charcoal">
+                I agree to the <a href="/privacy" class="text-red hover:underline">Privacy Policy</a> and consent to being contacted about my inquiry.
+              </label>
+            </div>
+            
+            <button type="submit" class="btn-primary w-full justify-center py-4">
+              <span>Send Message</span>
+              <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+            </button>
+            <div id="contact-alert" class="hidden text-sm rounded-lg px-4 py-3 border"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const alertEl = document.getElementById('contact-alert');
+
+  const setAlert = (message: string, type: string) => {
+    if (!alertEl) return;
+    alertEl.textContent = message;
+    alertEl.classList.remove('hidden');
+    alertEl.className = `text-sm rounded-lg px-4 py-3 border ${type === 'error' ? 'bg-red/10 text-red border-red/20' : 'bg-success/10 text-success border-success/20'}`;
+  };
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (!form) return;
+
+    if (alertEl) {
+      alertEl.classList.add('hidden');
+    }
+
+    const formData = new FormData(form);
+    const payload: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      payload[key] = value.toString();
+    });
+
+    // Validate required fields
+    if (!payload.firstName || !payload.lastName || !payload.email || !payload.message) {
+      setAlert('Please fill in all required fields.', 'error');
+      return;
+    }
+
+    // Build WhatsApp message
+    const message = [
+      `💬 *New Contact Message*`,
+      ``,
+      `*Name:* ${payload.firstName} ${payload.lastName}`,
+      `*Email:* ${payload.email}`,
+      payload.phone ? `*Phone:* ${payload.phone}` : '',
+      ``,
+      `*Message:*`,
+      payload.message,
+    ].filter(Boolean).join('\n');
+
+    const whatsappUrl = `https://wa.me/237000000000?text=${encodeURIComponent(message)}`;
+
+    setAlert('Redirecting you to WhatsApp to send your message...', 'success');
+
+    setTimeout(() => {
+      window.open(whatsappUrl, '_blank');
+    }, 500);
+  });
+</script>

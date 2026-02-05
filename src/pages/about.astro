@@ -1,0 +1,263 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CTA from '../components/CTA.astro';
+
+const team = [
+  {
+    name: 'Marcus Sterling',
+    role: 'Founder & Master Barber',
+    bio: '15+ years of experience. Trained in London and NYC. Specialist in classic cuts and straight razor shaves.',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80'
+  },
+  {
+    name: 'James Chen',
+    role: 'Lead Stylist',
+    bio: 'Award-winning stylist with expertise in modern trends and textured styles. Featured in GQ and Esquire.',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80'
+  },
+  {
+    name: 'David Williams',
+    role: 'Tattoo Artist',
+    bio: 'Specializing in realism and blackwork. 10+ years experience. Custom designs only.',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80'
+  },
+  {
+    name: 'Michael Torres',
+    role: 'Massage Therapist',
+    bio: 'Licensed LMT with certifications in deep tissue, sports, and Swedish massage techniques.',
+    image: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&q=80'
+  }
+];
+
+const values = [
+  {
+    iconName: 'lucide:badge-check',
+    title: 'Excellence',
+    description: 'We never settle for good enough. Every service, every detail, every interaction is executed at the highest level.'
+  },
+  {
+    iconName: 'lucide:heart',
+    title: 'Care',
+    description: 'Your comfort and satisfaction are our priority. We treat every client like our most important one.'
+  },
+  {
+    iconName: 'lucide:zap',
+    title: 'Innovation',
+    description: 'We continuously evolve our techniques and services to stay at the forefront of the industry.'
+  },
+  {
+    iconName: 'lucide:users',
+    title: 'Community',
+    description: 'We\'re more than a spa - we\'re a gathering place for like-minded individuals who value self-care.'
+  }
+];
+---
+
+<Layout 
+  title="About Us" 
+  description="Learn about Ultimate Beauty Spa - our story, our team, and our commitment to premium grooming excellence."
+>
+  <Header slot="header" currentPath="/about" />
+  
+  <!-- Page Hero -->
+  <section class="relative py-32 overflow-hidden">
+    <div class="absolute inset-0">
+      <div 
+        class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920&q=80')"
+      ></div>
+      <div class="absolute inset-0 bg-obsidian/85"></div>
+    </div>
+    
+    <div class="container relative z-10 text-center">
+      <div class="flex items-center justify-center gap-4 mb-4" data-animate="fade-in-up">
+        <span class="ornament"></span>
+        <span class="text-red text-sm uppercase tracking-[0.3em] font-medium">Our Story</span>
+        <span class="ornament"></span>
+      </div>
+      
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-display font-semibold text-white mb-6" data-animate="fade-in-up" style="animation-delay: 100ms">
+        About Ultimate Beauty
+      </h1>
+      
+      <p class="text-xl text-white/70 max-w-2xl mx-auto" data-animate="fade-in-up" style="animation-delay: 200ms">
+        A sanctuary where tradition meets innovation, and grooming becomes an art form.
+      </p>
+    </div>
+  </section>
+  
+  <!-- Story Section -->
+  <section class="section bg-snow">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div data-animate="slide-left">
+          <h2 class="text-4xl sm:text-5xl font-display font-semibold text-black mb-6">
+            Where It All <span class="text-gradient">Began</span>
+          </h2>
+          
+          <div class="space-y-6 text-charcoal">
+            <p>
+              Ultimate Beauty Spa was founded on a simple belief: everyone deserves to experience exceptional grooming in an environment that respects their time, values quality, and celebrates the ritual of self-care.
+            </p>
+            
+            <p>
+              Our founder spent 15 years honing his craft in barbershops from London to Douala before realizing that something was missing in the industry. Too often, the focus was on speed over quality, efficiency over experience.
+            </p>
+            
+            <p>
+              In 2015, he set out to create something different - a space where classic techniques meet modern innovation, where every detail is considered, and where clients can truly escape the rush of everyday life.
+            </p>
+            
+            <p>
+              Today, Ultimate Beauty Spa has grown into a full-service grooming and lifestyle destination, but our founding principles remain unchanged: exceptional service, premium quality, and an unwavering commitment to our clients.
+            </p>
+          </div>
+        </div>
+        
+        <div class="relative" data-animate="slide-right">
+          <div class="grid grid-cols-2 gap-4">
+            <img 
+              src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&q=80"
+              alt="Barbershop interior detail"
+              class="rounded-lg w-full h-48 object-cover"
+              loading="lazy"
+            />
+            <img 
+              src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80"
+              alt="Barber at work"
+              class="rounded-lg w-full h-48 object-cover mt-8"
+              loading="lazy"
+            />
+            <img 
+              src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80"
+              alt="Spa experience"
+              class="rounded-lg w-full h-48 object-cover"
+              loading="lazy"
+            />
+            <img 
+              src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&q=80"
+              alt="Massage therapy"
+              class="rounded-lg w-full h-48 object-cover mt-8"
+              loading="lazy"
+            />
+          </div>
+          <div class="absolute -bottom-6 -left-6 w-32 h-32 border border-red/20 rounded-lg -z-10"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Values Section -->
+  <section class="section bg-cloud">
+    <div class="container">
+      <div class="text-center max-w-2xl mx-auto mb-16" data-animate="fade-in-up">
+        <div class="flex items-center justify-center gap-4 mb-4">
+          <span class="ornament"></span>
+          <span class="text-red text-sm uppercase tracking-[0.3em] font-medium">Our Values</span>
+          <span class="ornament"></span>
+        </div>
+        
+        <h2 class="text-4xl sm:text-5xl font-display font-semibold text-black mb-4">
+          What We Believe In
+        </h2>
+        
+        <p class="text-gray text-lg">
+          The principles that guide everything we do
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {values.map((value, index) => (
+          <div 
+            class="glass rounded-lg p-8 text-center hover:border-red/30 transition-all duration-300"
+            data-animate="fade-in-up"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            <div class="w-16 h-16 rounded-full bg-red/10 flex items-center justify-center mx-auto mb-6">
+              <Icon name={value.iconName} class="w-8 h-8 text-red" />
+            </div>
+            <h3 class="text-black font-semibold text-xl mb-3">{value.title}</h3>
+            <p class="text-gray text-sm leading-relaxed">{value.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  
+  <!-- Team Section -->
+  <section class="section bg-snow">
+    <div class="container">
+      <div class="text-center max-w-2xl mx-auto mb-16" data-animate="fade-in-up">
+        <div class="flex items-center justify-center gap-4 mb-4">
+          <span class="ornament"></span>
+          <span class="text-red text-sm uppercase tracking-[0.3em] font-medium">The Team</span>
+          <span class="ornament"></span>
+        </div>
+        
+        <h2 class="text-4xl sm:text-5xl font-display font-semibold text-black mb-4">
+          Meet Our Experts
+        </h2>
+        
+        <p class="text-gray text-lg">
+          Passionate artisans dedicated to their craft
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {team.map((member, index) => (
+          <article 
+            class="card group"
+            data-animate="fade-in-up"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            <div class="relative aspect-[3/4] img-zoom">
+              <img 
+                src={member.image}
+                alt={member.name}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-white font-semibold text-lg group-hover:text-red transition-colors">{member.name}</h3>
+              <p class="text-red text-sm mb-3">{member.role}</p>
+              <p class="text-white/70 text-sm">{member.bio}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  
+  <!-- Stats Banner -->
+  <section class="py-16 bg-cloud border-y border-mist">
+    <div class="container">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        <div data-animate="fade-in-up">
+          <span class="block text-5xl font-display font-semibold text-red mb-2">10+</span>
+          <span class="text-sm uppercase tracking-wider text-gray">Years Experience</span>
+        </div>
+        <div data-animate="fade-in-up" style="animation-delay: 100ms">
+          <span class="block text-5xl font-display font-semibold text-red mb-2">15+</span>
+          <span class="text-sm uppercase tracking-wider text-gray">Expert Team</span>
+        </div>
+        <div data-animate="fade-in-up" style="animation-delay: 200ms">
+          <span class="block text-5xl font-display font-semibold text-red mb-2">10K+</span>
+          <span class="text-sm uppercase tracking-wider text-gray">Happy Clients</span>
+        </div>
+        <div data-animate="fade-in-up" style="animation-delay: 300ms">
+          <span class="block text-5xl font-display font-semibold text-red mb-2">50+</span>
+          <span class="text-sm uppercase tracking-wider text-gray">Industry Awards</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <CTA />
+  
+  <Footer slot="footer" />
+</Layout>

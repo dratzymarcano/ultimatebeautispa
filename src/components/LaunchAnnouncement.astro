@@ -1,0 +1,405 @@
+---
+/**
+ * Launch Announcement Component
+ * Animated countdown to Sunday February 8th, 2026 grand opening
+ * Features: live countdown timer, pulsing glow effects, particle animation
+ */
+import { Icon } from 'astro-icon/components';
+---
+
+<section class="launch-section" id="launch">
+  <div class="launch-bg">
+    <div class="launch-particles" id="launch-particles"></div>
+    <div class="launch-glow launch-glow--1"></div>
+    <div class="launch-glow launch-glow--2"></div>
+  </div>
+
+  <div class="container">
+    <div class="launch-content">
+      <!-- Eyebrow -->
+      <div class="launch-eyebrow">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow-text">Mark Your Calendar</span>
+        <span class="eyebrow-dot"></span>
+      </div>
+
+      <!-- Main Headline -->
+      <h2 class="launch-title">
+        <span class="title-line title-line--1">Grand Opening</span>
+        <span class="title-line title-line--2">
+          <span class="title-date">February 8<sup>th</sup></span>
+          <span class="title-year">, 2026</span>
+        </span>
+      </h2>
+
+      <p class="launch-subtitle">Sunday · Doors Open at 10:00 AM</p>
+
+      <!-- Countdown -->
+      <div class="countdown" id="launch-countdown">
+        <div class="countdown-unit">
+          <div class="countdown-number" id="cd-days">000</div>
+          <div class="countdown-label">Days</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-number" id="cd-hours">00</div>
+          <div class="countdown-label">Hours</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-number" id="cd-mins">00</div>
+          <div class="countdown-label">Minutes</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-number" id="cd-secs">00</div>
+          <div class="countdown-label">Seconds</div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="launch-cta">
+        <a href="/book" class="launch-btn">
+          <span>Reserve Your Spot</span>
+          <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+        </a>
+        <p class="launch-offer">First 50 clients get <strong>20% off</strong> their first visit</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .launch-section {
+    position: relative;
+    background: var(--color-black);
+    padding: 6rem 0;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* === Background Effects === */
+  .launch-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .launch-particles {
+    position: absolute;
+    inset: 0;
+  }
+
+  .launch-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.3;
+  }
+
+  .launch-glow--1 {
+    width: 500px;
+    height: 500px;
+    background: var(--color-red);
+    top: -150px;
+    right: -100px;
+    animation: glowPulse 4s ease-in-out infinite;
+  }
+
+  .launch-glow--2 {
+    width: 400px;
+    height: 400px;
+    background: var(--color-red-dark);
+    bottom: -120px;
+    left: -80px;
+    animation: glowPulse 5s ease-in-out infinite 1s;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.1); }
+  }
+
+  /* === Content === */
+  .launch-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* === Eyebrow === */
+  .launch-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    padding: 0.5rem 1.25rem;
+    background: rgba(225, 29, 72, 0.1);
+    border: 1px solid rgba(225, 29, 72, 0.2);
+    border-radius: var(--radius-full);
+  }
+
+  .eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--color-red);
+    border-radius: 50%;
+    animation: dotPulse 2s ease-in-out infinite;
+  }
+
+  .eyebrow-text {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-red);
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.4); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(225, 29, 72, 0); }
+  }
+
+  /* === Title === */
+  .launch-title {
+    margin-bottom: 0.75rem;
+  }
+
+  .title-line {
+    display: block;
+  }
+
+  .title-line--1 {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--color-platinum);
+    margin-bottom: 0.5rem;
+  }
+
+  .title-line--2 {
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .title-date {
+    color: var(--color-white);
+  }
+
+  .title-date sup {
+    font-size: 0.5em;
+    color: var(--color-red);
+  }
+
+  .title-year {
+    color: var(--color-red);
+  }
+
+  .launch-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-platinum);
+    margin-bottom: 3rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+
+  /* === Countdown === */
+  .countdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .countdown-unit {
+    text-align: center;
+  }
+
+  .countdown-number {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: var(--color-white);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem;
+    min-width: clamp(64px, 12vw, 100px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .countdown-number::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .countdown-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-gray);
+    margin-top: 0.625rem;
+  }
+
+  .countdown-sep {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: var(--color-red);
+    margin-top: -1.5rem;
+    animation: sepBlink 1s step-end infinite;
+  }
+
+  @keyframes sepBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* === CTA === */
+  .launch-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .launch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2.5rem;
+    background: var(--color-red);
+    color: var(--color-white);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: all 0.3s var(--ease-out-expo);
+    box-shadow: 0 0 30px rgba(225, 29, 72, 0.3);
+    letter-spacing: 0.02em;
+  }
+
+  .launch-btn:hover {
+    background: var(--color-red-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 0 50px rgba(225, 29, 72, 0.45);
+  }
+
+  .launch-offer {
+    font-size: 0.875rem;
+    color: var(--color-platinum);
+  }
+
+  .launch-offer strong {
+    color: var(--color-red);
+    font-weight: 700;
+  }
+
+  /* === Responsive === */
+  @media (max-width: 640px) {
+    .launch-section {
+      padding: 4rem 0;
+    }
+
+    .countdown {
+      gap: 0.25rem;
+    }
+
+    .countdown-number {
+      padding: 0.75rem 0.5rem;
+      min-width: 56px;
+    }
+
+    .countdown-sep {
+      margin-top: -1rem;
+    }
+  }
+</style>
+
+<script>
+  // ===== Countdown Timer =====
+  const LAUNCH_DATE = new Date('2026-02-08T10:00:00+01:00'); // WAT (Cameroon timezone)
+
+  const daysEl = document.getElementById('cd-days') as HTMLElement;
+  const hoursEl = document.getElementById('cd-hours') as HTMLElement;
+  const minsEl = document.getElementById('cd-mins') as HTMLElement;
+  const secsEl = document.getElementById('cd-secs') as HTMLElement;
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = LAUNCH_DATE.getTime() - now.getTime();
+
+    if (diff <= 0) {
+      daysEl.textContent = '000';
+      hoursEl.textContent = '00';
+      minsEl.textContent = '00';
+      secsEl.textContent = '00';
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+    daysEl.textContent = String(days).padStart(3, '0');
+    hoursEl.textContent = String(hours).padStart(2, '0');
+    minsEl.textContent = String(mins).padStart(2, '0');
+    secsEl.textContent = String(secs).padStart(2, '0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ===== Floating Particles =====
+  const particlesContainer = document.getElementById('launch-particles');
+  if (particlesContainer) {
+    for (let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      const size = Math.random() * 3 + 1;
+      const x = Math.random() * 100;
+      const delay = Math.random() * 8;
+      const duration = Math.random() * 6 + 6;
+      
+      Object.assign(particle.style, {
+        position: 'absolute',
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius: '50%',
+        background: Math.random() > 0.5 ? 'rgba(225, 29, 72, 0.4)' : 'rgba(255, 255, 255, 0.15)',
+        left: `${x}%`,
+        bottom: '-5%',
+        animation: `particleRise ${duration}s linear ${delay}s infinite`,
+        pointerEvents: 'none',
+      });
+      
+      particlesContainer.appendChild(particle);
+    }
+  }
+
+  // Inject the particle keyframes
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes particleRise {
+      0% { transform: translateY(0) translateX(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) translateX(${Math.random() > 0.5 ? '' : '-'}30px); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+</script>

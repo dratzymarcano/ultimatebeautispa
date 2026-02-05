@@ -1,0 +1,222 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ServicesGrid from '../components/Services.astro';
+import CTA from '../components/CTA.astro';
+
+// Full services list with detailed information
+const allServices = [
+  {
+    id: 'haircuts',
+    title: 'Haircuts & Styling',
+    description: 'Precision cuts and expert styling tailored to your unique features and lifestyle. Our master barbers blend classic techniques with modern trends to create looks that are distinctly you.',
+    longDescription: 'Every haircut at Ultimate Beauty Spa begins with a thorough consultation. We analyze your face shape, hair texture, lifestyle, and personal style to recommend the perfect cut. Our master barbers are trained in both classic and modern techniques, from timeless pompadours to contemporary fades, textured crops, and everything in between.',
+    price: 'À partir de 35 000 XAF',
+    priceDetails: [
+      { service: 'Classic Cut', price: '35 000 XAF' },
+      { service: 'Executive Cut', price: '45 000 XAF' },
+      { service: 'Cut & Style', price: '50 000 XAF' },
+      { service: 'Kids Cut (Under 12)', price: '25 000 XAF' },
+    ],
+    duration: '45–60 min',
+    image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80',
+    features: ['Consultation included', 'Premium products', 'Hot towel finish', 'Style advice']
+  },
+  {
+    id: 'shaves',
+    title: 'Traditional Shaves',
+    description: 'Experience the ritual of a classic straight razor shave with hot towels, premium oils, and meticulous attention to detail.',
+    longDescription: 'Step back in time and experience the art of the traditional straight razor shave. This luxurious service begins with a hot towel wrap to open pores, followed by the application of premium pre-shave oil. Our skilled barbers use surgical-grade straight razors for an impossibly close shave, finishing with cold towels and soothing aftershave balm.',
+    price: 'À partir de 30 000 XAF',
+    priceDetails: [
+      { service: 'Classic Shave', price: '30 000 XAF' },
+      { service: 'Luxury Shave Experience', price: '45 000 XAF' },
+      { service: 'Beard Trim & Shape', price: '20 000 XAF' },
+      { service: 'Clean Up Shave', price: '15 000 XAF' },
+    ],
+    duration: '30–45 min',
+    image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&q=80',
+    features: ['Hot towel treatment', 'Premium oils', 'Straight razor', 'Aftercare products']
+  },
+  {
+    id: 'massage',
+    title: 'Massage Therapy',
+    description: 'Relieve tension and restore balance with our therapeutic massage services. From deep tissue to relaxation, find your perfect treatment.',
+    longDescription: 'Our licensed massage therapists bring years of experience to every session. Whether you need deep tissue work to release chronic tension, Swedish massage for relaxation, or sports massage for recovery, we customize each treatment to your specific needs. All sessions include aromatherapy and premium organic oils.',
+    price: 'À partir de 50 000 XAF',
+    priceDetails: [
+      { service: 'Relaxation Massage (60 min)', price: '50 000 XAF' },
+      { service: 'Deep Tissue (60 min)', price: '60 000 XAF' },
+      { service: 'Hot Stone (75 min)', price: '70 000 XAF' },
+      { service: 'Sports Recovery (60 min)', price: '65 000 XAF' },
+      { service: 'Extended Session (90 min)', price: '75 000 XAF' },
+    ],
+    duration: '60–90 min',
+    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80',
+    features: ['Licensed therapists', 'Organic oils', 'Aromatherapy', 'Private rooms']
+  },
+  {
+    id: 'tattoo',
+    title: 'Tattoo Artistry',
+    description: 'Collaborate with our award-winning tattoo artists to create meaningful, custom artwork that tells your story with precision and artistry.',
+    longDescription: 'Our tattoo studio houses some of the most talented artists in the industry, each specializing in different styles from traditional to realism, blackwork to watercolor. Every piece begins with a complimentary consultation where we discuss your vision, placement, and create custom designs. We maintain the highest standards of hygiene and use only premium inks.',
+    price: 'Consultation gratuite',
+    priceDetails: [
+      { service: 'Consultation', price: 'Gratuit' },
+      { service: 'Small Piece (1–2 hrs)', price: 'À partir de 100 000 XAF' },
+      { service: 'Medium Piece (3–5 hrs)', price: 'À partir de 250 000 XAF' },
+      { service: 'Large Piece (Full day)', price: 'À partir de 600 000 XAF' },
+      { service: 'Custom Design Fee', price: 'À partir de 75 000 XAF' },
+    ],
+    duration: 'Varies by design',
+    image: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=800&q=80',
+    features: ['Custom designs', 'Award-winning artists', 'Premium inks', 'Aftercare included']
+  },
+  {
+    id: 'skincare',
+    title: 'Skincare Treatments',
+    description: 'Advanced facials and skin treatments tailored to your unique needs. Combat aging, acne, and dullness with science-backed solutions.',
+    longDescription: 'Every skin type has unique needs, and our skincare treatments are designed to address them all. From deep cleansing facials that clear pores and reduce oiliness to advanced anti-aging treatments that firm and rejuvenate, our estheticians use medical-grade products and the latest technology.',
+    price: 'À partir de 45 000 XAF',
+    priceDetails: [
+      { service: 'Express Facial (30 min)', price: '45 000 XAF' },
+      { service: 'Deep Cleanse Facial (60 min)', price: '65 000 XAF' },
+      { service: 'Anti-Aging Treatment', price: '85 000 XAF' },
+      { service: 'Acne Treatment', price: '75 000 XAF' },
+      { service: 'LED Light Therapy Add-on', price: '+20 000 XAF' },
+    ],
+    duration: '45–75 min',
+    image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&q=80',
+    features: ['Skin analysis', 'Medical-grade products', 'Custom protocols', 'Take-home regimen']
+  },
+  {
+    id: 'hair-styling',
+    title: 'Hair Braiding & Styling',
+    description: 'Expert braiding, locs, twists, and protective styling. From cornrows to freeform locs, achieve your desired look with precision.',
+    longDescription: 'Our styling specialists are masters of their craft, offering everything from intricate cornrow patterns to full loc installations. We work with your natural hair texture to create protective styles that not only look amazing but also promote healthy hair growth. All services include scalp treatment and styling products.',
+    price: 'À partir de 40 000 XAF',
+    priceDetails: [
+      { service: 'Cornrows (Simple)', price: '40 000 XAF' },
+      { service: 'Cornrows (Complex design)', price: '65 000 XAF' },
+      { service: 'Loc Retwist', price: '45 000 XAF' },
+      { service: 'Loc Installation', price: 'À partir de 130 000 XAF' },
+      { service: 'Two-Strand Twists', price: '50 000 XAF' },
+    ],
+    duration: '60–180 min',
+    image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80',
+    features: ['Natural products', 'Scalp treatment', 'All hair types', 'Style consultation']
+  }
+];
+---
+
+<Layout 
+  title="Services" 
+  description="Explore our premium grooming and lifestyle services. From precision haircuts to massage therapy and tattoo artistry."
+>
+  <Header slot="header" currentPath="/services" />
+  
+  <!-- Page Hero -->
+  <section class="relative py-32 overflow-hidden">
+    <div class="absolute inset-0">
+      <div 
+        class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=1920&q=80')"
+      ></div>
+      <div class="absolute inset-0 bg-obsidian/85"></div>
+    </div>
+    
+    <div class="container relative z-10 text-center">
+      <div class="flex items-center justify-center gap-4 mb-4" data-animate="fade-in-up">
+        <span class="ornament"></span>
+        <span class="text-red text-sm uppercase tracking-[0.3em] font-medium">What We Offer</span>
+        <span class="ornament"></span>
+      </div>
+      
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-display font-semibold text-white mb-6" data-animate="fade-in-up" style="animation-delay: 100ms">
+        Our Services
+      </h1>
+      
+      <p class="text-xl text-white/70 max-w-2xl mx-auto" data-animate="fade-in-up" style="animation-delay: 200ms">
+        Experience the pinnacle of grooming excellence. Each service is crafted with precision, delivered with care.
+      </p>
+    </div>
+  </section>
+  
+  <!-- Services Detailed -->
+  <section class="section bg-snow">
+    <div class="container">
+      {allServices.map((service, index) => (
+        <article 
+          id={service.id}
+          class={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${index > 0 ? 'mt-24 pt-24 border-t border-mist' : ''}`}
+          data-animate="fade-in-up"
+        >
+          <!-- Image -->
+          <div class={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+            <div class="relative rounded-lg overflow-hidden aspect-[4/3]">
+              <img 
+                src={service.image}
+                alt={service.title}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            </div>
+            <!-- Decorative -->
+            <div class={`absolute -bottom-6 ${index % 2 === 1 ? '-left-6' : '-right-6'} w-32 h-32 border border-red/20 rounded-lg -z-10`}></div>
+          </div>
+          
+          <!-- Content -->
+          <div class={index % 2 === 1 ? 'lg:order-1' : ''}>
+            <span class="inline-block text-red text-sm uppercase tracking-widest font-medium mb-4">{service.duration}</span>
+            <h2 class="text-3xl sm:text-4xl font-display font-semibold text-black mb-4">
+              {service.title}
+            </h2>
+            <p class="text-charcoal mb-6 leading-relaxed">
+              {service.longDescription}
+            </p>
+            
+            <!-- Features -->
+            <div class="flex flex-wrap gap-3 mb-8">
+              {service.features.map(feature => (
+                <span class="inline-flex items-center gap-2 px-3 py-1 bg-red/10 rounded-full text-sm text-red">
+                  <Icon name="lucide:check" class="w-4 h-4" />
+                  {feature}
+                </span>
+              ))}
+            </div>
+            
+            <!-- Pricing -->
+            <div class="glass rounded-lg p-6 mb-6">
+              <h4 class="text-black font-semibold mb-4">Pricing</h4>
+              <div class="space-y-3">
+                {service.priceDetails.map(item => (
+                  <div class="flex justify-between items-center">
+                    <span class="text-charcoal">{item.service}</span>
+                    <span class="text-red font-semibold">{item.price}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <a href="/book" class="btn-primary">
+              <span>Book This Service</span>
+              <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+  
+  <CTA 
+    title="Ready to Experience Excellence?"
+    subtitle="Book your appointment today and discover why our clients never go anywhere else."
+    primaryCta={{ text: "Book Now", href: "/book" }}
+    secondaryCta={{ text: "Contact Us", href: "/contact" }}
+  />
+  
+  <Footer slot="footer" />
+</Layout>

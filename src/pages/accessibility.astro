@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout 
+  title="Accessibility" 
+  description="Accessibility statement for Ultimate Beauty Spa."
+>
+  <Header slot="header" currentPath="/accessibility" />
+
+  <section class="section bg-snow">
+    <div class="container max-w-3xl">
+      <div class="mb-10">
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-black mb-4">Accessibility Statement</h1>
+        <p class="text-charcoal">Last updated: February 5, 2026</p>
+      </div>
+
+      <div class="space-y-8 text-charcoal">
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">Our Commitment</h2>
+          <p>We are committed to providing an accessible experience for all clients. If you encounter any barriers on our website, please let us know.</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">Assistive Support</h2>
+          <p>We can assist with booking and service information by phone or email upon request.</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">Contact</h2>
+          <p>Email us at hello@ultimatebeautyspa.com or call +237 000 000 000 for accessibility support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>

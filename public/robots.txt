@@ -1,0 +1,11 @@
+# Ultimate Beauty Spa Robots.txt
+# https://ultimatebeautyspa.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://ultimatebeautyspa.com/sitemap.xml
+
+# Disallow admin/private areas (none currently)
+# Disallow: /admin/

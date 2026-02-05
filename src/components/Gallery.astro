@@ -1,0 +1,541 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface GalleryItem {
+  src: string;
+  alt: string;
+  category: string;
+  span?: 'tall' | 'wide' | 'large' | 'normal';
+}
+
+interface Props {
+  limit?: number;
+}
+
+const { limit = 8 } = Astro.props;
+
+const galleryItems: GalleryItem[] = [
+  { src: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80', alt: 'Precision haircut in progress', category: 'Haircuts', span: 'tall' },
+  { src: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&q=80', alt: 'Traditional straight razor shave', category: 'Shaves', span: 'normal' },
+  { src: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80', alt: 'Relaxing massage therapy session', category: 'Massage', span: 'wide' },
+  { src: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=800&q=80', alt: 'Tattoo artist at work', category: 'Tattoo', span: 'normal' },
+  { src: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80', alt: 'Luxury spa interior', category: 'Interior', span: 'large' },
+  { src: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800&q=80', alt: 'Barbershop details', category: 'Interior', span: 'normal' },
+  { src: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&q=80', alt: 'Skincare treatment', category: 'Skincare', span: 'tall' },
+  { src: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80', alt: 'Hair styling session', category: 'Styling', span: 'normal' },
+  { src: 'https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=800&q=80', alt: 'Premium grooming products', category: 'Products', span: 'wide' },
+  { src: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&q=80', alt: 'Barber station setup', category: 'Interior', span: 'normal' },
+];
+
+const displayItems = galleryItems.slice(0, limit);
+const categories = [...new Set(galleryItems.map(item => item.category))];
+---
+
+<section class="gallery-section" id="gallery">
+  <!-- Background -->
+  <div class="gallery-bg">
+    <div class="bg-lines"></div>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="gallery-header">
+      <div class="header-top">
+        <div class="header-label" data-animate="fade-in">
+          <span class="label-line"></span>
+          <span class="label-text">Gallery</span>
+        </div>
+        
+        <div class="header-count" data-animate="fade-in">
+          <span class="count-number">{displayItems.length}</span>
+          <span class="count-label">Works</span>
+        </div>
+      </div>
+      
+      <div class="header-content">
+        <h2 class="gallery-title" data-animate="fade-in-up">
+          Our Work
+          <span class="title-accent">Speaks</span>
+        </h2>
+        
+        <p class="gallery-subtitle" data-animate="fade-in-up">
+          A glimpse into the craftsmanship and artistry that defines our studio
+        </p>
+      </div>
+    </header>
+
+    <!-- Category Filter -->
+    <div class="category-filter" data-animate="fade-in-up">
+      <button class="filter-btn active" data-category="all">All</button>
+      {categories.map(category => (
+        <button class="filter-btn" data-category={category.toLowerCase()}>
+          {category}
+        </button>
+      ))}
+    </div>
+
+    <!-- Masonry Gallery -->
+    <div class="gallery-masonry">
+      {displayItems.map((item, index) => (
+        <article 
+          class={`gallery-item gallery-${item.span || 'normal'}`}
+          data-category={item.category.toLowerCase()}
+          style={`--index: ${index}`}
+        >
+          <div class="item-inner">
+            <!-- Image -->
+            <img 
+              src={item.src}
+              alt={item.alt}
+              loading="lazy"
+            />
+            
+            <!-- Overlay -->
+            <div class="item-overlay">
+              <div class="overlay-content">
+                <span class="item-category">{item.category}</span>
+                <p class="item-title">{item.alt}</p>
+              </div>
+              
+              <!-- View Button -->
+              <button 
+                class="item-view"
+                aria-label={`View ${item.alt}`}
+              >
+                <Icon name="lucide:maximize" size={24} />
+              </button>
+            </div>
+            
+            <!-- Number -->
+            <span class="item-number">{String(index + 1).padStart(2, '0')}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Footer -->
+    {limit < galleryItems.length && (
+      <div class="gallery-footer" data-animate="fade-in-up">
+        <a href="/gallery" class="btn-secondary">
+          <span>View Full Gallery</span>
+          <Icon name="lucide:arrow-up-right" size={16} />
+        </a>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .gallery-section {
+    position: relative;
+    padding: 8rem 0;
+    background: var(--color-white);
+    overflow: hidden;
+  }
+
+  /* Background */
+  .gallery-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .bg-lines {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(90deg, rgba(225, 29, 72, 0.02) 1px, transparent 1px);
+    background-size: 80px 100%;
+    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  }
+
+  /* Header */
+  .gallery-header {
+    margin-bottom: 3rem;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .header-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: fade-in 0.8s var(--ease-out-expo) forwards;
+  }
+
+  .label-line {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-red), transparent);
+  }
+
+  .label-text {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-red);
+  }
+
+  .header-count {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fade-in 0.8s var(--ease-out-expo) forwards;
+  }
+
+  .count-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-red);
+    letter-spacing: -0.02em;
+  }
+
+  .count-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-gray);
+  }
+
+  .header-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: end;
+  }
+
+  .gallery-title {
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-black);
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.1s forwards;
+  }
+
+  .title-accent {
+    display: block;
+    color: var(--color-red);
+  }
+
+  .gallery-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-gray);
+    line-height: 1.7;
+    max-width: 400px;
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.2s forwards;
+  }
+
+  /* Category Filter */
+  .category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.3s forwards;
+  }
+
+  .filter-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-gray);
+    background: transparent;
+    border: 1.5px solid var(--color-mist);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out-expo);
+  }
+
+  .filter-btn:hover {
+    border-color: var(--color-silver);
+    color: var(--color-charcoal);
+  }
+
+  .filter-btn.active {
+    background: var(--color-black);
+    border-color: var(--color-black);
+    color: var(--color-white);
+  }
+
+  /* Masonry Grid */
+  .gallery-masonry {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  /* Gallery Item */
+  .gallery-item {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) forwards;
+    animation-delay: calc(var(--index) * 0.05s + 0.4s);
+  }
+
+  .gallery-normal {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .gallery-tall {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+
+  .gallery-wide {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .gallery-large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .item-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 280px;
+  }
+
+  .gallery-tall .item-inner,
+  .gallery-large .item-inner {
+    min-height: 580px;
+  }
+
+  .gallery-item img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease-out-expo);
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.08);
+  }
+
+  /* Overlay */
+  .item-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background: linear-gradient(180deg, transparent 40%, rgba(10, 10, 10, 0.8));
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out-expo);
+  }
+
+  .gallery-item:hover .item-overlay {
+    opacity: 1;
+  }
+
+  .overlay-content {
+    margin-top: auto;
+    transform: translateY(20px);
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+
+  .gallery-item:hover .overlay-content {
+    transform: translateY(0);
+  }
+
+  .item-category {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    background: var(--color-red);
+    border-radius: var(--radius-sm);
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-white);
+    margin-bottom: 0.75rem;
+  }
+
+  .item-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-white);
+    line-height: 1.4;
+  }
+
+  .item-view {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--color-white);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--color-black);
+    transform: scale(0.8);
+    opacity: 0;
+    transition: all 0.4s var(--ease-out-expo);
+  }
+
+  .gallery-item:hover .item-view {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .item-view:hover {
+    background: var(--color-red);
+    color: var(--color-white);
+  }
+
+  .item-number {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--color-white);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out-expo);
+  }
+
+  .gallery-item:hover .item-number {
+    opacity: 0.5;
+  }
+
+  /* Footer */
+  .gallery-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.8s forwards;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .header-content {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .gallery-masonry {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gallery-tall {
+      grid-row: span 1;
+    }
+
+    .gallery-large {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+
+    .gallery-tall .item-inner,
+    .gallery-large .item-inner {
+      min-height: 280px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gallery-section {
+      padding: 5rem 0;
+    }
+
+    .gallery-masonry {
+      grid-template-columns: 1fr;
+    }
+
+    .gallery-wide,
+    .gallery-large {
+      grid-column: span 1;
+    }
+
+    .category-filter {
+      justify-content: center;
+    }
+
+    .gallery-title {
+      font-size: 2.5rem;
+    }
+
+    .header-top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .item-inner {
+      min-height: 240px;
+    }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  // Simple category filter
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const galleryItems = document.querySelectorAll<HTMLElement>('.gallery-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.category;
+        
+        // Update active state
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Filter items
+        galleryItems.forEach(item => {
+          const itemCategory = item.dataset.category;
+          if (category === 'all' || itemCategory === category) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>

@@ -1,0 +1,615 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  variant?: 'home' | 'full';
+}
+
+const { variant = 'home' } = Astro.props;
+
+const stats = [
+  { value: '15+', label: 'Expert Artists', icon: 'lucide:users' },
+  { value: '10K+', label: 'Happy Clients', icon: 'lucide:smile' },
+  { value: '50+', label: 'Awards Won', icon: 'lucide:award' },
+  { value: '98%', label: 'Satisfaction', icon: 'lucide:badge-check' },
+];
+
+const features = [
+  { title: 'Premium Products', desc: 'Only the finest brands' },
+  { title: 'Expert Team', desc: 'Certified professionals' },
+  { title: 'Luxury Ambiance', desc: 'Refined atmosphere' },
+  { title: 'Easy Booking', desc: 'Online scheduling' },
+];
+---
+
+<section class="about-section" id="about">
+  <!-- Background -->
+  <div class="about-bg">
+    <div class="bg-gradient"></div>
+    <div class="bg-pattern"></div>
+  </div>
+
+  <div class="container">
+    <!-- Main Content Grid -->
+    <div class="about-grid">
+      <!-- Visual Side -->
+      <div class="about-visual">
+        <!-- Image Container -->
+        <div class="visual-main" data-animate="slide-left">
+          <div class="visual-frame">
+            <img 
+              src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80"
+              alt="Ultimate Beauty Spa - luxury grooming space"
+              loading="lazy"
+            />
+            <!-- Overlay Gradient -->
+            <div class="visual-overlay"></div>
+          </div>
+          
+          <!-- Decorative Frame -->
+          <div class="frame-accent"></div>
+        </div>
+
+        <!-- Floating Stats Card -->
+        <div class="floating-card glass" data-animate="scale-in">
+          <div class="floating-icon">
+            <Icon name="lucide:sparkles" size={24} />
+          </div>
+          <div class="floating-content">
+            <span class="floating-title">Excellence Guaranteed</span>
+            <span class="floating-sub">Since 2015</span>
+          </div>
+        </div>
+
+        <!-- Experience Badge -->
+        <div class="experience-badge" data-animate="fade-in">
+          <span class="badge-number">10</span>
+          <span class="badge-plus">+</span>
+          <span class="badge-label">Years of Excellence</span>
+        </div>
+      </div>
+
+      <!-- Content Side -->
+      <div class="about-content">
+        <!-- Label -->
+        <div class="content-label" data-animate="fade-in">
+          <span class="label-line"></span>
+          <span class="label-text">Our Story</span>
+        </div>
+
+        <!-- Title -->
+        <h2 class="about-title" data-animate="fade-in-up">
+          Where Tradition
+          <span class="title-highlight">Meets Modern</span>
+          <span class="title-accent">Excellence</span>
+        </h2>
+
+        <!-- Description -->
+        <div class="about-text" data-animate="fade-in-up">
+          <p>
+            Ultimate Beauty Spa was born from a vision to create a sanctuary where personal grooming transcends routine and becomes ritual. We believe that looking your best is an act of self-respect that transforms how you move through the world.
+          </p>
+          
+          <p>
+            Our team of master artisans brings together decades of combined experience in classic barbering, modern styling, therapeutic massage, and tattoo artistry. Each service is delivered with meticulous attention to detail.
+          </p>
+          
+          {variant === 'full' && (
+            <p>
+              From the moment you step through our doors, you'll experience hospitality that anticipates your needs. Premium beverages, curated music, and spaces designed for comfort ensure that every visit is as rejuvenating for the spirit as it is transformative for your appearance.
+            </p>
+          )}
+        </div>
+
+        <!-- Features Grid -->
+        <div class="features-grid" data-animate="fade-in-up">
+          {features.map((feature, i) => (
+            <div class="feature-item" style={`--i: ${i}`}>
+              <div class="feature-check">
+                <Icon name="lucide:check" size={14} />
+              </div>
+              <div class="feature-text">
+                <span class="feature-title">{feature.title}</span>
+                <span class="feature-desc">{feature.desc}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- CTA -->
+        <div class="about-cta" data-animate="fade-in-up">
+          <a href="/about" class="btn-primary">
+            <span>Discover Our Story</span>
+            <Icon name="lucide:arrow-up-right" size={16} />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="stats-section" data-animate="fade-in-up">
+      <div class="stats-grid">
+        {stats.map((stat, index) => (
+          <div class="stat-item" style={`--index: ${index}`}>
+            <div class="stat-icon">
+              <Icon name={stat.icon} size={24} />
+            </div>
+            <div class="stat-content">
+              <span class="stat-value">{stat.value}</span>
+              <span class="stat-label">{stat.label}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-section {
+    position: relative;
+    padding: 8rem 0;
+    background: var(--color-white);
+    overflow: hidden;
+  }
+
+  /* Background */
+  .about-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .bg-gradient {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 50%, rgba(225, 29, 72, 0.02));
+  }
+
+  .bg-pattern {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    height: 300px;
+    background-image: radial-gradient(circle, var(--color-mist) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+  }
+
+  /* Main Grid */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    margin-bottom: 6rem;
+  }
+
+  /* Visual Side */
+  .about-visual {
+    position: relative;
+  }
+
+  .visual-main {
+    position: relative;
+    opacity: 0;
+    animation: slide-left 1s var(--ease-out-expo) forwards;
+  }
+
+  .visual-frame {
+    position: relative;
+    aspect-ratio: 4/5;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+  }
+
+  .visual-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease-out-expo);
+  }
+
+  .about-visual:hover .visual-frame img {
+    transform: scale(1.05);
+  }
+
+  .visual-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(10, 10, 10, 0.3));
+  }
+
+  .frame-accent {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    right: -1rem;
+    bottom: -1rem;
+    border: 2px solid var(--color-red);
+    border-radius: var(--radius-2xl);
+    opacity: 0.2;
+    z-index: -1;
+  }
+
+  /* Floating Card */
+  .floating-card {
+    position: absolute;
+    bottom: -2rem;
+    right: -3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-xl);
+    opacity: 0;
+    animation: scale-in 0.6s var(--ease-out-expo) 0.4s forwards;
+  }
+
+  .floating-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: rgba(225, 29, 72, 0.1);
+    border-radius: var(--radius-lg);
+    color: var(--color-red);
+  }
+
+  .floating-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .floating-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--color-black);
+  }
+
+  .floating-sub {
+    font-size: 0.8125rem;
+    color: var(--color-gray);
+  }
+
+  /* Experience Badge */
+  .experience-badge {
+    position: absolute;
+    top: 3rem;
+    right: -1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    background: var(--color-red);
+    border-radius: 50%;
+    color: var(--color-white);
+    opacity: 0;
+    animation: fade-in 0.8s var(--ease-out-expo) 0.6s forwards;
+    box-shadow: 0 20px 40px -10px var(--color-red-glow);
+  }
+
+  .badge-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .badge-plus {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .badge-label {
+    font-size: 0.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    max-width: 60px;
+    line-height: 1.3;
+    margin-top: 0.25rem;
+  }
+
+  /* Content Side */
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .content-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: fade-in 0.8s var(--ease-out-expo) 0.2s forwards;
+  }
+
+  .label-line {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-red), transparent);
+  }
+
+  .label-text {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-red);
+  }
+
+  .about-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-black);
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.3s forwards;
+  }
+
+  .title-highlight {
+    display: block;
+  }
+
+  .title-accent {
+    display: block;
+    color: var(--color-red);
+  }
+
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.4s forwards;
+  }
+
+  .about-text p {
+    font-size: 1rem;
+    color: var(--color-gray);
+    line-height: 1.8;
+  }
+
+  /* Features Grid */
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.5s forwards;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--color-snow);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s var(--ease-out-expo);
+  }
+
+  .feature-item:hover {
+    background: var(--color-cloud);
+    transform: translateX(4px);
+  }
+
+  .feature-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: rgba(225, 29, 72, 0.1);
+    border-radius: var(--radius-sm);
+    color: var(--color-red);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .feature-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .feature-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-black);
+  }
+
+  .feature-desc {
+    font-size: 0.75rem;
+    color: var(--color-gray);
+  }
+
+  .about-cta {
+    margin-top: 1rem;
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.6s forwards;
+  }
+
+  /* Stats Section */
+  .stats-section {
+    padding-top: 3rem;
+    border-top: 1px solid var(--color-mist);
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.7s forwards;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--color-snow);
+    border-radius: var(--radius-xl);
+    transition: all 0.4s var(--ease-out-expo);
+    opacity: 0;
+    animation: fade-in-up 0.6s var(--ease-out-expo) forwards;
+    animation-delay: calc(var(--index) * 0.1s + 0.8s);
+  }
+
+  .stat-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+  }
+
+  .stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: rgba(225, 29, 72, 0.1);
+    border-radius: var(--radius-lg);
+    color: var(--color-red);
+    flex-shrink: 0;
+  }
+
+  .stat-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-red);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray);
+    margin-top: 0.25rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 4rem;
+    }
+
+    .about-visual {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .floating-card {
+      right: 0;
+      bottom: -1rem;
+    }
+
+    .experience-badge {
+      right: 0;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .about-section {
+      padding: 5rem 0;
+    }
+
+    .about-grid {
+      gap: 3rem;
+    }
+
+    .floating-card {
+      position: relative;
+      bottom: 0;
+      right: 0;
+      margin-top: 1rem;
+    }
+
+    .experience-badge {
+      width: 80px;
+      height: 80px;
+      top: 2rem;
+    }
+
+    .badge-number {
+      font-size: 2rem;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-item {
+      padding: 1.25rem;
+    }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-left {
+    from {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>

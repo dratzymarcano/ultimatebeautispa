@@ -1,0 +1,519 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  primaryCta?: { text: string; href: string };
+  secondaryCta?: { text: string; href: string };
+}
+
+const {
+  title = "Ready to Elevate Your Style?",
+  subtitle = "Join our exclusive waitlist and be the first to experience premium grooming when we launch. Early members receive 20% off their first visit.",
+  primaryCta = { text: "Reserve Your Spot", href: "/book" },
+  secondaryCta = { text: "Contact Us", href: "/contact" }
+} = Astro.props;
+
+const benefits = [
+  { text: '20% off first visit', icon: 'lucide:check' },
+  { text: 'Priority booking', icon: 'lucide:clock' },
+  { text: 'Exclusive updates', icon: 'lucide:mail' },
+  { text: 'VIP perks', icon: 'lucide:star' },
+];
+---
+
+<section class="cta-section">
+  <!-- Background -->
+  <div class="cta-bg">
+    <div class="bg-image">
+      <img 
+        src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=1920&q=80" 
+        alt="" 
+        loading="lazy"
+      />
+    </div>
+    <div class="bg-overlay"></div>
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+    
+    <!-- Floating Elements -->
+    <div class="float-element float-1"></div>
+    <div class="float-element float-2"></div>
+  </div>
+
+  <div class="container">
+    <div class="cta-grid">
+      <!-- Content Side -->
+      <div class="cta-content">
+        <!-- Label -->
+        <div class="content-label" data-animate="fade-in">
+          <span class="label-dot"></span>
+          <span class="label-text">Opening Soon</span>
+        </div>
+
+        <!-- Title -->
+        <h2 class="cta-title" data-animate="fade-in-up">
+          {title}
+        </h2>
+
+        <!-- Subtitle -->
+        <p class="cta-subtitle" data-animate="fade-in-up">
+          {subtitle}
+        </p>
+
+        <!-- CTAs -->
+        <div class="cta-buttons" data-animate="fade-in-up">
+          <a href={primaryCta.href} class="btn-primary">
+            <span>{primaryCta.text}</span>
+            <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+          </a>
+          <a href={secondaryCta.href} class="btn-secondary">
+            <span>{secondaryCta.text}</span>
+          </a>
+        </div>
+
+        <!-- Benefits -->
+        <div class="cta-benefits" data-animate="fade-in-up">
+          <span class="benefits-label">Waitlist Benefits</span>
+          <div class="benefits-grid">
+            {benefits.map((benefit, i) => (
+              <div class="benefit-item" style={`--i: ${i}`}>
+                <Icon name={benefit.icon} size={20} />
+                <span>{benefit.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Side -->
+      <div class="cta-form-wrapper" data-animate="slide-right">
+        <div class="form-card glass">
+          <!-- Form Header -->
+          <div class="form-header">
+            <h3 class="form-title">Join the Waitlist</h3>
+            <p class="form-subtitle">Be the first to know when we launch</p>
+          </div>
+
+          <!-- Form -->
+          <form class="cta-form" action="#" method="POST">
+            <div class="form-group">
+              <label for="cta-name" class="form-label">Full Name</label>
+              <input 
+                type="text" 
+                id="cta-name" 
+                name="name" 
+                class="form-input"
+                placeholder="Your full name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="cta-email" class="form-label">Email Address</label>
+              <input 
+                type="email" 
+                id="cta-email" 
+                name="email" 
+                class="form-input"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="cta-phone" class="form-label">Phone (Optional)</label>
+              <input 
+                type="tel" 
+                id="cta-phone" 
+                name="phone" 
+                class="form-input"
+                placeholder="+237 6XX XXX XXX"
+              />
+            </div>
+
+            <button type="submit" class="form-submit btn-primary">
+              <span>Join Waitlist</span>
+              <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+            </button>
+
+            <p class="form-privacy">
+              By joining, you agree to our 
+              <a href="/privacy">Privacy Policy</a> and 
+              <a href="/terms">Terms</a>.
+            </p>
+          </form>
+
+          <!-- Form Decoration -->
+          <div class="form-decoration">
+            <div class="deco-circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-section {
+    position: relative;
+    padding: 8rem 0;
+    overflow: hidden;
+  }
+
+  /* Background */
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .bg-image {
+    position: absolute;
+    inset: 0;
+  }
+
+  .bg-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.97);
+  }
+
+  .bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--color-white), rgba(255, 255, 255, 0.8));
+  }
+
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(circle, rgba(225, 29, 72, 0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  }
+
+  .float-element {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.4;
+  }
+
+  .float-1 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(225, 29, 72, 0.2), transparent);
+    top: -100px;
+    right: 10%;
+    animation: float-1 20s ease-in-out infinite;
+  }
+
+  .float-2 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(251, 113, 133, 0.15), transparent);
+    bottom: -50px;
+    left: 20%;
+    animation: float-2 15s ease-in-out infinite;
+  }
+
+  @keyframes float-1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-30px, 30px); }
+  }
+
+  @keyframes float-2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(20px, -20px); }
+  }
+
+  /* Grid */
+  .cta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Content */
+  .cta-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .content-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    opacity: 0;
+    animation: fade-in 0.8s var(--ease-out-expo) forwards;
+  }
+
+  .label-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-red);
+    border-radius: 50%;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+  }
+
+  .label-text {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-red);
+  }
+
+  .cta-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-black);
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.1s forwards;
+  }
+
+  .cta-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-gray);
+    line-height: 1.7;
+    max-width: 500px;
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.2s forwards;
+  }
+
+  .cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.3s forwards;
+  }
+
+  /* Benefits */
+  .cta-benefits {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-mist);
+    opacity: 0;
+    animation: fade-in-up 0.8s var(--ease-out-expo) 0.4s forwards;
+  }
+
+  .benefits-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-charcoal);
+    margin-bottom: 1rem;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: var(--color-snow);
+    border-radius: var(--radius-md);
+    transition: all 0.3s var(--ease-out-expo);
+  }
+
+  .benefit-item:hover {
+    background: var(--color-cloud);
+    transform: translateX(4px);
+  }
+
+  .benefit-item svg {
+    color: var(--color-red);
+    flex-shrink: 0;
+  }
+
+  .benefit-item span {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-charcoal);
+  }
+
+  /* Form */
+  .cta-form-wrapper {
+    opacity: 0;
+    animation: slide-right 0.8s var(--ease-out-expo) 0.3s forwards;
+  }
+
+  .form-card {
+    position: relative;
+    padding: 2.5rem;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+  }
+
+  .form-header {
+    margin-bottom: 2rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-black);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.9375rem;
+    color: var(--color-gray);
+  }
+
+  .cta-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-submit {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .form-privacy {
+    font-size: 0.75rem;
+    color: var(--color-gray);
+    text-align: center;
+  }
+
+  .form-privacy a {
+    color: var(--color-red);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+
+  .form-privacy a:hover {
+    color: var(--color-red-dark);
+    text-decoration-color: transparent;
+  }
+
+  .form-decoration {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    pointer-events: none;
+    opacity: 0.1;
+  }
+
+  .deco-circle {
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--color-red);
+    border-radius: 50%;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .cta-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .cta-content {
+      text-align: center;
+      align-items: center;
+    }
+
+    .content-label {
+      justify-content: center;
+    }
+
+    .cta-subtitle {
+      text-align: center;
+    }
+
+    .cta-buttons {
+      justify-content: center;
+    }
+
+    .benefits-grid {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .form-card {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .cta-section {
+      padding: 5rem 0;
+    }
+
+    .benefits-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .form-card {
+      padding: 1.5rem;
+    }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-right {
+    from {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+</style>

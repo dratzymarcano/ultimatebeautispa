@@ -1,0 +1,22 @@
+{
+  "name": "ultimate-beauty-spa",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Premium grooming and lifestyle website built with Astro",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@iconify-json/lucide": "^1.2.88",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.17.1",
+    "astro-icon": "^1.1.5",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.1"
+  }
+}

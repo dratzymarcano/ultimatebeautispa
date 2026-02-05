@@ -1,0 +1,206 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/services', label: 'Services' },
+  { href: '/about', label: 'About' },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="main-header">
+  <!-- Announcement Bar -->
+  <div class="bg-red text-white py-2 text-center text-sm font-medium">
+    <div class="container">
+      <p>
+        Grand Opening — Sunday, February 8th 2026 · Join our exclusive waitlist for 20% off
+        <a href="/book" class="underline ml-2 hover:no-underline font-semibold">Reserve Now →</a>
+      </p>
+    </div>
+  </div>
+  
+  <!-- Main Navigation -->
+  <nav class="bg-white border-b border-mist py-4" aria-label="Main navigation">
+    <div class="container">
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-3 group" aria-label="Ultimate Beauty Spa - Home">
+          <div class="w-10 h-10 bg-red flex items-center justify-center group-hover:bg-red-dark transition-colors duration-300">
+            <span class="text-white font-bold text-lg">UB</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xl font-bold text-black tracking-tight">Ultimate Beauty</span>
+            <span class="text-xs uppercase tracking-[0.2em] text-red font-semibold -mt-0.5">Spa</span>
+          </div>
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <div class="hidden lg:flex items-center gap-8">
+          <ul class="flex items-center gap-8" role="list">
+            {navLinks.map(link => (
+              <li>
+                <a 
+                  href={link.href}
+                  class={`text-sm uppercase tracking-wider font-semibold transition-colors duration-300 link-underline ${
+                    currentPath === link.href 
+                      ? 'text-red' 
+                      : 'text-charcoal hover:text-red'
+                  }`}
+                  aria-current={currentPath === link.href ? 'page' : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          
+          <div class="flex items-center gap-4">
+            <a href="tel:+237000000000" class="text-charcoal hover:text-red transition-colors duration-300" aria-label="Call us">
+              <Icon name="lucide:phone" class="w-5 h-5" />
+            </a>
+            <a href="/book" class="btn-primary">
+              <span>Book Now</span>
+              <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button 
+          class="lg:hidden p-2 text-charcoal hover:text-red transition-colors"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          id="menu-toggle"
+        >
+          <Icon name="lucide:menu" class="w-6 h-6" />
+        </button>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Mobile Menu -->
+  <div class="mobile-menu lg:hidden" id="mobile-menu" aria-hidden="true">
+    <div class="h-full flex flex-col">
+      <!-- Mobile Menu Header -->
+      <div class="flex items-center justify-between p-6 border-b border-mist">
+        <a href="/" class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-red flex items-center justify-center">
+            <span class="text-white font-bold text-lg">UB</span>
+          </div>
+          <span class="text-xl font-bold text-black">Ultimate Beauty</span>
+        </a>
+        <button 
+          class="p-2 text-charcoal hover:text-red transition-colors"
+          aria-label="Close menu"
+          id="menu-close"
+        >
+          <Icon name="lucide:x" class="w-6 h-6" />
+        </button>
+      </div>
+      
+      <!-- Mobile Menu Links -->
+      <nav class="flex-1 flex flex-col justify-center px-6" aria-label="Mobile navigation">
+        <ul class="space-y-6" role="list">
+          {navLinks.map((link, index) => (
+            <li style={`animation-delay: ${index * 100}ms`}>
+              <a 
+                href={link.href}
+                class={`text-3xl font-bold transition-colors duration-300 ${
+                  currentPath === link.href 
+                    ? 'text-red' 
+                    : 'text-black hover:text-red'
+                }`}
+                aria-current={currentPath === link.href ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      
+      <!-- Mobile Menu Footer -->
+      <div class="p-6 border-t border-mist space-y-4">
+        <a href="/book" class="btn-primary w-full justify-center">
+          <span>Book Appointment</span>
+        </a>
+        <a href="tel:+237000000000" class="btn-secondary w-full justify-center">
+          <Icon name="lucide:phone" class="w-4 h-4" />
+          <span>+237 000 000 000</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Spacer for fixed header -->
+<div class="h-[108px] lg:h-[108px]"></div>
+
+<script>
+  // Header scroll behavior
+  const header = document.getElementById('main-header');
+  let lastScroll = 0;
+  
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    
+    if (currentScroll > 100) {
+      header?.classList.add('header-scrolled');
+    } else {
+      header?.classList.remove('header-scrolled');
+    }
+    
+    lastScroll = currentScroll;
+  });
+  
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menu-toggle');
+  const menuClose = document.getElementById('menu-close');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  function openMenu() {
+    mobileMenu?.classList.add('is-open');
+    mobileMenu?.setAttribute('aria-hidden', 'false');
+    menuToggle?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeMenu() {
+    mobileMenu?.classList.remove('is-open');
+    mobileMenu?.setAttribute('aria-hidden', 'true');
+    menuToggle?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  
+  menuToggle?.addEventListener('click', openMenu);
+  menuClose?.addEventListener('click', closeMenu);
+  
+  // Close menu on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu?.classList.contains('is-open')) {
+      closeMenu();
+    }
+  });
+  
+  // Close menu on link click
+  mobileMenu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>
+
+<style>
+  .header-scrolled nav {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  }
+</style>

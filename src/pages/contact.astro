@@ -1,0 +1,114 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ContactSection from '../components/Contact.astro';
+---
+
+<Layout 
+  title="Contact" 
+  description="Get in touch with Ultimate Beauty Spa. Visit us, call, or send a message. We're here to help with all your grooming needs."
+>
+  <Header slot="header" currentPath="/contact" />
+  
+  <!-- Page Hero -->
+  <section class="relative py-24 overflow-hidden">
+    <div class="absolute inset-0">
+      <div 
+        class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=1920&q=80')"
+      ></div>
+      <div class="absolute inset-0 bg-obsidian/90"></div>
+    </div>
+    
+    <div class="container relative z-10 text-center">
+      <div class="flex items-center justify-center gap-4 mb-4" data-animate="fade-in-up">
+        <span class="ornament"></span>
+        <span class="text-red text-sm uppercase tracking-[0.3em] font-medium">Get In Touch</span>
+        <span class="ornament"></span>
+      </div>
+      
+      <h1 class="text-5xl sm:text-6xl font-display font-semibold text-white mb-6" data-animate="fade-in-up" style="animation-delay: 100ms">
+        Contact Us
+      </h1>
+      
+      <p class="text-xl text-white/70 max-w-2xl mx-auto" data-animate="fade-in-up" style="animation-delay: 200ms">
+        Questions? Feedback? We'd love to hear from you.
+      </p>
+    </div>
+  </section>
+  
+  <ContactSection />
+  
+  <!-- FAQ Preview -->
+  <section class="section bg-cloud" id="faq">
+    <div class="container max-w-3xl">
+      <div class="text-center mb-12" data-animate="fade-in-up">
+        <h2 class="text-3xl font-display font-semibold text-black mb-4">
+          Frequently Asked Questions
+        </h2>
+        <p class="text-gray">Quick answers to common questions</p>
+      </div>
+      
+      <div class="space-y-4">
+        <details class="glass rounded-lg group" data-animate="fade-in-up">
+          <summary class="p-6 cursor-pointer flex items-center justify-between text-black font-medium hover:text-red transition-colors">
+            <span>Do I need to book an appointment?</span>
+            <svg class="w-5 h-5 text-red transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="px-6 pb-6 text-gray">
+            While we accept walk-ins when availability allows, we strongly recommend booking in advance to ensure you get your preferred time slot and stylist. You can book online or call us directly.
+          </div>
+        </details>
+        
+        <details class="glass rounded-lg group" data-animate="fade-in-up" style="animation-delay: 100ms">
+          <summary class="p-6 cursor-pointer flex items-center justify-between text-black font-medium hover:text-red transition-colors">
+            <span>What is your cancellation policy?</span>
+            <svg class="w-5 h-5 text-red transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="px-6 pb-6 text-gray">
+            We require 48-hour notice for cancellations or rescheduling. Late cancellations or no-shows may be subject to a cancellation fee. We understand emergencies happen - just give us a call.
+          </div>
+        </details>
+        
+        <details class="glass rounded-lg group" data-animate="fade-in-up" style="animation-delay: 200ms">
+          <summary class="p-6 cursor-pointer flex items-center justify-between text-black font-medium hover:text-red transition-colors">
+            <span>What payment methods do you accept?</span>
+            <svg class="w-5 h-5 text-red transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="px-6 pb-6 text-gray">
+            We accept all major credit cards, debit cards, Apple Pay, Google Pay, and cash. Gift cards are also available for purchase online or in-store.
+          </div>
+        </details>
+        
+        <details class="glass rounded-lg group" data-animate="fade-in-up" style="animation-delay: 300ms">
+          <summary class="p-6 cursor-pointer flex items-center justify-between text-black font-medium hover:text-red transition-colors">
+            <span>Do you offer gift cards?</span>
+            <svg class="w-5 h-5 text-red transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="px-6 pb-6 text-gray">
+            Yes! Gift cards are available in any amount and can be purchased online or in person. They make the perfect gift for anyone who appreciates premium grooming.
+          </div>
+        </details>
+      </div>
+      
+      <div class="text-center mt-8" data-animate="fade-in-up">
+        <a href="/contact#faq" class="text-red hover:underline inline-flex items-center gap-2">
+          View All FAQs
+          <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <Footer slot="footer" />
+</Layout>
