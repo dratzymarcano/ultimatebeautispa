@@ -16,69 +16,67 @@ const prefix = lang === 'fr' ? '/fr' : '';
 <!-- Booking Modal Overlay -->
 <div 
   id="booking-modal" 
-  class="booking-modal fixed inset-0 z-[200] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
+  class="bm"
   role="dialog"
   aria-modal="true"
   aria-labelledby="booking-modal-title"
 >
   <!-- Backdrop -->
-  <div class="booking-modal-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+  <div class="bm-backdrop"></div>
   
   <!-- Modal Content -->
-  <div class="booking-modal-content relative w-full max-w-3xl max-h-[85vh] mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300">
-    
+  <div class="bm-panel">
+    <!-- Abstract Corner Ornaments -->
+    <div class="bm-ornament bm-ornament-tl"></div>
+    <div class="bm-ornament bm-ornament-br"></div>
+
     <!-- Header -->
-    <div class="sticky top-0 bg-white z-10 px-6 sm:px-8 pt-6 pb-4 border-b border-mist/50">
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 id="booking-modal-title" class="text-2xl font-display font-bold text-black">{i.bookingModal.title}</h2>
-          <p class="text-sm text-charcoal mt-1">{i.bookingModal.subtitle}</p>
-        </div>
-        <button 
-          class="booking-modal-close flex items-center justify-center w-10 h-10 rounded-full bg-snow hover:bg-red/10 text-charcoal hover:text-red transition-all"
-          aria-label={i.bookingModal.close}
-        >
-          <Icon name="lucide:x" class="w-5 h-5" />
-        </button>
+    <div class="bm-header">
+      <div class="bm-header-text">
+        <span class="bm-label">{lang === 'fr' ? 'Nos Services' : 'Our Services'}</span>
+        <h2 id="booking-modal-title" class="bm-title">{i.bookingModal.title}</h2>
+        <p class="bm-subtitle">{i.bookingModal.subtitle}</p>
       </div>
+      <button 
+        class="bm-close booking-modal-close"
+        aria-label={i.bookingModal.close}
+      >
+        <Icon name="lucide:x" class="w-5 h-5" />
+      </button>
     </div>
     
     <!-- Service Grid -->
-    <div class="overflow-y-auto p-6 sm:p-8" style="max-height: calc(85vh - 100px);">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {allServices.map((service) => {
+    <div class="bm-body">
+      <div class="bm-grid">
+        {allServices.map((service, idx) => {
           const raw = rawServices.find(s => s.id === service.id)!;
           return (
             <a 
               href={`${prefix}/services#${service.id}`}
-              class="group relative flex flex-col bg-snow rounded-xl overflow-hidden border border-mist/50 hover:border-red/40 hover:shadow-lg transition-all duration-300"
+              class="bm-card"
+              style={`--card-delay: ${idx * 50}ms`}
             >
               {/* Image */}
-              <div class="relative h-36 overflow-hidden">
+              <div class="bm-card-img">
                 <img 
                   src={service.image} 
                   alt={service.name} 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <span class="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-red">
+                <div class="bm-card-overlay"></div>
+                <span class="bm-card-badge">
                   <Icon name={raw.icon} class="w-3.5 h-3.5" />
                   {service.duration}
                 </span>
               </div>
               
               {/* Content */}
-              <div class="flex-1 p-4">
-                <h3 class="text-base font-bold text-black group-hover:text-red transition-colors mb-1.5">
-                  {service.name}
-                </h3>
-                <p class="text-xs text-charcoal leading-relaxed line-clamp-2 mb-3">
-                  {service.description}
-                </p>
-                <div class="flex items-center justify-between mt-auto">
-                  <span class="text-sm font-bold text-red">{service.startingPrice}</span>
-                  <span class="inline-flex items-center gap-1 text-xs font-semibold text-red group-hover:gap-2 transition-all">
+              <div class="bm-card-body">
+                <h3 class="bm-card-name">{service.name}</h3>
+                <p class="bm-card-desc">{service.description}</p>
+                <div class="bm-card-footer">
+                  <span class="bm-card-price">{service.startingPrice}</span>
+                  <span class="bm-card-cta">
                     {i.bookingModal.viewOptions}
                     <Icon name="lucide:arrow-right" class="w-3.5 h-3.5" />
                   </span>
@@ -93,28 +91,319 @@ const prefix = lang === 'fr' ? '/fr' : '';
 </div>
 
 <style>
-  .booking-modal.active {
+  /* ═══ BOOKING MODAL — Abstract Flat Design ═══ */
+  .bm {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+
+  .bm.active {
     opacity: 1;
     pointer-events: auto;
   }
-  .booking-modal.active .booking-modal-content {
-    transform: scale(1);
+
+  .bm-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
-  
-  .line-clamp-2 {
+
+  /* Panel */
+  .bm-panel {
+    position: relative;
+    width: 100%;
+    max-width: 52rem;
+    max-height: 88vh;
+    margin: 1rem;
+    background: var(--color-black);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bm.active .bm-panel {
+    transform: translateY(0) scale(1);
+  }
+
+  /* Abstract Ornaments */
+  .bm-ornament {
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .bm-ornament-tl {
+    top: -120px;
+    left: -80px;
+    background: radial-gradient(circle, rgba(225, 29, 72, 0.12), transparent 70%);
+  }
+
+  .bm-ornament-br {
+    bottom: -100px;
+    right: -60px;
+    background: radial-gradient(circle, rgba(200, 169, 110, 0.08), transparent 70%);
+  }
+
+  /* Header */
+  .bm-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 2rem 2rem 1.25rem;
+  }
+
+  .bm-label {
+    display: inline-block;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-red);
+    margin-bottom: 0.375rem;
+  }
+
+  .bm-title {
+    font-size: 1.625rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+  }
+
+  .bm-subtitle {
+    font-size: 0.8125rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+  }
+
+  .bm-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+  }
+
+  .bm-close:hover {
+    background: var(--color-red);
+    border-color: var(--color-red);
+    color: white;
+  }
+
+  /* Body */
+  .bm-body {
+    position: relative;
+    z-index: 1;
+    overflow-y: auto;
+    padding: 0 2rem 2rem;
+    flex: 1;
+    min-height: 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+  }
+
+  .bm-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.875rem;
+  }
+
+  /* Card */
+  .bm-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 0.875rem;
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.35s ease;
+    animation: bm-fadeUp 0.4s ease both;
+    animation-delay: var(--card-delay, 0ms);
+  }
+
+  @keyframes bm-fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .bm-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(225, 29, 72, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+  }
+
+  /* Card Image */
+  .bm-card-img {
+    position: relative;
+    height: 140px;
+    overflow: hidden;
+  }
+
+  .bm-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .bm-card:hover .bm-card-img img {
+    transform: scale(1.08);
+  }
+
+  .bm-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 50%, transparent);
+  }
+
+  .bm-card-badge {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.3rem 0.625rem;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    border-radius: 100px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 0.02em;
+  }
+
+  /* Card Body */
+  .bm-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .bm-card-name {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.3;
+    margin-bottom: 0.375rem;
+    transition: color 0.25s ease;
+  }
+
+  .bm-card:hover .bm-card-name {
+    color: var(--color-red);
+  }
+
+  .bm-card-desc {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.6;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .bm-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .bm-card-price {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--color-red);
+  }
+
+  .bm-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.25s ease;
+  }
+
+  .bm-card:hover .bm-card-cta {
+    color: var(--color-red);
+    gap: 0.5rem;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .bm-header {
+      padding: 1.5rem 1.25rem 1rem;
+    }
+
+    .bm-body {
+      padding: 0 1.25rem 1.5rem;
+    }
+
+    .bm-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .bm-title {
+      font-size: 1.375rem;
+    }
+
+    .bm-card-img {
+      height: 120px;
+    }
   }
 </style>
 
 <script>
   function initBookingModal() {
-    const modal = document.getElementById('booking-modal');
-    if (!modal) return;
+    const el = document.getElementById('booking-modal');
+    if (!el) return;
+    const modal: HTMLElement = el;
     
-    const backdrop = modal.querySelector('.booking-modal-backdrop');
+    const backdrop = modal.querySelector('.bm-backdrop');
     const closeBtn = modal.querySelector('.booking-modal-close');
     
     function openModal() {

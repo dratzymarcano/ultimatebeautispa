@@ -20,32 +20,31 @@ const allServices = getAllServicesForLang(lang);
   <Header slot="header" currentPath="/services" />
   
   <!-- Page Hero -->
-  <section class="relative py-28 lg:py-36 overflow-hidden">
-    <div class="absolute inset-0">
-      <div class="absolute inset-0 bg-obsidian"></div>
-      <div class="absolute inset-0 opacity-20" style="background-image: url('/images/services/massage.webp'); background-size: cover; background-position: center; filter: blur(4px);"></div>
-      <div class="absolute inset-0 bg-gradient-to-b from-obsidian/90 via-obsidian/80 to-obsidian"></div>
+  <section class="sv-hero">
+    <div class="sv-hero-bg">
+      <div class="sv-hero-img" style="background-image: url('/images/services/massage.webp');"></div>
+      <div class="sv-hero-overlay"></div>
+      <div class="sv-hero-glow"></div>
     </div>
     
     <div class="container relative z-10 text-center">
-      <div class="flex items-center justify-center gap-4 mb-4" data-animate="fade-in-up">
-        <span class="ornament"></span>
-        <span class="text-red text-sm uppercase tracking-[0.3em] font-medium">{i.services.eyebrow}</span>
-        <span class="ornament"></span>
-      </div>
+      <span class="sv-eyebrow" data-animate="fade-in-up">
+        <Icon name="lucide:sparkles" class="w-3.5 h-3.5" />
+        {i.services.eyebrow}
+      </span>
       
-      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-display font-semibold text-white mb-6" data-animate="fade-in-up" style="animation-delay: 100ms">
+      <h1 class="sv-title" data-animate="fade-in-up" style="animation-delay: 100ms">
         {i.services.pageTitle}
       </h1>
       
-      <p class="text-xl text-white/70 max-w-2xl mx-auto mb-10" data-animate="fade-in-up" style="animation-delay: 200ms">
+      <p class="sv-subtitle" data-animate="fade-in-up" style="animation-delay: 200ms">
         {i.services.pageSubtitle}
       </p>
 
       <!-- Quick Nav Pills -->
-      <div class="flex flex-wrap justify-center gap-2" data-animate="fade-in-up" style="animation-delay: 300ms">
+      <div class="sv-pills" data-animate="fade-in-up" style="animation-delay: 300ms">
         {allServices.map((service) => (
-          <a href={`#${service.id}`} class="service-pill inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-red/80 text-white/80 hover:text-white text-sm font-medium transition-all duration-300 backdrop-blur-sm border border-white/10 hover:border-red">
+          <a href={`#${service.id}`} class="sv-pill service-pill">
             <Icon name={rawServices.find(s => s.id === service.id)?.icon || 'lucide:star'} class="w-4 h-4" />
             {service.name}
           </a>
@@ -55,7 +54,7 @@ const allServices = getAllServicesForLang(lang);
   </section>
 
   <!-- Services -->
-  <section class="bg-snow">
+  <section class="sv-services">
     <div class="container">
       {allServices.map((service, index) => {
         const raw = rawServices.find(s => s.id === service.id)!;
@@ -67,169 +66,153 @@ const allServices = getAllServicesForLang(lang);
         return (
         <article 
           id={service.id}
-          class="service-section scroll-mt-24"
+          class="sv-card scroll-mt-24"
           data-service-id={service.id}
           data-animate="fade-in-up"
         >
-          <div class={`grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch bg-white rounded-2xl overflow-hidden shadow-lg border border-mist/50`}>
+          <div class={`sv-card-inner ${!isEven ? 'sv-card-reverse' : ''}`}>
             
             {/* Image Side */}
-            <div class={`lg:col-span-5 relative min-h-[300px] lg:min-h-[600px] ${!isEven ? 'lg:order-2' : ''}`}>
+            <div class="sv-card-media">
               <img 
                 src={service.image}
                 alt={service.name}
-                class="absolute inset-0 w-full h-full object-cover"
+                class="sv-card-img"
                 loading={index < 2 ? 'eager' : 'lazy'}
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-black/10"></div>
+              <div class="sv-card-img-overlay"></div>
               
+              {/* Floating badge */}
+              <div class="sv-card-badge">
+                <Icon name={raw.icon} class="w-4 h-4" />
+                <span>{service.duration}</span>
+              </div>
+
               {/* Mobile overlay info */}
-              <div class="absolute bottom-0 left-0 right-0 p-6 lg:hidden">
-                <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-red text-white text-sm font-semibold rounded-full mb-3">
-                  <Icon name={raw.icon} class="w-4 h-4" />
-                  {service.duration}
-                </span>
-                <h2 class="text-3xl font-display font-bold text-white">{service.name}</h2>
+              <div class="sv-card-mobile-info">
+                <h2 class="sv-card-mobile-title">{service.name}</h2>
               </div>
             </div>
 
             {/* Content Side */}
-            <div class={`lg:col-span-7 p-6 sm:p-8 lg:p-10 ${!isEven ? 'lg:order-1' : ''}`}>
+            <div class="sv-card-content">
               {/* Header - desktop */}
-              <div class="hidden lg:block mb-6">
-                <div class="flex items-center gap-3 mb-3">
-                  <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-red/10 text-red">
+              <div class="sv-card-header">
+                <div class="sv-card-icon-row">
+                  <span class="sv-card-icon">
                     <Icon name={raw.icon} class="w-5 h-5" />
                   </span>
-                  <span class="text-red text-sm uppercase tracking-widest font-semibold">{service.duration}</span>
+                  <span class="sv-card-duration">{service.duration}</span>
                 </div>
-                <h2 class="text-3xl sm:text-4xl font-display font-bold text-black mb-3">
-                  {service.name}
-                </h2>
+                <h2 class="sv-card-title">{service.name}</h2>
+                <p class="sv-card-tagline">{service.tagline}</p>
               </div>
 
               {/* Description */}
-              <p class="text-charcoal leading-relaxed mb-6 mt-4 lg:mt-0">
-                {service.longDescription}
-              </p>
+              <p class="sv-card-desc">{service.longDescription}</p>
 
               {/* Features */}
-              <div class="flex flex-wrap gap-2 mb-8">
+              <div class="sv-features">
                 {service.features.map((feature: string) => (
-                  <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-snow rounded-full text-xs font-medium text-charcoal border border-mist/50">
-                    <Icon name="lucide:check-circle" class="w-3.5 h-3.5 text-red" />
+                  <span class="sv-feature">
+                    <Icon name="lucide:check" class="w-3 h-3" />
                     {feature}
                   </span>
                 ))}
               </div>
 
               {/* Pricing & Booking Form */}
-              <div class="bg-snow rounded-xl p-6 border border-mist/50">
-                <div class="flex items-center justify-between mb-5">
-                  <h3 class="text-lg font-bold text-black flex items-center gap-2">
-                    <Icon name="lucide:receipt" class="w-5 h-5 text-red" />
+              <div class="sv-pricing">
+                <div class="sv-pricing-header">
+                  <h3 class="sv-pricing-title">
+                    <Icon name="lucide:receipt" class="w-4 h-4" />
                     {i.services.pricing}
                   </h3>
-                  <span class="text-sm font-semibold text-red bg-red/10 px-3 py-1 rounded-full">{service.startingPrice}</span>
+                  <span class="sv-pricing-badge">{service.startingPrice}</span>
                 </div>
 
-                {/* Service options as selectable items */}
                 <form class="service-booking-form" data-service-name={service.name}>
-                  <div class="space-y-1.5 max-h-[320px] overflow-y-auto pr-2 scrollbar-thin mb-6">
+                  <div class="sv-options">
                     {/* All gender services */}
                     {allSubs.length > 0 && (menSubs.length > 0 || womenSubs.length > 0) && (
-                      <div class="text-xs font-bold uppercase tracking-wider text-charcoal/60 pt-2 pb-1 flex items-center gap-1.5">
+                      <div class="sv-options-label">
                         <Icon name="lucide:users" class="w-3 h-3" />
                         {i.services.allGenders}
                       </div>
                     )}
                     {allSubs.map((sub: any) => (
-                      <label class="flex items-center gap-3 p-3 rounded-lg border border-mist/50 bg-white hover:border-red/30 hover:bg-red/5 cursor-pointer transition-all group has-[:checked]:border-red has-[:checked]:bg-red/5">
-                        <input type="radio" name={`sub-${service.id}`} value={sub.id} class="peer sr-only" data-price={sub.price} data-name={sub.name} data-duration={sub.duration || ''} />
-                        <span class="w-4 h-4 rounded-full border-2 border-mist group-has-[:checked]:border-red group-has-[:checked]:bg-red flex items-center justify-center flex-shrink-0 transition-all">
-                          <span class="w-1.5 h-1.5 rounded-full bg-white opacity-0 group-has-[:checked]:opacity-100 transition-opacity"></span>
-                        </span>
-                        <div class="flex-1 min-w-0">
-                          <div class="flex items-center gap-2">
-                            <span class="text-sm font-medium text-black truncate">{sub.name}</span>
-                            {sub.bestSeller && (
-                              <span class="text-[9px] font-bold uppercase tracking-wider bg-red text-white px-1.5 py-0.5 rounded flex-shrink-0">Best Seller</span>
-                            )}
+                      <label class="sv-option">
+                        <input type="radio" name={`sub-${service.id}`} value={sub.id} class="sr-only" data-price={sub.price} data-name={sub.name} data-duration={sub.duration || ''} />
+                        <span class="sv-radio"><span class="sv-radio-dot"></span></span>
+                        <div class="sv-option-info">
+                          <div class="sv-option-name-row">
+                            <span class="sv-option-name">{sub.name}</span>
+                            {sub.bestSeller && <span class="sv-bestseller">Best Seller</span>}
                           </div>
-                          {sub.description && (
-                            <span class="text-xs text-gray mt-0.5 block truncate">{sub.description}</span>
-                          )}
+                          {sub.description && <span class="sv-option-desc">{sub.description}</span>}
                         </div>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                          {sub.duration && <span class="text-xs text-gray hidden sm:inline">{sub.duration}</span>}
-                          <span class="text-sm font-bold text-red whitespace-nowrap">{sub.price}</span>
+                        <div class="sv-option-meta">
+                          {sub.duration && <span class="sv-option-dur">{sub.duration}</span>}
+                          <span class="sv-option-price">{sub.price}</span>
                         </div>
                       </label>
                     ))}
 
                     {/* Men services */}
                     {menSubs.length > 0 && (
-                      <div class="text-xs font-bold uppercase tracking-wider text-charcoal/60 pt-3 pb-1 flex items-center gap-1.5">
+                      <div class="sv-options-label">
                         <Icon name="lucide:user" class="w-3 h-3" />
                         {i.services.menServices}
                       </div>
                     )}
                     {menSubs.map((sub: any) => (
-                      <label class="flex items-center gap-3 p-3 rounded-lg border border-mist/50 bg-white hover:border-red/30 hover:bg-red/5 cursor-pointer transition-all group has-[:checked]:border-red has-[:checked]:bg-red/5">
-                        <input type="radio" name={`sub-${service.id}`} value={sub.id} class="peer sr-only" data-price={sub.price} data-name={sub.name} data-duration={sub.duration || ''} />
-                        <span class="w-4 h-4 rounded-full border-2 border-mist group-has-[:checked]:border-red group-has-[:checked]:bg-red flex items-center justify-center flex-shrink-0 transition-all">
-                          <span class="w-1.5 h-1.5 rounded-full bg-white opacity-0 group-has-[:checked]:opacity-100 transition-opacity"></span>
-                        </span>
-                        <div class="flex-1 min-w-0">
-                          <div class="flex items-center gap-2">
-                            <span class="text-sm font-medium text-black truncate">{sub.name}</span>
-                            {sub.bestSeller && (
-                              <span class="text-[9px] font-bold uppercase tracking-wider bg-red text-white px-1.5 py-0.5 rounded flex-shrink-0">Best Seller</span>
-                            )}
+                      <label class="sv-option">
+                        <input type="radio" name={`sub-${service.id}`} value={sub.id} class="sr-only" data-price={sub.price} data-name={sub.name} data-duration={sub.duration || ''} />
+                        <span class="sv-radio"><span class="sv-radio-dot"></span></span>
+                        <div class="sv-option-info">
+                          <div class="sv-option-name-row">
+                            <span class="sv-option-name">{sub.name}</span>
+                            {sub.bestSeller && <span class="sv-bestseller">Best Seller</span>}
                           </div>
                         </div>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                          {sub.duration && <span class="text-xs text-gray hidden sm:inline">{sub.duration}</span>}
-                          <span class="text-sm font-bold text-red whitespace-nowrap">{sub.price}</span>
+                        <div class="sv-option-meta">
+                          {sub.duration && <span class="sv-option-dur">{sub.duration}</span>}
+                          <span class="sv-option-price">{sub.price}</span>
                         </div>
                       </label>
                     ))}
 
                     {/* Women services */}
                     {womenSubs.length > 0 && (
-                      <div class="text-xs font-bold uppercase tracking-wider text-charcoal/60 pt-3 pb-1 flex items-center gap-1.5">
+                      <div class="sv-options-label">
                         <Icon name="lucide:user" class="w-3 h-3" />
                         {i.services.womenServices}
                       </div>
                     )}
                     {womenSubs.map((sub: any) => (
-                      <label class="flex items-center gap-3 p-3 rounded-lg border border-mist/50 bg-white hover:border-red/30 hover:bg-red/5 cursor-pointer transition-all group has-[:checked]:border-red has-[:checked]:bg-red/5">
-                        <input type="radio" name={`sub-${service.id}`} value={sub.id} class="peer sr-only" data-price={sub.price} data-name={sub.name} data-duration={sub.duration || ''} />
-                        <span class="w-4 h-4 rounded-full border-2 border-mist group-has-[:checked]:border-red group-has-[:checked]:bg-red flex items-center justify-center flex-shrink-0 transition-all">
-                          <span class="w-1.5 h-1.5 rounded-full bg-white opacity-0 group-has-[:checked]:opacity-100 transition-opacity"></span>
-                        </span>
-                        <div class="flex-1 min-w-0">
-                          <div class="flex items-center gap-2">
-                            <span class="text-sm font-medium text-black truncate">{sub.name}</span>
-                            {sub.bestSeller && (
-                              <span class="text-[9px] font-bold uppercase tracking-wider bg-red text-white px-1.5 py-0.5 rounded flex-shrink-0">Best Seller</span>
-                            )}
+                      <label class="sv-option">
+                        <input type="radio" name={`sub-${service.id}`} value={sub.id} class="sr-only" data-price={sub.price} data-name={sub.name} data-duration={sub.duration || ''} />
+                        <span class="sv-radio"><span class="sv-radio-dot"></span></span>
+                        <div class="sv-option-info">
+                          <div class="sv-option-name-row">
+                            <span class="sv-option-name">{sub.name}</span>
+                            {sub.bestSeller && <span class="sv-bestseller">Best Seller</span>}
                           </div>
                         </div>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                          {sub.duration && <span class="text-xs text-gray hidden sm:inline">{sub.duration}</span>}
-                          <span class="text-sm font-bold text-red whitespace-nowrap">{sub.price}</span>
+                        <div class="sv-option-meta">
+                          {sub.duration && <span class="sv-option-dur">{sub.duration}</span>}
+                          <span class="sv-option-price">{sub.price}</span>
                         </div>
                       </label>
                     ))}
                   </div>
 
                   {/* Booking details - shown after selection */}
-                  <div class="service-booking-details hidden border-t border-mist pt-5 space-y-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div class="sv-booking-details service-booking-details hidden">
+                    <div class="sv-booking-grid">
                       <div>
-                        <label class="text-xs font-semibold uppercase tracking-wider text-charcoal mb-1.5 block">{i.booking.preferredTime}</label>
-                        <select name="time" required class="w-full px-4 py-2.5 rounded-lg border border-mist bg-white text-sm focus:border-red focus:ring-1 focus:ring-red outline-none transition-all">
+                        <label class="sv-label">{i.booking.preferredTime}</label>
+                        <select name="time" required class="sv-select">
                           <option value="">{i.booking.selectTime}</option>
                           <option value="9:00 AM">9:00 AM</option>
                           <option value="9:30 AM">9:30 AM</option>
@@ -257,15 +240,15 @@ const allServices = getAllServicesForLang(lang);
                         </select>
                       </div>
                       <div>
-                        <label class="text-xs font-semibold uppercase tracking-wider text-charcoal mb-1.5 block">{i.booking.phone}</label>
-                        <input type="tel" name="phone" placeholder="+237 6XX XXX XXX" required class="w-full px-4 py-2.5 rounded-lg border border-mist bg-white text-sm focus:border-red focus:ring-1 focus:ring-red outline-none transition-all" />
+                        <label class="sv-label">{i.booking.phone}</label>
+                        <input type="tel" name="phone" placeholder="+237 6XX XXX XXX" required class="sv-input" />
                       </div>
                     </div>
                     <div>
-                      <label class="text-xs font-semibold uppercase tracking-wider text-charcoal mb-1.5 block">{i.booking.firstName}</label>
-                      <input type="text" name="name" placeholder="Your name" required class="w-full px-4 py-2.5 rounded-lg border border-mist bg-white text-sm focus:border-red focus:ring-1 focus:ring-red outline-none transition-all" />
+                      <label class="sv-label">{i.booking.firstName}</label>
+                      <input type="text" name="name" placeholder="Your name" required class="sv-input" />
                     </div>
-                    <button type="submit" class="w-full btn-primary justify-center py-3.5">
+                    <button type="submit" class="sv-submit">
                       <Icon name="lucide:calendar-check" class="w-4 h-4" />
                       <span>{i.services.bookNow}</span>
                       <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
@@ -298,28 +281,600 @@ const allServices = getAllServicesForLang(lang);
 </Layout>
 
 <style>
-  .service-section {
-    padding: 3rem 0;
-  }
-  .service-section:first-child {
-    padding-top: 4rem;
-  }
-  .service-section:last-of-type {
-    padding-bottom: 4rem;
+  /* ═══ SERVICES PAGE — Abstract Modern Design ═══ */
+
+  /* ── Hero ── */
+  .sv-hero {
+    position: relative;
+    padding: 8rem 0 5rem;
+    overflow: hidden;
   }
 
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 4px;
+  .sv-hero-bg {
+    position: absolute;
+    inset: 0;
   }
-  .scrollbar-thin::-webkit-scrollbar-track {
+
+  .sv-hero-img {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    filter: blur(4px);
+  }
+
+  .sv-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--color-black) 0%, rgba(10,10,10,0.9) 50%, var(--color-black) 100%);
+  }
+
+  .sv-hero-glow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(225, 29, 72, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .sv-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-red);
+    margin-bottom: 1.25rem;
+    padding: 0.5rem 1.25rem;
+    background: rgba(225, 29, 72, 0.08);
+    border: 1px solid rgba(225, 29, 72, 0.15);
+    border-radius: 100px;
+  }
+
+  .sv-title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+  }
+
+  .sv-subtitle {
+    font-size: 1.125rem;
+    color: rgba(255,255,255,0.5);
+    max-width: 36rem;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+
+  .sv-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .sv-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.6);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .sv-pill:hover {
+    background: var(--color-red);
+    border-color: var(--color-red);
+    color: white;
+    transform: translateY(-1px);
+  }
+
+  /* ── Service Cards ── */
+  .sv-services {
+    background: var(--color-black);
+    padding: 2rem 0 4rem;
+  }
+
+  .sv-card {
+    margin-bottom: 2rem;
+  }
+
+  .sv-card:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .sv-card-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    transition: border-color 0.4s ease;
+  }
+
+  .sv-card-inner:hover {
+    border-color: rgba(225, 29, 72, 0.2);
+  }
+
+  .sv-card-reverse {
+    direction: rtl;
+  }
+
+  .sv-card-reverse > * {
+    direction: ltr;
+  }
+
+  /* Image */
+  .sv-card-media {
+    position: relative;
+    min-height: 500px;
+    overflow: hidden;
+  }
+
+  .sv-card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .sv-card-inner:hover .sv-card-img {
+    transform: scale(1.04);
+  }
+
+  .sv-card-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
+  }
+
+  .sv-card-badge {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.4rem 0.875rem;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .sv-card-mobile-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    display: none;
+  }
+
+  .sv-card-mobile-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: white;
+  }
+
+  /* Content */
+  .sv-card-content {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sv-card-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .sv-card-icon-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .sv-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(225, 29, 72, 0.1);
+    color: var(--color-red);
+  }
+
+  .sv-card-duration {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-red);
+  }
+
+  .sv-card-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 0.375rem;
+  }
+
+  .sv-card-tagline {
+    font-size: 0.8125rem;
+    color: rgba(255,255,255,0.4);
+    font-style: italic;
+  }
+
+  .sv-card-desc {
+    font-size: 0.9375rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Features */
+  .sv-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .sv-feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.3rem 0.75rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 100px;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+  }
+
+  .sv-feature [data-icon] {
+    color: var(--color-red);
+  }
+
+  /* Pricing */
+  .sv-pricing {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: auto;
+  }
+
+  .sv-pricing-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .sv-pricing-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: white;
+  }
+
+  .sv-pricing-title [data-icon] {
+    color: var(--color-red);
+  }
+
+  .sv-pricing-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-red);
+    background: rgba(225, 29, 72, 0.1);
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+  }
+
+  /* Options */
+  .sv-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    margin-bottom: 1.25rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+  }
+
+  .sv-options::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .sv-options::-webkit-scrollbar-track {
     background: transparent;
   }
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: var(--color-mist);
-    border-radius: 4px;
+
+  .sv-options::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
   }
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+
+  .sv-options-label {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.3);
+    padding: 0.625rem 0 0.25rem;
+  }
+
+  .sv-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 0.625rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .sv-option:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(225, 29, 72, 0.2);
+  }
+
+  .sv-option:has(input:checked) {
+    background: rgba(225, 29, 72, 0.08);
+    border-color: rgba(225, 29, 72, 0.4);
+  }
+
+  .sv-radio {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+  }
+
+  .sv-option:has(input:checked) .sv-radio {
+    border-color: var(--color-red);
     background: var(--color-red);
+  }
+
+  .sv-radio-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: white;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .sv-option:has(input:checked) .sv-radio-dot {
+    opacity: 1;
+  }
+
+  .sv-option-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sv-option-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .sv-option-name {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sv-bestseller {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: var(--color-red);
+    color: white;
+    padding: 0.125rem 0.375rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .sv-option-desc {
+    font-size: 0.6875rem;
+    color: rgba(255,255,255,0.35);
+    margin-top: 0.125rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  .sv-option-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+  }
+
+  .sv-option-dur {
+    font-size: 0.6875rem;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .sv-option-price {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--color-red);
+    white-space: nowrap;
+  }
+
+  /* Booking Details */
+  .sv-booking-details {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .sv-booking-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.875rem;
+  }
+
+  .sv-label {
+    display: block;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.5rem;
+  }
+
+  .sv-input,
+  .sv-select {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0.5rem;
+    font-size: 0.8125rem;
+    color: white;
+    outline: none;
+    transition: all 0.25s ease;
+    -webkit-appearance: none;
+  }
+
+  .sv-input::placeholder {
+    color: rgba(255,255,255,0.25);
+  }
+
+  .sv-input:focus,
+  .sv-select:focus {
+    border-color: var(--color-red);
+    box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+  }
+
+  .sv-select option {
+    background: var(--color-onyx);
+    color: white;
+  }
+
+  .sv-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.875rem;
+    background: var(--color-red);
+    color: white;
+    border: none;
+    border-radius: 0.625rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .sv-submit:hover {
+    background: var(--color-red-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(225, 29, 72, 0.3);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .sv-card-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .sv-card-reverse {
+      direction: ltr;
+    }
+
+    .sv-card-media {
+      min-height: 300px;
+    }
+
+    .sv-card-header {
+      display: none;
+    }
+
+    .sv-card-mobile-info {
+      display: block;
+    }
+
+    .sv-card-content {
+      padding: 2rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .sv-hero {
+      padding: 6rem 0 3.5rem;
+    }
+
+    .sv-card-media {
+      min-height: 240px;
+    }
+
+    .sv-card-content {
+      padding: 1.5rem;
+    }
+
+    .sv-booking-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sv-option-dur {
+      display: none;
+    }
   }
 </style>
 

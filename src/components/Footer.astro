@@ -51,149 +51,152 @@ const socialLinks = [
 ];
 ---
 
-<footer class="footer" role="contentinfo">
-  <!-- Main Footer -->
-  <div class="footer-main">
-    <div class="container">
-      <!-- Top Row - Brand & Newsletter -->
-      <div class="footer-top">
-        <!-- Brand -->
-        <div class="footer-brand">
-          <a href={`${prefix}/`} class="brand-link">
-            <img src="/images/logo.svg" alt="Ultimate Beauty Spa" class="brand-logo-img" style="height: 48px; width: auto;" />
-            <div class="brand-text">
-              <span class="brand-name">Ultimate Beauty</span>
-              <span class="brand-tag">Spa</span>
-            </div>
-          </a>
-          <p class="brand-desc">
-            {i.footer.brandDesc}
-          </p>
-        </div>
+<footer class="ft" role="contentinfo">
+  <!-- Ambient glow -->
+  <div class="ft-glow"></div>
 
-        <!-- Newsletter -->
-        <div class="footer-newsletter">
-          <h4 class="newsletter-title">{i.footer.stayUpdated}</h4>
-          <p class="newsletter-desc">{i.footer.getOffers}</p>
-          <form class="newsletter-form" action="#" method="POST">
+  <div class="container relative z-10">
+    <!-- Upper: Brand + CTA -->
+    <div class="ft-upper">
+      <div class="ft-brand">
+        <a href={`${prefix}/`} class="ft-logo-link">
+          <img src="/images/logo.svg" alt="Ultimate Beauty Spa" class="ft-logo" />
+        </a>
+        <p class="ft-tagline">{i.footer.brandDesc}</p>
+        <div class="ft-socials">
+          {socialLinks.map(social => (
+            <a 
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="ft-social"
+              aria-label={`Follow us on ${social.label}`}
+              title={social.label}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" set:html={social.svg} />
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="ft-cta">
+        <h3 class="ft-cta-title">{i.footer.stayUpdated}</h3>
+        <p class="ft-cta-desc">{i.footer.getOffers}</p>
+        <form class="ft-form" action="#" method="POST">
+          <div class="ft-form-wrap">
+            <Icon name="lucide:mail" class="ft-form-icon" />
             <input 
               type="email" 
               name="email"
               placeholder={i.footer.emailPlaceholder}
               required
-              class="newsletter-input"
+              class="ft-input"
               aria-label="Email for newsletter"
             />
-            <button type="submit" class="newsletter-btn" aria-label="Subscribe">
-              <Icon name="lucide:arrow-up-right" size={20} />
+            <button type="submit" class="ft-submit">
+              <Icon name="lucide:arrow-right" class="w-4 h-4" />
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="ft-divider">
+      <div class="ft-divider-line"></div>
+      <span class="ft-divider-icon">
+        <Icon name="lucide:sparkles" class="w-3.5 h-3.5" />
+      </span>
+      <div class="ft-divider-line"></div>
+    </div>
+
+    <!-- Links Grid -->
+    <div class="ft-grid">
+      <!-- Services -->
+      <div class="ft-col">
+        <h4 class="ft-heading">{i.footer.servicesTitle}</h4>
+        <ul class="ft-list">
+          {footerLinks.services.map(link => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
       </div>
 
-      <!-- Divider -->
-      <div class="footer-divider"></div>
+      <!-- Products -->
+      <div class="ft-col">
+        <h4 class="ft-heading">{i.footer.productsTitle}</h4>
+        <ul class="ft-list">
+          {footerLinks.products.map(link => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
 
-      <!-- Links Grid -->
-      <div class="footer-links">
-        <!-- Services -->
-        <div class="link-group">
-          <h4 class="group-title">{i.footer.servicesTitle}</h4>
-          <ul class="group-list">
-            {footerLinks.services.map(link => (
-              <li>
-                <a href={link.href} class="group-link">{link.label}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <!-- Company + Support -->
+      <div class="ft-col">
+        <h4 class="ft-heading">{i.footer.companyTitle}</h4>
+        <ul class="ft-list">
+          {footerLinks.company.map(link => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+        <h4 class="ft-heading mt-6">{i.footer.supportTitle}</h4>
+        <ul class="ft-list">
+          {footerLinks.support.map(link => (
+            <li><a href={link.href} data-booking-modal={link.href === '#booking-modal' ? '' : undefined}>{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
 
-        <!-- Products -->
-        <div class="link-group">
-          <h4 class="group-title">{i.footer.productsTitle}</h4>
-          <ul class="group-list">
-            {footerLinks.products.map(link => (
-              <li>
-                <a href={link.href} class="group-link">{link.label}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <!-- Contact -->
+      <div class="ft-col">
+        <h4 class="ft-heading">{i.footer.contactTitle}</h4>
+        <ul class="ft-contact">
+          <li>
+            <span class="ft-contact-icon">
+              <Icon name="lucide:map-pin" class="w-4 h-4" />
+            </span>
+            <span>Avant Saint James hôtel à Bonamoussadi, Douala, Cameroon</span>
+          </li>
+          <li>
+            <span class="ft-contact-icon">
+              <Icon name="lucide:phone" class="w-4 h-4" />
+            </span>
+            <a href="tel:+237697113339">+237 697 113 339</a>
+          </li>
+          <li>
+            <span class="ft-contact-icon">
+              <Icon name="lucide:mail" class="w-4 h-4" />
+            </span>
+            <a href="mailto:hello@ultimatebeautyspa.com">hello@ultimatebeautyspa.com</a>
+          </li>
+          <li>
+            <span class="ft-contact-icon">
+              <Icon name="lucide:clock" class="w-4 h-4" />
+            </span>
+            <span>{lang === 'fr' ? 'Ouvert tous les jours : 9h - 21h' : 'Open Daily: 9 AM — 9 PM'}</span>
+          </li>
+        </ul>
 
-        <!-- Company -->
-        <div class="link-group">
-          <h4 class="group-title">{i.footer.companyTitle}</h4>
-          <ul class="group-list">
-            {footerLinks.company.map(link => (
-              <li>
-                <a href={link.href} class="group-link">{link.label}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <!-- Support -->
-        <div class="link-group">
-          <h4 class="group-title">{i.footer.supportTitle}</h4>
-          <ul class="group-list">
-            {footerLinks.support.map(link => (
-              <li>
-                <a href={link.href} class="group-link" data-booking-modal={link.href === '#booking-modal' ? '' : undefined}>{link.label}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <!-- Contact -->
-        <div class="link-group">
-          <h4 class="group-title">{i.footer.contactTitle}</h4>
-          <ul class="group-list contact-list">
-            <li>
-              <Icon name="lucide:map-pin" size={16} class="text-red flex-shrink-0 mt-0.5" />
-              <span>Avant Saint James hôtel à Bonamoussadi, Douala, Cameroon</span>
-            </li>
-            <li>
-              <Icon name="lucide:phone" size={16} class="text-red flex-shrink-0 mt-0.5" />
-              <a href="tel:+237697113339">+237 697 113 339</a>
-            </li>
-            <li>
-              <Icon name="lucide:mail" size={16} class="text-red flex-shrink-0 mt-0.5" />
-              <a href="mailto:hello@ultimatebeautyspa.com">hello@ultimatebeautyspa.com</a>
-            </li>
-          </ul>
-
-          <!-- Social -->
-          <div class="social-links">
-            {socialLinks.map(social => (
-              <a 
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link"
-                aria-label={`Follow us on ${social.label}`}
-                title={social.label}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" set:html={social.svg} />
-              </a>
-            ))}
-          </div>
-        </div>
+        <!-- Big Book Button -->
+        <a href="#booking-modal" data-booking-modal class="ft-book-btn">
+          <span>{i.footer.bookAppointment}</span>
+          <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+        </a>
       </div>
     </div>
   </div>
 
   <!-- Bottom Bar -->
-  <div class="footer-bottom">
+  <div class="ft-bottom">
     <div class="container">
-      <div class="bottom-content">
-        <p class="copyright">
+      <div class="ft-bottom-inner">
+        <p class="ft-copy">
           &copy; {currentYear} Ultimate Beauty Spa. {lang === 'fr' ? 'Tous droits réservés.' : 'All rights reserved.'}
         </p>
-        <div class="legal-links">
+        <div class="ft-legal">
           <a href={`${prefix}/privacy`}>{i.footer.privacyPolicy}</a>
-          <span class="link-dot"></span>
           <a href={`${prefix}/terms`}>{i.footer.termsOfService}</a>
-          <span class="link-dot"></span>
           <a href={`${prefix}/accessibility`}>{i.footer.accessibility}</a>
         </div>
       </div>
@@ -202,333 +205,356 @@ const socialLinks = [
 </footer>
 
 <style>
-  .footer {
-    background: var(--color-onyx);
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  /* ═══ FOOTER — Abstract Modern Design ═══ */
+  .ft {
+    position: relative;
+    background: var(--color-black);
+    overflow: hidden;
   }
 
-  /* Main Footer */
-  .footer-main {
-    padding: 4rem 0 3rem;
+  .ft-glow {
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(225, 29, 72, 0.08) 0%, transparent 70%);
+    pointer-events: none;
   }
 
-  /* Top Row */
-  .footer-top {
+  /* ── Upper: Brand + CTA ── */
+  .ft-upper {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: 4rem;
-    margin-bottom: 3rem;
+    padding: 5rem 0 3rem;
   }
 
-  .footer-brand {
-    max-width: 320px;
+  .ft-brand {
+    max-width: 340px;
+    flex-shrink: 0;
   }
 
-  .brand-link {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    text-decoration: none;
+  .ft-logo-link {
+    display: inline-block;
+    margin-bottom: 1.25rem;
   }
 
-  .brand-logo {
-    width: 48px;
-    height: 48px;
-    background: var(--color-red);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s var(--ease-out-expo);
+  .ft-logo {
+    height: 56px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    transition: opacity 0.3s ease;
   }
 
-  .brand-logo span {
-    color: var(--color-white);
-    font-size: 1.125rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+  .ft-logo-link:hover .ft-logo {
+    opacity: 0.8;
   }
 
-  .brand-link:hover .brand-logo {
-    background: var(--color-red-dark);
-  }
-
-  .brand-text {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .brand-name {
-    font-size: 1.375rem;
-    font-weight: 800;
-    color: var(--color-white);
-    letter-spacing: -0.02em;
-    line-height: 1;
-  }
-
-  .brand-tag {
-    font-size: 0.625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--color-red);
-    margin-top: 0.125rem;
-  }
-
-  .brand-desc {
+  .ft-tagline {
     font-size: 0.9375rem;
-    color: var(--color-platinum);
+    color: rgba(255,255,255,0.5);
     line-height: 1.7;
+    margin-bottom: 1.5rem;
   }
 
-  /* Newsletter */
-  .footer-newsletter {
-    max-width: 360px;
-  }
-
-  .newsletter-title {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--color-white);
-    margin-bottom: 0.25rem;
-  }
-
-  .newsletter-desc {
-    font-size: 0.875rem;
-    color: var(--color-platinum);
-    margin-bottom: 1rem;
-  }
-
-  .newsletter-form {
+  .ft-socials {
     display: flex;
     gap: 0.5rem;
   }
 
-  .newsletter-input {
-    flex: 1;
-    padding: 0.875rem 1rem;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1.5px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-md);
-    font-size: 0.9375rem;
-    color: var(--color-white);
-    transition: all 0.3s var(--ease-out-expo);
-  }
-
-  .newsletter-input::placeholder {
-    color: var(--color-platinum);
-  }
-
-  .newsletter-input:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-
-  .newsletter-input:focus {
-    outline: none;
-    border-color: var(--color-red);
-    box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.15);
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  .newsletter-btn {
+  .ft-social {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
-    background: var(--color-red);
-    border: none;
-    border-radius: var(--radius-md);
-    color: var(--color-white);
-    cursor: pointer;
-    transition: all 0.3s var(--ease-out-expo);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.5);
+    transition: all 0.3s ease;
   }
 
-  .newsletter-btn:hover {
-    background: var(--color-red-dark);
+  .ft-social:hover {
+    background: var(--color-red);
+    color: white;
     transform: translateY(-2px);
   }
 
-  /* Divider */
-  .footer-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
-    margin-bottom: 3rem;
+  /* CTA Area */
+  .ft-cta {
+    max-width: 380px;
   }
 
-  /* Links Grid */
-  .footer-links {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-  }
-
-  .link-group {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .group-title {
-    font-size: 0.6875rem;
+  .ft-cta-title {
+    font-size: 1.25rem;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--color-white);
-    margin-bottom: 1.25rem;
+    color: white;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
   }
 
-  .group-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .group-link {
-    font-size: 0.9375rem;
-    color: var(--color-platinum);
-    text-decoration: none;
-    transition: color 0.3s var(--ease-out-expo);
-    display: inline-block;
-  }
-
-  .group-link:hover {
-    color: var(--color-red);
-  }
-
-  /* Contact List */
-  .contact-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .contact-list svg {
-    color: var(--color-red);
-    flex-shrink: 0;
-    margin-top: 0.125rem;
-  }
-
-  .contact-list span,
-  .contact-list a {
+  .ft-cta-desc {
     font-size: 0.875rem;
-    color: var(--color-platinum);
-    text-decoration: none;
-    line-height: 1.5;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
   }
 
-  .contact-list a:hover {
-    color: var(--color-red);
-  }
-
-  /* Social Links */
-  .social-links {
+  .ft-form-wrap {
     display: flex;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
+    align-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    padding: 0.25rem 0.25rem 0.25rem 1rem;
+    transition: border-color 0.3s ease;
   }
 
-  .social-link {
+  .ft-form-wrap:focus-within {
+    border-color: var(--color-red);
+    box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.1);
+  }
+
+  .ft-form-icon {
+    width: 1rem;
+    height: 1rem;
+    color: rgba(255,255,255,0.3);
+    flex-shrink: 0;
+    margin-right: 0.5rem;
+  }
+
+  .ft-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    font-size: 0.875rem;
+    color: white;
+    outline: none;
+    padding: 0.5rem 0;
+    min-width: 0;
+  }
+
+  .ft-input::placeholder {
+    color: rgba(255,255,255,0.35);
+  }
+
+  .ft-submit {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 50%;
-    color: var(--color-platinum);
-    transition: all 0.3s var(--ease-out-expo);
-  }
-
-  .social-link:hover {
     background: var(--color-red);
-    border-color: var(--color-red);
-    color: var(--color-white);
+    border: none;
+    color: white;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .ft-submit:hover {
+    background: var(--color-red-dark);
+    transform: scale(1.05);
+  }
+
+  /* ── Divider ── */
+  .ft-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .ft-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  }
+
+  .ft-divider-icon {
+    color: rgba(255,255,255,0.15);
+  }
+
+  /* ── Links Grid ── */
+  .ft-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+    gap: 2.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .ft-heading {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 1.25rem;
+    position: relative;
+  }
+
+  .ft-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .ft-list a {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: all 0.25s ease;
+    display: inline-block;
+    position: relative;
+  }
+
+  .ft-list a:hover {
+    color: white;
+    transform: translateX(4px);
+  }
+
+  /* Contact */
+  .ft-contact {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .ft-contact li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .ft-contact-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(225, 29, 72, 0.1);
+    color: var(--color-red);
+    flex-shrink: 0;
+  }
+
+  .ft-contact span,
+  .ft-contact a {
+    font-size: 0.8125rem;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    line-height: 1.5;
+    padding-top: 0.25rem;
+  }
+
+  .ft-contact a:hover {
+    color: white;
+  }
+
+  /* Book Button */
+  .ft-book-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-red);
+    color: white;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+  }
+
+  .ft-book-btn:hover {
+    background: var(--color-red-dark);
     transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(225, 29, 72, 0.3);
   }
 
-  /* Bottom Bar */
-  .footer-bottom {
-    padding: 1.5rem 0;
-    background: var(--color-black);
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
+  /* ── Bottom Bar ── */
+  .ft-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 1.25rem 0;
   }
 
-  .bottom-content {
+  .ft-bottom-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
   }
 
-  .copyright {
-    font-size: 0.8125rem;
-    color: var(--color-platinum);
+  .ft-copy {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.3);
   }
 
-  .legal-links {
+  .ft-legal {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
-  .legal-links a {
-    font-size: 0.8125rem;
-    color: var(--color-platinum);
+  .ft-legal a {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.3);
     text-decoration: none;
-    transition: color 0.3s var(--ease-out-expo);
+    transition: color 0.25s ease;
   }
 
-  .legal-links a:hover {
-    color: var(--color-red);
+  .ft-legal a:hover {
+    color: rgba(255,255,255,0.7);
   }
 
-  .link-dot {
-    width: 3px;
-    height: 3px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-  }
-
-  /* Responsive */
+  /* ── Responsive ── */
   @media (max-width: 1024px) {
-    .footer-top {
+    .ft-upper {
       flex-direction: column;
       gap: 2.5rem;
     }
 
-    .footer-brand,
-    .footer-newsletter {
+    .ft-brand,
+    .ft-cta {
       max-width: 100%;
     }
 
-    .footer-links {
+    .ft-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
   @media (max-width: 640px) {
-    .footer-main {
-      padding: 3rem 0 2rem;
+    .ft-upper {
+      padding: 3.5rem 0 2.5rem;
     }
 
-    .footer-links {
+    .ft-grid {
       grid-template-columns: 1fr;
       gap: 2.5rem;
+      padding-bottom: 3rem;
     }
 
-    .bottom-content {
+    .ft-bottom-inner {
       flex-direction: column;
       text-align: center;
     }
 
-    .legal-links {
+    .ft-legal {
       flex-wrap: wrap;
       justify-content: center;
+    }
+
+    .ft-logo {
+      height: 44px;
     }
   }
 </style>
