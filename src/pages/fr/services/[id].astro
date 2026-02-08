@@ -142,12 +142,16 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
               </div>
             )}
 
+            <p class="sd-treat-hint">
+              <Icon name="lucide:pointer" class="w-3.5 h-3.5" />
+              Sélectionnez un ou plusieurs soins
+            </p>
             <div class="sd-treatments" id="treatments-list">
               {allGender.length > 0 && (
                 <div class="sd-treat-group" data-gender="all">
                   {allGender.map((sub: any) => (
-                    <label class="sd-treat" data-sub-id={sub.id}>
-                      <input type="radio" name="selected-service" value={sub.id} class="sd-treat__radio" />
+                    <label class="sd-treat" data-sub-id={sub.id} data-name={sub.name} data-price={sub.price}>
+                      <input type="checkbox" name="selected-service" value={sub.id} class="sd-treat__radio" />
                       <div class="sd-treat__check">
                         <Icon name="lucide:check" class="w-3.5 h-3.5" />
                       </div>
@@ -180,8 +184,8 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
               {menOnly.length > 0 && (
                 <div class="sd-treat-group sd-treat-group--hidden" data-gender="men">
                   {menOnly.map((sub: any) => (
-                    <label class="sd-treat" data-sub-id={sub.id}>
-                      <input type="radio" name="selected-service" value={sub.id} class="sd-treat__radio" />
+                    <label class="sd-treat" data-sub-id={sub.id} data-name={sub.name} data-price={sub.price}>
+                      <input type="checkbox" name="selected-service" value={sub.id} class="sd-treat__radio" />
                       <div class="sd-treat__check">
                         <Icon name="lucide:check" class="w-3.5 h-3.5" />
                       </div>
@@ -214,8 +218,8 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
               {womenOnly.length > 0 && (
                 <div class="sd-treat-group sd-treat-group--hidden" data-gender="women">
                   {womenOnly.map((sub: any) => (
-                    <label class="sd-treat" data-sub-id={sub.id}>
-                      <input type="radio" name="selected-service" value={sub.id} class="sd-treat__radio" />
+                    <label class="sd-treat" data-sub-id={sub.id} data-name={sub.name} data-price={sub.price}>
+                      <input type="checkbox" name="selected-service" value={sub.id} class="sd-treat__radio" />
                       <div class="sd-treat__check">
                         <Icon name="lucide:check" class="w-3.5 h-3.5" />
                       </div>
@@ -259,17 +263,32 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
               </div>
               <div>
                 <h3 class="sd-booking__title">{i.services.bookThisService}</h3>
-                <p class="sd-booking__sub">Sélectionnez un soin, choisissez votre horaire</p>
+                <p class="sd-booking__sub">Sélectionnez des soins, choisissez une date et heure</p>
               </div>
             </div>
 
-            <div class="sd-booking__selected" id="selected-preview" style="display:none">
-              <span class="sd-booking__selected-label">Sélectionné</span>
-              <span class="sd-booking__selected-name" id="selected-name"></span>
-              <span class="sd-booking__selected-price" id="selected-price"></span>
+            <!-- Selected treatments cart -->
+            <div class="sd-cart" id="selected-cart" style="display:none">
+              <div class="sd-cart__header">
+                <span class="sd-cart__label">
+                  <Icon name="lucide:shopping-bag" class="w-3 h-3" />
+                  Soins Sélectionnés
+                </span>
+                <button class="sd-cart__clear" id="clear-all" type="button">Tout effacer</button>
+              </div>
+              <div class="sd-cart__items" id="cart-items"></div>
+              <div class="sd-cart__count" id="cart-count">0 sélectionné</div>
             </div>
 
             <form id="booking-form" class="sd-booking__form">
+              <div class="sd-field">
+                <label class="sd-field__label">
+                  <Icon name="lucide:calendar" class="w-3.5 h-3.5" />
+                  {i.booking.preferredDate}
+                </label>
+                <input type="date" class="sd-field__input" id="preferred-date" required min={new Date().toISOString().split('T')[0]} />
+              </div>
+
               <div class="sd-field">
                 <label class="sd-field__label">
                   <Icon name="lucide:clock" class="w-3.5 h-3.5" />
@@ -298,6 +317,14 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
                   {i.booking.firstName}
                 </label>
                 <input type="text" class="sd-field__input" id="first-name" placeholder="Votre nom" required />
+              </div>
+
+              <div class="sd-field">
+                <label class="sd-field__label">
+                  <Icon name="lucide:mail" class="w-3.5 h-3.5" />
+                  {i.booking.email}
+                </label>
+                <input type="email" class="sd-field__input" id="email" placeholder="vous@exemple.com" required />
               </div>
 
               <div class="sd-field">
@@ -392,28 +419,48 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
     });
   }
 
-  // ── Treatment selection → update preview ──
-  document.querySelectorAll('.sd-treat__radio').forEach(radio => {
-    radio.addEventListener('change', (e) => {
-      const target = e.target;
-      if (!(target instanceof HTMLInputElement)) return;
-      const treat = target.closest('.sd-treat');
-      if (!treat) return;
+  // ── Cart helpers ──
+  const cart = document.getElementById('selected-cart');
+  const cartItems = document.getElementById('cart-items');
+  const cartCount = document.getElementById('cart-count');
+  const clearBtn = document.getElementById('clear-all');
 
-      const nameEl = treat.querySelector('.sd-treat__name');
-      const priceEl = treat.querySelector('.sd-treat__price');
-      const preview = document.getElementById('selected-preview');
-      const selName = document.getElementById('selected-name');
-      const selPrice = document.getElementById('selected-price');
+  function updateCart() {
+    const checked = document.querySelectorAll('.sd-treat__radio:checked');
+    if (!cart || !cartItems || !cartCount) return;
 
-      if (preview && selName && selPrice && nameEl && priceEl) {
-        const nameText = nameEl.childNodes[0]?.textContent?.trim() || nameEl.textContent?.trim() || '';
-        selName.textContent = nameText;
-        selPrice.textContent = priceEl.textContent || '';
-        preview.style.display = 'flex';
-      }
+    cartItems.innerHTML = '';
+    checked.forEach(cb => {
+      if (!(cb instanceof HTMLInputElement)) return;
+      const label = cb.closest('.sd-treat');
+      if (!label) return;
+      const name = label.getAttribute('data-name') || '';
+      const price = label.getAttribute('data-price') || '';
+      const item = document.createElement('div');
+      item.className = 'sd-cart__item';
+      item.innerHTML = `<span class="sd-cart__item-name">${name}</span><span class="sd-cart__item-price">${price}</span>`;
+      cartItems.appendChild(item);
     });
+
+    const count = checked.length;
+    cart.style.display = count ? 'block' : 'none';
+    cartCount.textContent = `${count} soin(s) sélectionné(s)`;
+  }
+
+  // ── Treatment selection → update cart ──
+  document.querySelectorAll('.sd-treat__radio').forEach(cb => {
+    cb.addEventListener('change', updateCart);
   });
+
+  // ── Clear all ──
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      document.querySelectorAll('.sd-treat__radio').forEach(cb => {
+        if (cb instanceof HTMLInputElement) cb.checked = false;
+      });
+      updateCart();
+    });
+  }
 
   // ── Booking form → WhatsApp ──
   const form = document.getElementById('booking-form');
@@ -421,24 +468,32 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
+      const dateEl = document.getElementById('preferred-date');
       const timeEl = document.getElementById('preferred-time');
       const nameEl = document.getElementById('first-name');
+      const emailEl = document.getElementById('email');
       const phoneEl = document.getElementById('phone');
 
-      if (!(timeEl instanceof HTMLSelectElement) || !(nameEl instanceof HTMLInputElement) || !(phoneEl instanceof HTMLInputElement)) return;
+      if (!(dateEl instanceof HTMLInputElement) || !(timeEl instanceof HTMLSelectElement) || !(nameEl instanceof HTMLInputElement) || !(emailEl instanceof HTMLInputElement) || !(phoneEl instanceof HTMLInputElement)) return;
 
-      const selectedRadio = document.querySelector('input[name="selected-service"]:checked');
-      const treatment = selectedRadio instanceof HTMLInputElement
-        ? selectedRadio.closest('.sd-treat')?.querySelector('.sd-treat__name')?.childNodes[0]?.textContent?.trim() || ''
-        : '';
+      const treatments = [];
+      document.querySelectorAll('.sd-treat__radio:checked').forEach(cb => {
+        if (!(cb instanceof HTMLInputElement)) return;
+        const label = cb.closest('.sd-treat');
+        const name = label?.getAttribute('data-name') || '';
+        const price = label?.getAttribute('data-price') || '';
+        treatments.push(`• ${name} — ${price}`);
+      });
 
       const msg = [
         `Bonjour ! Je souhaite prendre rendez-vous.`,
         ``,
         `Service : ${serviceName}`,
-        treatment ? `Soin : ${treatment}` : '',
+        treatments.length ? `Soins :\n${treatments.join('\n')}` : '',
+        `Date : ${dateEl.value}`,
         `Heure : ${timeEl.value}`,
         `Nom : ${nameEl.value}`,
+        `Email : ${emailEl.value}`,
         `Téléphone : ${phoneEl.value}`,
       ].filter(Boolean).join('\n');
 
@@ -640,7 +695,7 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
 
   .sd-treat__check {
     display: flex; align-items: center; justify-content: center;
-    width: 24px; height: 24px; border-radius: 50%;
+    width: 22px; height: 22px; border-radius: 6px;
     border: 2px solid var(--color-mist); background: white;
     color: transparent; flex-shrink: 0; margin-top: 0.125rem;
     transition: all 0.25s ease;
@@ -694,18 +749,52 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
   .sd-booking__title { font-size: 1.0625rem; font-weight: 800; color: var(--color-black); letter-spacing: -0.02em; margin-bottom: 0.125rem; }
   .sd-booking__sub { font-size: 0.75rem; color: var(--color-gray); }
 
-  .sd-booking__selected {
-    display: flex; flex-direction: column; gap: 0.125rem;
-    padding: 0.875rem 1rem; background: var(--color-cream);
-    border: 1px solid rgba(225,29,72,0.1); border-radius: 0.75rem;
-    margin-bottom: 1.25rem; animation: sd-slideDown 0.3s var(--ease-out-expo);
-  }
-
   @keyframes sd-slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .sd-booking__selected-label { font-size: 0.5625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--color-red); }
-  .sd-booking__selected-name { font-size: 0.8125rem; font-weight: 650; color: var(--color-charcoal); }
-  .sd-booking__selected-price { font-size: 0.875rem; font-weight: 800; color: var(--color-red); }
+  .sd-treat-hint {
+    display: flex; align-items: center; gap: 0.375rem;
+    font-size: 0.75rem; color: var(--color-silver); font-weight: 500;
+    margin-bottom: 0.75rem; padding-left: 0.125rem;
+  }
+
+  .sd-cart {
+    background: var(--color-cream); border: 1px solid rgba(225,29,72,0.1);
+    border-radius: 0.75rem; padding: 0.75rem 1rem; margin-bottom: 1.25rem;
+    animation: sd-slideDown 0.3s var(--ease-out-expo);
+  }
+
+  .sd-cart__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+
+  .sd-cart__label {
+    display: inline-flex; align-items: center; gap: 0.375rem;
+    font-size: 0.625rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--color-red);
+  }
+
+  .sd-cart__clear {
+    border: none; background: none; font-size: 0.6875rem; font-weight: 600;
+    color: var(--color-gray); cursor: pointer; padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem; transition: all 0.2s ease;
+  }
+
+  .sd-cart__clear:hover { color: var(--color-red); background: rgba(225,29,72,0.06); }
+
+  .sd-cart__items { display: flex; flex-direction: column; gap: 0.375rem; }
+
+  :global(.sd-cart__item) {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.375rem 0.5rem; background: white; border-radius: 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  :global(.sd-cart__item-name) { font-weight: 600; color: var(--color-charcoal); }
+  :global(.sd-cart__item-price) { font-weight: 700; color: var(--color-red); }
+
+  .sd-cart__count {
+    font-size: 0.6875rem; font-weight: 600; color: var(--color-gray);
+    text-align: right; margin-top: 0.5rem; padding-top: 0.5rem;
+    border-top: 1px solid rgba(225,29,72,0.08);
+  }
 
   .sd-booking__form { display: flex; flex-direction: column; gap: 1rem; position: relative; }
 

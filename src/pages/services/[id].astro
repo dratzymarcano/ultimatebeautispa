@@ -151,13 +151,17 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
               </div>
             )}
 
-            {/* Treatment Cards */}
+            {/* Treatment Cards — Multi-select */}
+            <p class="sd-treat-hint">
+              <Icon name="lucide:pointer" class="w-3.5 h-3.5" />
+              Select one or more treatments
+            </p>
             <div class="sd-treatments" id="treatments-list">
               {allGender.length > 0 && (
                 <div class="sd-treat-group" data-gender="all">
                   {allGender.map((sub: any, idx: number) => (
-                    <label class="sd-treat" data-sub-id={sub.id}>
-                      <input type="radio" name="selected-service" value={sub.id} class="sd-treat__radio" />
+                    <label class="sd-treat" data-sub-id={sub.id} data-name={sub.name} data-price={sub.price}>
+                      <input type="checkbox" name="selected-service" value={sub.id} class="sd-treat__radio" />
                       <div class="sd-treat__check">
                         <Icon name="lucide:check" class="w-3.5 h-3.5" />
                       </div>
@@ -190,8 +194,8 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
               {menOnly.length > 0 && (
                 <div class="sd-treat-group sd-treat-group--hidden" data-gender="men">
                   {menOnly.map((sub: any) => (
-                    <label class="sd-treat" data-sub-id={sub.id}>
-                      <input type="radio" name="selected-service" value={sub.id} class="sd-treat__radio" />
+                    <label class="sd-treat" data-sub-id={sub.id} data-name={sub.name} data-price={sub.price}>
+                      <input type="checkbox" name="selected-service" value={sub.id} class="sd-treat__radio" />
                       <div class="sd-treat__check">
                         <Icon name="lucide:check" class="w-3.5 h-3.5" />
                       </div>
@@ -224,8 +228,8 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
               {womenOnly.length > 0 && (
                 <div class="sd-treat-group sd-treat-group--hidden" data-gender="women">
                   {womenOnly.map((sub: any) => (
-                    <label class="sd-treat" data-sub-id={sub.id}>
-                      <input type="radio" name="selected-service" value={sub.id} class="sd-treat__radio" />
+                    <label class="sd-treat" data-sub-id={sub.id} data-name={sub.name} data-price={sub.price}>
+                      <input type="checkbox" name="selected-service" value={sub.id} class="sd-treat__radio" />
                       <div class="sd-treat__check">
                         <Icon name="lucide:check" class="w-3.5 h-3.5" />
                       </div>
@@ -269,18 +273,32 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
               </div>
               <div>
                 <h3 class="sd-booking__title">{i.services.bookThisService}</h3>
-                <p class="sd-booking__sub">Select a treatment, choose your time</p>
+                <p class="sd-booking__sub">Select treatments, pick a date & time</p>
               </div>
             </div>
 
-            <!-- Selected treatment preview -->
-            <div class="sd-booking__selected" id="selected-preview" style="display:none">
-              <span class="sd-booking__selected-label">Selected</span>
-              <span class="sd-booking__selected-name" id="selected-name"></span>
-              <span class="sd-booking__selected-price" id="selected-price"></span>
+            <!-- Selected treatments cart -->
+            <div class="sd-cart" id="selected-cart" style="display:none">
+              <div class="sd-cart__header">
+                <span class="sd-cart__label">
+                  <Icon name="lucide:shopping-bag" class="w-3 h-3" />
+                  Selected Treatments
+                </span>
+                <button class="sd-cart__clear" id="clear-all" type="button">Clear all</button>
+              </div>
+              <div class="sd-cart__items" id="cart-items"></div>
+              <div class="sd-cart__count" id="cart-count">0 selected</div>
             </div>
 
             <form id="booking-form" class="sd-booking__form">
+              <div class="sd-field">
+                <label class="sd-field__label">
+                  <Icon name="lucide:calendar" class="w-3.5 h-3.5" />
+                  {i.booking.preferredDate}
+                </label>
+                <input type="date" class="sd-field__input" id="preferred-date" required min={new Date().toISOString().split('T')[0]} />
+              </div>
+
               <div class="sd-field">
                 <label class="sd-field__label">
                   <Icon name="lucide:clock" class="w-3.5 h-3.5" />
@@ -309,6 +327,14 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
                   {i.booking.firstName}
                 </label>
                 <input type="text" class="sd-field__input" id="first-name" placeholder="Your name" required />
+              </div>
+
+              <div class="sd-field">
+                <label class="sd-field__label">
+                  <Icon name="lucide:mail" class="w-3.5 h-3.5" />
+                  {i.booking.email}
+                </label>
+                <input type="email" class="sd-field__input" id="email" placeholder="you@example.com" required />
               </div>
 
               <div class="sd-field">
@@ -403,29 +429,53 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
     });
   }
 
-  // ── Treatment selection → update preview ──
-  document.querySelectorAll('.sd-treat__radio').forEach(radio => {
-    radio.addEventListener('change', (e) => {
-      const target = e.target;
-      if (!(target instanceof HTMLInputElement)) return;
-      const treat = target.closest('.sd-treat');
+  // ── Treatment multi-selection → update cart ──
+  function updateCart() {
+    const checked = document.querySelectorAll('input[name="selected-service"]:checked');
+    const cart = document.getElementById('selected-cart');
+    const cartItems = document.getElementById('cart-items');
+    const cartCount = document.getElementById('cart-count');
+    if (!cart || !cartItems || !cartCount) return;
+
+    if (checked.length === 0) {
+      cart.style.display = 'none';
+      return;
+    }
+
+    cart.style.display = 'block';
+    cartItems.innerHTML = '';
+    
+    checked.forEach(cb => {
+      if (!(cb instanceof HTMLInputElement)) return;
+      const treat = cb.closest('.sd-treat');
       if (!treat) return;
-
-      const nameEl = treat.querySelector('.sd-treat__name');
-      const priceEl = treat.querySelector('.sd-treat__price');
-      const preview = document.getElementById('selected-preview');
-      const selName = document.getElementById('selected-name');
-      const selPrice = document.getElementById('selected-price');
-
-      if (preview && selName && selPrice && nameEl && priceEl) {
-        // Get just the text content without the badge
-        const nameText = nameEl.childNodes[0]?.textContent?.trim() || nameEl.textContent?.trim() || '';
-        selName.textContent = nameText;
-        selPrice.textContent = priceEl.textContent || '';
-        preview.style.display = 'flex';
-      }
+      const name = treat.getAttribute('data-name') || '';
+      const price = treat.getAttribute('data-price') || '';
+      
+      const item = document.createElement('div');
+      item.className = 'sd-cart__item';
+      item.innerHTML = `<span class="sd-cart__item-name">${name}</span><span class="sd-cart__item-price">${price}</span>`;
+      cartItems.appendChild(item);
     });
+
+    const count = checked.length;
+    cartCount.textContent = `${count} treatment${count !== 1 ? 's' : ''} selected`;
+  }
+
+  document.querySelectorAll('input[name="selected-service"]').forEach(cb => {
+    cb.addEventListener('change', updateCart);
   });
+
+  // Clear all
+  const clearBtn = document.getElementById('clear-all');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      document.querySelectorAll('input[name="selected-service"]:checked').forEach(cb => {
+        if (cb instanceof HTMLInputElement) cb.checked = false;
+      });
+      updateCart();
+    });
+  }
 
   // ── Booking form → WhatsApp ──
   const form = document.getElementById('booking-form');
@@ -434,23 +484,33 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
       e.preventDefault();
 
       const timeEl = document.getElementById('preferred-time');
+      const dateEl = document.getElementById('preferred-date');
       const nameEl = document.getElementById('first-name');
+      const emailEl = document.getElementById('email');
       const phoneEl = document.getElementById('phone');
 
-      if (!(timeEl instanceof HTMLSelectElement) || !(nameEl instanceof HTMLInputElement) || !(phoneEl instanceof HTMLInputElement)) return;
+      if (!(timeEl instanceof HTMLSelectElement) || !(dateEl instanceof HTMLInputElement) || !(nameEl instanceof HTMLInputElement) || !(emailEl instanceof HTMLInputElement) || !(phoneEl instanceof HTMLInputElement)) return;
 
-      const selectedRadio = document.querySelector('input[name="selected-service"]:checked');
-      const treatment = selectedRadio instanceof HTMLInputElement
-        ? selectedRadio.closest('.sd-treat')?.querySelector('.sd-treat__name')?.childNodes[0]?.textContent?.trim() || ''
-        : '';
+      const selectedBoxes = document.querySelectorAll('input[name="selected-service"]:checked');
+      const treatments: string[] = [];
+      selectedBoxes.forEach(cb => {
+        if (!(cb instanceof HTMLInputElement)) return;
+        const treat = cb.closest('.sd-treat');
+        if (!treat) return;
+        const name = treat.getAttribute('data-name') || '';
+        const price = treat.getAttribute('data-price') || '';
+        treatments.push(`${name} (${price})`);
+      });
 
       const msg = [
         `Hello! I'd like to book an appointment.`,
         ``,
         `Service: ${serviceName}`,
-        treatment ? `Treatment: ${treatment}` : '',
+        treatments.length > 0 ? `Treatments:\n${treatments.map(t => `  • ${t}`).join('\n')}` : '',
+        `Date: ${dateEl.value}`,
         `Time: ${timeEl.value}`,
         `Name: ${nameEl.value}`,
+        `Email: ${emailEl.value}`,
         `Phone: ${phoneEl.value}`,
       ].filter(Boolean).join('\n');
 
@@ -761,6 +821,18 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
   }
 
   /* ──────── TREATMENTS ──────── */
+  .sd-treat-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--color-gray);
+    margin-bottom: 0.75rem;
+  }
+
+  .sd-treat-hint [data-icon] { color: var(--color-silver); }
+
   .sd-treatments {
     display: flex;
     flex-direction: column;
@@ -810,9 +882,9 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
     border: 2px solid var(--color-mist);
     background: white;
     color: transparent;
@@ -924,6 +996,97 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
     position: relative;
   }
 
+  /* ──────── CART ──────── */
+  .sd-cart {
+    background: var(--color-snow);
+    border: 1px solid var(--color-mist);
+    border-radius: 0.875rem;
+    padding: 0.875rem;
+    margin-bottom: 1.25rem;
+    animation: sd-slideDown 0.3s var(--ease-out-expo);
+  }
+
+  @keyframes sd-slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .sd-cart__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  .sd-cart__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-red);
+  }
+
+  .sd-cart__clear {
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--color-silver);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+  }
+
+  .sd-cart__clear:hover { color: var(--color-red); }
+
+  .sd-cart__items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  :global(.sd-cart__item) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.5rem;
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-mist);
+  }
+
+  :global(.sd-cart__item-name) {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-charcoal);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  :global(.sd-cart__item-price) {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--color-red);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .sd-cart__count {
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: var(--color-gray);
+    text-align: center;
+    margin-top: 0.5rem;
+    padding-top: 0.375rem;
+    border-top: 1px solid var(--color-mist);
+  }
+
   .sd-booking__icon {
     display: flex;
     align-items: center;
@@ -947,44 +1110,6 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
   .sd-booking__sub {
     font-size: 0.75rem;
     color: var(--color-gray);
-  }
-
-  /* Selected preview */
-  .sd-booking__selected {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    padding: 0.875rem 1rem;
-    background: var(--color-cream);
-    border: 1px solid rgba(225,29,72,0.1);
-    border-radius: 0.75rem;
-    margin-bottom: 1.25rem;
-    animation: sd-slideDown 0.3s var(--ease-out-expo);
-  }
-
-  @keyframes sd-slideDown {
-    from { opacity: 0; transform: translateY(-8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .sd-booking__selected-label {
-    font-size: 0.5625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--color-red);
-  }
-
-  .sd-booking__selected-name {
-    font-size: 0.8125rem;
-    font-weight: 650;
-    color: var(--color-charcoal);
-  }
-
-  .sd-booking__selected-price {
-    font-size: 0.875rem;
-    font-weight: 800;
-    color: var(--color-red);
   }
 
   /* Form */

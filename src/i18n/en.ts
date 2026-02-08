@@ -278,6 +278,8 @@ export const en = {
     step3: '3. Your Information',
     preferredTime: 'Preferred Time',
     selectTime: 'Select time',
+    preferredDate: 'Preferred Date',
+    selectDate: 'Select date',
     firstName: 'First Name',
     lastName: 'Last Name',
     email: 'Email Address',

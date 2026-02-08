@@ -278,6 +278,8 @@ export const fr = {
     step3: '3. Vos Informations',
     preferredTime: 'Heure Préférée',
     selectTime: 'Sélectionnez l\'heure',
+    preferredDate: 'Date Préférée',
+    selectDate: 'Sélectionnez la date',
     firstName: 'Prénom',
     lastName: 'Nom de Famille',
     email: 'Adresse Email',
