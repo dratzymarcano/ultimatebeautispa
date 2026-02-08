@@ -109,8 +109,18 @@ const allServices = getAllServicesForLang('en');
                     </span>
                   )}
                   {allSubs.map(sub => (
-                    <div class="flex justify-between items-center py-1.5 border-b border-mist/50 last:border-0">
-                      <span class="text-charcoal text-sm">{sub.name}</span>
+                    <div class="flex justify-between items-start py-2 border-b border-mist/50 last:border-0">
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                          <span class="text-charcoal text-sm">{sub.name}</span>
+                          {sub.bestSeller && (
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-red text-white px-1.5 py-0.5 rounded">Best Seller</span>
+                          )}
+                        </div>
+                        {sub.description && (
+                          <span class="text-gray text-xs mt-0.5 block">{sub.description}</span>
+                        )}
+                      </div>
                       <span class="text-red font-semibold text-sm whitespace-nowrap ml-4">{sub.price}</span>
                     </div>
                   ))}
