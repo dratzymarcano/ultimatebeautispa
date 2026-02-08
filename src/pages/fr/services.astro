@@ -14,81 +14,174 @@ const allServices = getAllServicesForLang(lang);
 
 <Layout title={i.services.pageTitle} lang="fr">
   <Header slot="header" currentPath="/fr/services" lang="fr" />
-  
-  <!-- Hero -->
-  <section class="sv-hero">
-    <div class="container">
-      <span class="sv-eyebrow" data-animate="fade-in-up">
-        <Icon name="lucide:sparkles" class="w-3.5 h-3.5" />
-        {i.services.eyebrow}
-      </span>
-      
-      <h1 class="sv-title" data-animate="fade-in-up" style="animation-delay: 80ms">
-        {i.services.pageTitle}
-      </h1>
-      
-      <p class="sv-subtitle" data-animate="fade-in-up" style="animation-delay: 160ms">
-        {i.services.pageSubtitle}
-      </p>
+
+  <!-- ═══════ IMMERSIVE HERO ═══════ -->
+  <section class="sv-hero" id="sv-hero">
+    <div class="sv-hero__canvas">
+      <div class="sv-hero__orb sv-hero__orb--1"></div>
+      <div class="sv-hero__orb sv-hero__orb--2"></div>
+      <div class="sv-hero__orb sv-hero__orb--3"></div>
+      <div class="sv-hero__mesh"></div>
     </div>
 
-    <div class="sv-hero-shape sv-hero-shape--1"></div>
-    <div class="sv-hero-shape sv-hero-shape--2"></div>
+    <div class="container sv-hero__inner">
+      <div class="sv-hero__badge" data-animate="fade-in-up">
+        <span class="sv-hero__badge-dot"></span>
+        {i.services.eyebrow}
+      </div>
+
+      <h1 class="sv-hero__title" data-animate="fade-in-up" style="animation-delay:80ms">
+        <span class="sv-hero__title-line">Nos</span>
+        <span class="sv-hero__title-accent">Services</span>
+      </h1>
+
+      <p class="sv-hero__desc" data-animate="fade-in-up" style="animation-delay:160ms">
+        {i.services.pageSubtitle}
+      </p>
+
+      <div class="sv-hero__stats" data-animate="fade-in-up" style="animation-delay:240ms">
+        <div class="sv-hero__stat">
+          <span class="sv-hero__stat-num">{allServices.length}</span>
+          <span class="sv-hero__stat-label">Catégories</span>
+        </div>
+        <div class="sv-hero__stat-divider"></div>
+        <div class="sv-hero__stat">
+          <span class="sv-hero__stat-num">{allServices.reduce((acc, s) => acc + s.subServices.length, 0)}+</span>
+          <span class="sv-hero__stat-label">Soins</span>
+        </div>
+        <div class="sv-hero__stat-divider"></div>
+        <div class="sv-hero__stat">
+          <span class="sv-hero__stat-num">5★</span>
+          <span class="sv-hero__stat-label">Noté</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sv-hero__scroll" data-animate="fade-in-up" style="animation-delay:400ms">
+      <span>Défiler pour explorer</span>
+      <div class="sv-hero__scroll-line"></div>
+    </div>
   </section>
 
-  <!-- Service Grid -->
-  <section class="sv-grid-section">
+  <!-- ═══════ FEATURED MARQUEE ═══════ -->
+  <section class="sv-marquee">
+    <div class="sv-marquee__track">
+      {[...allServices, ...allServices].map(s => (
+        <span class="sv-marquee__item">
+          <Icon name="lucide:diamond" class="w-3 h-3" />
+          {s.name}
+        </span>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══════ SERVICE SHOWCASE ═══════ -->
+  <section class="sv-showcase" id="services-grid">
     <div class="container">
-      <div class="sv-grid">
+      <div class="sv-showcase__header">
+        <div class="sv-showcase__header-left">
+          <span class="sv-showcase__label">
+            <Icon name="lucide:layers" class="w-3.5 h-3.5" />
+            Menu des Services
+          </span>
+          <h2 class="sv-showcase__heading">Explorer & Découvrir</h2>
+        </div>
+        <p class="sv-showcase__header-desc">
+          Chaque service est une expérience créée autour de vos besoins uniques.
+          Sélectionnez une catégorie pour découvrir les soins, tarifs et disponibilités.
+        </p>
+      </div>
+
+      <div class="sv-bento">
         {allServices.map((service, index) => {
           const raw = rawServices.find(s => s.id === service.id)!;
           const bestSellerCount = service.subServices.filter((s: any) => s.bestSeller).length;
-          
+          const subCount = service.subServices.length;
+          const isFeatured = index === 0 || index === 3;
+
           return (
             <a 
               href={`/fr/services/${service.id}`}
-              class="sv-card"
+              class:list={["sv-card", { "sv-card--featured": isFeatured }]}
               data-animate="fade-in-up"
-              style={`animation-delay: ${index * 80}ms`}
+              style={`animation-delay: ${index * 60}ms`}
             >
-              <div class="sv-card-img-wrap">
+              <div class="sv-card__media">
                 <img 
                   src={service.image}
                   alt={service.name}
-                  class="sv-card-img"
+                  class="sv-card__img"
                   loading={index < 4 ? 'eager' : 'lazy'}
                 />
-                <div class="sv-card-img-overlay"></div>
+                <div class="sv-card__media-overlay"></div>
+              </div>
 
-                <span class="sv-card-dur">
+              <div class="sv-card__badges">
+                <span class="sv-card__badge-dur">
                   <Icon name="lucide:clock" class="w-3 h-3" />
                   {service.duration}
                 </span>
-
                 {bestSellerCount > 0 && (
-                  <span class="sv-card-popular">Populaire</span>
+                  <span class="sv-card__badge-pop">
+                    <Icon name="lucide:flame" class="w-3 h-3" />
+                    Populaire
+                  </span>
                 )}
               </div>
 
-              <div class="sv-card-body">
-                <div class="sv-card-icon-wrap">
+              <div class="sv-card__content">
+                <div class="sv-card__icon">
                   <Icon name={raw.icon} class="w-5 h-5" />
                 </div>
 
-                <h2 class="sv-card-name">{service.name}</h2>
-                <p class="sv-card-desc">{service.description}</p>
+                <div class="sv-card__text">
+                  <h3 class="sv-card__name">{service.name}</h3>
+                  <p class="sv-card__desc">{service.description}</p>
+                </div>
 
-                <div class="sv-card-footer">
-                  <span class="sv-card-price">{service.startingPrice}</span>
-                  <span class="sv-card-link">
-                    Voir les détails
-                    <Icon name="lucide:arrow-right" class="w-4 h-4" />
-                  </span>
+                <div class="sv-card__bottom">
+                  <div class="sv-card__meta">
+                    <span class="sv-card__price">{service.startingPrice}</span>
+                    <span class="sv-card__count">{subCount} soins</span>
+                  </div>
+                  <div class="sv-card__arrow">
+                    <Icon name="lucide:arrow-up-right" class="w-5 h-5" />
+                  </div>
                 </div>
               </div>
+
+              <div class="sv-card__glow"></div>
             </a>
           );
         })}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ WHY US STRIP ═══════ -->
+  <section class="sv-why">
+    <div class="container">
+      <div class="sv-why__grid">
+        <div class="sv-why__item" data-animate="fade-in-up">
+          <div class="sv-why__icon"><Icon name="lucide:award" class="w-6 h-6" /></div>
+          <h3 class="sv-why__title">{i.services.expertise}</h3>
+          <p class="sv-why__text">{i.services.expertiseDesc}</p>
+        </div>
+        <div class="sv-why__item" data-animate="fade-in-up" style="animation-delay:80ms">
+          <div class="sv-why__icon"><Icon name="lucide:gem" class="w-6 h-6" /></div>
+          <h3 class="sv-why__title">{i.services.premium}</h3>
+          <p class="sv-why__text">{i.services.premiumDesc}</p>
+        </div>
+        <div class="sv-why__item" data-animate="fade-in-up" style="animation-delay:160ms">
+          <div class="sv-why__icon"><Icon name="lucide:lightbulb" class="w-6 h-6" /></div>
+          <h3 class="sv-why__title">{i.services.atmosphere}</h3>
+          <p class="sv-why__text">{i.services.atmosphereDesc}</p>
+        </div>
+        <div class="sv-why__item" data-animate="fade-in-up" style="animation-delay:240ms">
+          <div class="sv-why__icon"><Icon name="lucide:heart" class="w-6 h-6" /></div>
+          <h3 class="sv-why__title">{i.services.personalized}</h3>
+          <p class="sv-why__text">{i.services.personalizedDesc}</p>
+        </div>
       </div>
     </div>
   </section>
@@ -105,255 +198,388 @@ const allServices = getAllServicesForLang(lang);
 </Layout>
 
 <style>
+  /* ═══════════════════════════════════════════
+     SERVICES — ABSTRACT EDITORIAL DESIGN
+     ═══════════════════════════════════════════ */
+
   .sv-hero {
     position: relative;
-    padding: 9rem 0 5rem;
-    background: linear-gradient(170deg, var(--color-cream) 0%, var(--color-white) 50%, var(--color-snow) 100%);
-    text-align: center;
-    overflow: hidden;
-  }
-
-  .sv-hero-shape {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
-  .sv-hero-shape--1 {
-    width: 500px;
-    height: 500px;
-    top: -200px;
-    right: -100px;
-    background: radial-gradient(circle, rgba(225, 29, 72, 0.06) 0%, transparent 70%);
-  }
-
-  .sv-hero-shape--2 {
-    width: 400px;
-    height: 400px;
-    bottom: -180px;
-    left: -120px;
-    background: radial-gradient(circle, rgba(225, 29, 72, 0.04) 0%, transparent 70%);
-  }
-
-  .sv-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--color-red);
-    margin-bottom: 1.25rem;
-    padding: 0.5rem 1.25rem;
-    background: var(--color-red-muted);
-    border: 1px solid rgba(225, 29, 72, 0.12);
-    border-radius: 100px;
-  }
-
-  .sv-title {
-    font-size: clamp(2.25rem, 5vw, 3.75rem);
-    font-weight: 800;
-    color: var(--color-black);
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 1rem;
-  }
-
-  .sv-subtitle {
-    font-size: 1.0625rem;
-    color: var(--color-gray);
-    max-width: 36rem;
-    margin: 0 auto;
-    line-height: 1.7;
-  }
-
-  .sv-grid-section {
-    padding: 4rem 0 5rem;
-    background: var(--color-snow);
-  }
-
-  .sv-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-
-  .sv-card {
-    display: flex;
-    flex-direction: column;
-    background: var(--color-white);
-    border-radius: 1.25rem;
-    overflow: hidden;
-    text-decoration: none;
-    border: 1px solid var(--color-mist);
-    transition: all 0.4s var(--ease-out-expo);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  }
-
-  .sv-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(225, 29, 72, 0.1);
-    border-color: rgba(225, 29, 72, 0.15);
-  }
-
-  .sv-card-img-wrap {
-    position: relative;
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-  }
-
-  .sv-card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s var(--ease-out-expo);
-  }
-
-  .sv-card:hover .sv-card-img {
-    transform: scale(1.06);
-  }
-
-  .sv-card-img-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.2) 0%, transparent 50%);
-    pointer-events: none;
-  }
-
-  .sv-card-dur {
-    position: absolute;
-    top: 0.875rem;
-    left: 0.875rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.3rem 0.75rem;
-    background: white;
-    border-radius: 100px;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    color: var(--color-charcoal);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-
-  .sv-card-popular {
-    position: absolute;
-    top: 0.875rem;
-    right: 0.875rem;
-    padding: 0.25rem 0.625rem;
-    background: var(--color-red);
-    color: white;
-    font-size: 0.625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    border-radius: 100px;
-  }
-
-  .sv-card-body {
-    padding: 1.75rem;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  .sv-card-icon-wrap {
+    min-height: 100vh;
+    min-height: 100svh;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: var(--color-red-muted);
-    color: var(--color-red);
-    margin-bottom: 1rem;
-    transition: all 0.3s ease;
-  }
-
-  .sv-card:hover .sv-card-icon-wrap {
-    background: var(--color-red);
-    color: white;
-  }
-
-  .sv-card-name {
-    font-size: 1.25rem;
-    font-weight: 750;
-    color: var(--color-black);
-    letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
-    line-height: 1.3;
-  }
-
-  .sv-card-desc {
-    font-size: 0.875rem;
-    color: var(--color-gray);
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-    flex: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+    background: var(--color-black);
     overflow: hidden;
   }
 
-  .sv-card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-mist);
+  .sv-hero__canvas { position: absolute; inset: 0; pointer-events: none; }
+
+  .sv-hero__orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: sv-float 25s ease-in-out infinite;
   }
 
-  .sv-card-price {
-    font-size: 0.8125rem;
-    font-weight: 700;
-    color: var(--color-red);
+  .sv-hero__orb--1 {
+    width: 40vw; height: 40vw; max-width: 600px; max-height: 600px;
+    top: -10%; right: -5%;
+    background: radial-gradient(circle, rgba(225,29,72,0.15) 0%, transparent 70%);
   }
 
-  .sv-card-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--color-charcoal);
-    transition: all 0.25s ease;
+  .sv-hero__orb--2 {
+    width: 30vw; height: 30vw; max-width: 450px; max-height: 450px;
+    bottom: 5%; left: -10%;
+    background: radial-gradient(circle, rgba(200,169,110,0.08) 0%, transparent 70%);
+    animation-delay: -8s; animation-duration: 30s;
   }
 
-  .sv-card:hover .sv-card-link {
-    color: var(--color-red);
-    gap: 0.625rem;
+  .sv-hero__orb--3 {
+    width: 20vw; height: 20vw; max-width: 300px; max-height: 300px;
+    top: 45%; left: 50%; transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(225,29,72,0.06) 0%, transparent 70%);
+    animation-delay: -15s; animation-duration: 20s;
   }
 
-  @media (min-width: 1024px) {
-    .sv-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
+  @keyframes sv-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(3%, -5%) scale(1.05); }
+    50% { transform: translate(-2%, 3%) scale(0.97); }
+    75% { transform: translate(5%, 2%) scale(1.03); }
   }
 
-  @media (min-width: 1280px) {
-    .sv-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
+  .sv-hero__mesh {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0);
+    background-size: 48px 48px;
   }
 
-  @media (max-width: 640px) {
-    .sv-hero {
-      padding: 7rem 0 3.5rem;
-    }
+  .sv-hero__inner {
+    position: relative; z-index: 2; text-align: center;
+    padding: 8rem 0 4rem; max-width: 48rem; margin: 0 auto;
+  }
 
-    .sv-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
+  .sv-hero__badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: rgba(225,29,72,0.08); border: 1px solid rgba(225,29,72,0.15);
+    border-radius: 100px; font-size: 0.6875rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.2em; color: var(--color-red);
+    margin-bottom: 2rem;
+  }
 
-    .sv-card-body {
-      padding: 1.25rem;
-    }
+  .sv-hero__badge-dot {
+    width: 6px; height: 6px; background: var(--color-red); border-radius: 50%;
+    animation: sv-pulse 2s ease-in-out infinite;
+  }
 
-    .sv-card-img-wrap {
-      aspect-ratio: 16 / 9;
+  @keyframes sv-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .sv-hero__title { display: flex; flex-direction: column; align-items: center; margin-bottom: 1.5rem; }
+
+  .sv-hero__title-line {
+    font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 300;
+    color: rgba(255,255,255,0.6); letter-spacing: -0.03em; line-height: 1.1;
+  }
+
+  .sv-hero__title-accent {
+    font-size: clamp(3.5rem, 10vw, 7.5rem); font-weight: 900; line-height: 0.95;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, white 0%, var(--color-red-light) 50%, var(--color-red) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+
+  .sv-hero__desc {
+    font-size: clamp(0.9375rem, 1.5vw, 1.0625rem); color: rgba(255,255,255,0.45);
+    line-height: 1.8; max-width: 34rem; margin: 0 auto 3rem;
+  }
+
+  .sv-hero__stats { display: flex; align-items: center; justify-content: center; gap: 2rem; }
+
+  .sv-hero__stat { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
+
+  .sv-hero__stat-num { font-size: 1.75rem; font-weight: 800; color: white; letter-spacing: -0.02em; }
+
+  .sv-hero__stat-label {
+    font-size: 0.6875rem; font-weight: 500; text-transform: uppercase;
+    letter-spacing: 0.15em; color: rgba(255,255,255,0.35);
+  }
+
+  .sv-hero__stat-divider { width: 1px; height: 2.5rem; background: rgba(255,255,255,0.1); }
+
+  .sv-hero__scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.75rem; z-index: 2;
+  }
+
+  .sv-hero__scroll span {
+    font-size: 0.625rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.2em; color: rgba(255,255,255,0.25);
+  }
+
+  .sv-hero__scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(225,29,72,0.6), transparent);
+    animation: sv-scroll-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes sv-scroll-pulse {
+    0%, 100% { opacity: 1; height: 40px; }
+    50% { opacity: 0.3; height: 24px; }
+  }
+
+  .sv-marquee { background: var(--color-red); padding: 0.875rem 0; overflow: hidden; }
+
+  .sv-marquee__track {
+    display: flex; gap: 2.5rem; animation: sv-marquee 40s linear infinite; width: max-content;
+  }
+
+  .sv-marquee__item {
+    display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: white; white-space: nowrap;
+  }
+
+  @keyframes sv-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .sv-showcase { padding: 6rem 0 7rem; background: var(--color-snow); }
+
+  .sv-showcase__header {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
+    margin-bottom: 3.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--color-mist);
+  }
+
+  .sv-showcase__label {
+    display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.6875rem;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: var(--color-red);
+    margin-bottom: 0.75rem;
+  }
+
+  .sv-showcase__heading {
+    font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--color-black);
+    letter-spacing: -0.04em; line-height: 1.1;
+  }
+
+  .sv-showcase__header-desc {
+    font-size: 0.9375rem; color: var(--color-gray); line-height: 1.7;
+    max-width: 22rem; text-align: right;
+  }
+
+  .sv-bento {
+    display: grid; grid-template-columns: repeat(12, 1fr);
+    gap: 1.25rem; grid-auto-rows: minmax(280px, auto);
+  }
+
+  .sv-card {
+    grid-column: span 4; position: relative; border-radius: 1.5rem; overflow: hidden;
+    text-decoration: none; display: flex; flex-direction: column; background: white;
+    border: 1px solid var(--color-mist); transition: all 0.5s var(--ease-out-expo); cursor: pointer;
+  }
+
+  .sv-card--featured { grid-column: span 8; }
+  .sv-card:nth-child(3) { grid-column: span 4; }
+  .sv-card:nth-child(4) { grid-column: span 8; }
+  .sv-card:nth-child(5) { grid-column: span 6; }
+  .sv-card:nth-child(6) { grid-column: span 6; }
+  .sv-card:nth-child(7) { grid-column: span 5; }
+  .sv-card:nth-child(8) { grid-column: span 7; }
+
+  .sv-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 32px 64px -16px rgba(0,0,0,0.12), 0 0 0 1px rgba(225,29,72,0.08);
+    border-color: rgba(225,29,72,0.12);
+  }
+
+  .sv-card__media { position: relative; height: 200px; overflow: hidden; }
+  .sv-card--featured .sv-card__media { height: 260px; }
+
+  .sv-card__img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.8s var(--ease-out-expo), filter 0.6s ease;
+  }
+
+  .sv-card:hover .sv-card__img { transform: scale(1.08); filter: brightness(1.05); }
+
+  .sv-card__media-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.05) 40%, transparent 70%);
+    transition: opacity 0.4s ease;
+  }
+
+  .sv-card:hover .sv-card__media-overlay { opacity: 0.7; }
+
+  .sv-card__badges {
+    position: absolute; top: 1rem; left: 1rem; right: 1rem;
+    display: flex; justify-content: space-between; z-index: 3;
+  }
+
+  .sv-card__badge-dur {
+    display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.35rem 0.75rem;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-radius: 100px;
+    font-size: 0.6875rem; font-weight: 600; color: var(--color-charcoal);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  .sv-card__badge-pop {
+    display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.35rem 0.75rem;
+    background: var(--color-red); border-radius: 100px; font-size: 0.6875rem;
+    font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.06em;
+    box-shadow: 0 4px 16px rgba(225,29,72,0.3);
+  }
+
+  .sv-card__content {
+    flex: 1; display: flex; flex-direction: column; padding: 1.5rem; gap: 1rem;
+  }
+
+  .sv-card__icon {
+    display: flex; align-items: center; justify-content: center; width: 44px; height: 44px;
+    border-radius: 14px; background: var(--color-cream); color: var(--color-red);
+    transition: all 0.4s var(--ease-out-expo); flex-shrink: 0;
+  }
+
+  .sv-card:hover .sv-card__icon {
+    background: var(--color-red); color: white;
+    transform: rotate(-6deg) scale(1.05); box-shadow: 0 8px 24px rgba(225,29,72,0.25);
+  }
+
+  .sv-card__text { flex: 1; }
+
+  .sv-card__name {
+    font-size: 1.25rem; font-weight: 800; color: var(--color-black);
+    letter-spacing: -0.02em; margin-bottom: 0.5rem; line-height: 1.2;
+    transition: color 0.3s ease;
+  }
+
+  .sv-card--featured .sv-card__name { font-size: 1.5rem; }
+  .sv-card:hover .sv-card__name { color: var(--color-red); }
+
+  .sv-card__desc {
+    font-size: 0.8125rem; color: var(--color-gray); line-height: 1.7;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+
+  .sv-card__bottom {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    padding-top: 1rem; border-top: 1px solid var(--color-mist); margin-top: auto;
+  }
+
+  .sv-card__meta { display: flex; flex-direction: column; gap: 0.125rem; }
+  .sv-card__price { font-size: 0.8125rem; font-weight: 700; color: var(--color-red); }
+  .sv-card__count { font-size: 0.6875rem; color: var(--color-silver); font-weight: 500; }
+
+  .sv-card__arrow {
+    display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;
+    border-radius: 50%; background: var(--color-snow); color: var(--color-charcoal);
+    transition: all 0.4s var(--ease-out-expo); flex-shrink: 0;
+  }
+
+  .sv-card:hover .sv-card__arrow {
+    background: var(--color-red); color: white;
+    transform: translate(2px, -2px); box-shadow: 0 8px 20px rgba(225,29,72,0.25);
+  }
+
+  .sv-card__glow {
+    position: absolute; inset: 0; border-radius: 1.5rem; opacity: 0;
+    transition: opacity 0.5s ease; pointer-events: none;
+    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(225,29,72,0.04), transparent 40%);
+  }
+
+  .sv-card:hover .sv-card__glow { opacity: 1; }
+
+  .sv-why {
+    padding: 5rem 0; background: white;
+    border-top: 1px solid var(--color-mist); border-bottom: 1px solid var(--color-mist);
+  }
+
+  .sv-why__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+
+  .sv-why__item {
+    text-align: center; padding: 2rem 1.5rem; border-radius: 1.25rem;
+    transition: all 0.4s ease;
+  }
+
+  .sv-why__item:hover { background: var(--color-snow); transform: translateY(-4px); }
+
+  .sv-why__icon {
+    display: flex; align-items: center; justify-content: center; width: 56px; height: 56px;
+    margin: 0 auto 1.25rem; border-radius: 16px; background: var(--color-cream);
+    color: var(--color-red); transition: all 0.35s var(--ease-out-expo);
+  }
+
+  .sv-why__item:hover .sv-why__icon {
+    background: var(--color-red); color: white; transform: rotate(-6deg) scale(1.08);
+  }
+
+  .sv-why__title {
+    font-size: 1rem; font-weight: 750; color: var(--color-black);
+    margin-bottom: 0.5rem; letter-spacing: -0.01em;
+  }
+
+  .sv-why__text { font-size: 0.8125rem; color: var(--color-gray); line-height: 1.7; }
+
+  @media (max-width: 1280px) {
+    .sv-bento { grid-template-columns: repeat(6, 1fr); }
+    .sv-card { grid-column: span 3 !important; }
+    .sv-card--featured { grid-column: span 6 !important; }
+    .sv-card:nth-child(4) { grid-column: span 6 !important; }
+    .sv-card:nth-child(5), .sv-card:nth-child(6) { grid-column: span 3 !important; }
+    .sv-card:nth-child(7), .sv-card:nth-child(8) { grid-column: span 3 !important; }
+  }
+
+  @media (max-width: 1024px) {
+    .sv-showcase__header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .sv-showcase__header-desc { text-align: left; max-width: none; }
+    .sv-why__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .sv-hero__inner { padding: 6rem 0 3rem; }
+    .sv-hero__stats { gap: 1.25rem; }
+    .sv-hero__stat-num { font-size: 1.375rem; }
+    .sv-hero__scroll { display: none; }
+    .sv-bento { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .sv-card, .sv-card--featured, .sv-card:nth-child(n) { grid-column: span 1 !important; }
+    .sv-card--featured { grid-column: span 2 !important; }
+    .sv-card__media { height: 180px; }
+    .sv-card--featured .sv-card__media { height: 200px; }
+    .sv-card__content { padding: 1.25rem; }
+    .sv-card__name { font-size: 1.0625rem; }
+    .sv-card--featured .sv-card__name { font-size: 1.1875rem; }
+    .sv-showcase { padding: 4rem 0 5rem; }
+    .sv-why__grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .sv-why__item { padding: 1.5rem 1rem; }
+  }
+
+  @media (max-width: 480px) {
+    .sv-hero { min-height: 90vh; min-height: 90svh; }
+    .sv-hero__badge { font-size: 0.5625rem; padding: 0.4rem 1rem; }
+    .sv-hero__title-line { font-size: 2rem; }
+    .sv-hero__title-accent { font-size: 3.25rem; }
+    .sv-hero__desc { font-size: 0.875rem; }
+    .sv-bento { grid-template-columns: 1fr; }
+    .sv-card, .sv-card--featured, .sv-card:nth-child(n) { grid-column: span 1 !important; }
+    .sv-card__media, .sv-card--featured .sv-card__media { height: 200px; }
+    .sv-marquee__item { font-size: 0.625rem; }
+    .sv-why__grid { grid-template-columns: 1fr; gap: 0.75rem; }
+    .sv-why__item {
+      text-align: left; display: flex; gap: 1rem; align-items: flex-start; padding: 1.25rem;
     }
+    .sv-why__icon { margin: 0; flex-shrink: 0; width: 48px; height: 48px; }
   }
 </style>
+
+<script>
+  document.querySelectorAll('.sv-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const el = e.currentTarget as HTMLElement;
+      const rect = el.getBoundingClientRect();
+      const x = ((e as MouseEvent).clientX - rect.left) / rect.width * 100;
+      const y = ((e as MouseEvent).clientY - rect.top) / rect.height * 100;
+      el.style.setProperty('--mouse-x', `${x}%`);
+      el.style.setProperty('--mouse-y', `${y}%`);
+    });
+  });
+</script>

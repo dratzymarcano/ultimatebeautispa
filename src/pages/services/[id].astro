@@ -3,6 +3,7 @@ import { Icon } from 'astro-icon/components';
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import CTA from '../../components/CTA.astro';
 import { t } from '../../i18n/index';
 import { services as rawServices, getServiceById, getServiceByLang } from '../../data/services';
 
@@ -19,93 +20,130 @@ const service = getServiceByLang(raw, lang);
 const allGender = service.subServices.filter((s: any) => s.gender === 'all' || !s.gender);
 const menOnly = service.subServices.filter((s: any) => s.gender === 'men');
 const womenOnly = service.subServices.filter((s: any) => s.gender === 'women');
-
 const hasGenderSections = menOnly.length > 0 || womenOnly.length > 0;
+
+// Get current index for prev/next nav
+const currentIdx = rawServices.findIndex(s => s.id === id);
+const prevService = currentIdx > 0 ? rawServices[currentIdx - 1] : null;
+const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx + 1] : null;
 ---
 
 <Layout title={`${service.name} — Ultimate Beauty Spa`} lang="en">
   <Header slot="header" currentPath={`/services/${id}`} lang="en" />
 
-  <!-- Hero -->
+  <!-- ═══════ CINEMATIC HERO ═══════ -->
   <section class="sd-hero">
-    <div class="sd-hero-bg">
-      <img src={raw.image} alt={service.name} class="sd-hero-img" />
-      <div class="sd-hero-overlay"></div>
+    <div class="sd-hero__bg">
+      <img src={raw.image} alt={service.name} class="sd-hero__img" />
+      <div class="sd-hero__gradient"></div>
+      <div class="sd-hero__noise"></div>
     </div>
 
-    <div class="container sd-hero-content">
-      <a href="/services" class="sd-back">
-        <Icon name="lucide:arrow-left" class="w-4 h-4" />
-        All Services
-      </a>
+    <div class="container sd-hero__inner">
+      <!-- Breadcrumb -->
+      <nav class="sd-breadcrumb" data-animate="fade-in-up">
+        <a href="/services" class="sd-breadcrumb__link">
+          <Icon name="lucide:arrow-left" class="w-4 h-4" />
+          All Services
+        </a>
+        <span class="sd-breadcrumb__sep">/</span>
+        <span class="sd-breadcrumb__current">{service.name}</span>
+      </nav>
 
-      <div class="sd-hero-text">
-        <span class="sd-tagline">{service.tagline}</span>
-        <h1 class="sd-title">{service.name}</h1>
-        <p class="sd-meta">
-          <span class="sd-meta-item">
-            <Icon name="lucide:clock" class="w-4 h-4" />
+      <!-- Hero content -->
+      <div class="sd-hero__content" data-animate="fade-in-up" style="animation-delay:80ms">
+        <div class="sd-hero__badge">
+          <Icon name={raw.icon} class="w-4 h-4" />
+          <span>{service.tagline}</span>
+        </div>
+
+        <h1 class="sd-hero__title">{service.name}</h1>
+
+        <div class="sd-hero__chips">
+          <span class="sd-chip">
+            <Icon name="lucide:clock" class="w-3.5 h-3.5" />
             {raw.duration}
           </span>
-          <span class="sd-meta-divider">·</span>
-          <span class="sd-meta-item">
+          <span class="sd-chip">
+            <Icon name="lucide:tag" class="w-3.5 h-3.5" />
             {raw.startingPrice}
           </span>
-        </p>
+          <span class="sd-chip">
+            <Icon name="lucide:layers" class="w-3.5 h-3.5" />
+            {service.subServices.length} treatments
+          </span>
+        </div>
       </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="sd-hero__scroll">
+      <div class="sd-hero__scroll-bar"></div>
     </div>
   </section>
 
-  <!-- Content -->
-  <section class="sd-content">
+  <!-- ═══════ MAIN CONTENT ═══════ -->
+  <section class="sd-main">
     <div class="container">
-      <div class="sd-layout">
-        <!-- Left: Description + Features -->
-        <div class="sd-info">
-          <div class="sd-desc-card">
-            <h2 class="sd-section-title">About This Service</h2>
-            <p class="sd-long-desc">{service.longDescription}</p>
-          </div>
+      <div class="sd-grid">
 
-          <div class="sd-features-card">
-            <h3 class="sd-features-title">
-              <Icon name="lucide:badge-check" class="w-5 h-5 text-red" />
-              What's Included
-            </h3>
-            <ul class="sd-features-list">
-              {service.features.map((feat: string) => (
-                <li class="sd-feature-item">
-                  <Icon name="lucide:check" class="w-4 h-4" />
-                  {feat}
-                </li>
+        <!-- ─── LEFT COLUMN ─── -->
+        <div class="sd-col-main">
+          <!-- About Section -->
+          <article class="sd-block sd-block--about">
+            <div class="sd-block__header">
+              <span class="sd-block__label">
+                <Icon name="lucide:info" class="w-3.5 h-3.5" />
+                About
+              </span>
+              <h2 class="sd-block__title">About This Service</h2>
+            </div>
+            <p class="sd-block__text">{service.longDescription}</p>
+          </article>
+
+          <!-- Features -->
+          <article class="sd-block sd-block--features">
+            <div class="sd-block__header">
+              <span class="sd-block__label">
+                <Icon name="lucide:badge-check" class="w-3.5 h-3.5" />
+                Highlights
+              </span>
+              <h2 class="sd-block__title">What's Included</h2>
+            </div>
+            <div class="sd-features">
+              {service.features.map((feat: string, idx: number) => (
+                <div class="sd-feat" style={`animation-delay: ${idx * 60}ms`}>
+                  <div class="sd-feat__icon">
+                    <Icon name="lucide:check" class="w-4 h-4" />
+                  </div>
+                  <span class="sd-feat__text">{feat}</span>
+                </div>
               ))}
-            </ul>
-          </div>
-        </div>
+            </div>
+          </article>
 
-        <!-- Right: Pricing + Booking -->
-        <div class="sd-sidebar">
           <!-- Pricing Table -->
-          <div class="sd-pricing-card">
-            <h2 class="sd-pricing-title">
-              <Icon name="lucide:tag" class="w-5 h-5" />
-              {i.services.pricing}
-            </h2>
+          <article class="sd-block sd-block--pricing" id="pricing-section">
+            <div class="sd-block__header">
+              <span class="sd-block__label">
+                <Icon name="lucide:receipt" class="w-3.5 h-3.5" />
+                Menu
+              </span>
+              <h2 class="sd-block__title">{i.services.pricing}</h2>
+            </div>
 
-            {/* Gender filter tabs (only if men/women split exists) */}
+            {/* Gender Tabs */}
             {hasGenderSections && (
-              <div class="sd-gender-tabs" id="gender-tabs">
-                <button class="sd-tab sd-tab--active" data-tab="all">
-                  {i.services.allGenders}
-                </button>
+              <div class="sd-tabs" id="gender-tabs">
+                <button class="sd-tabs__btn sd-tabs__btn--active" data-tab="all">{i.services.allGenders}</button>
                 {menOnly.length > 0 && (
-                  <button class="sd-tab" data-tab="men">
+                  <button class="sd-tabs__btn" data-tab="men">
                     <Icon name="lucide:user" class="w-3.5 h-3.5" />
                     {i.services.menServices}
                   </button>
                 )}
                 {womenOnly.length > 0 && (
-                  <button class="sd-tab" data-tab="women">
+                  <button class="sd-tabs__btn" data-tab="women">
                     <Icon name="lucide:user" class="w-3.5 h-3.5" />
                     {i.services.womenServices}
                   </button>
@@ -113,101 +151,142 @@ const hasGenderSections = menOnly.length > 0 || womenOnly.length > 0;
               </div>
             )}
 
-            <div class="sd-price-list" id="price-list">
-              {/* ALL / Everyone */}
+            {/* Treatment Cards */}
+            <div class="sd-treatments" id="treatments-list">
               {allGender.length > 0 && (
-                <div class="sd-price-group" data-gender="all">
-                  {allGender.map((sub: any) => (
-                    <label class="sd-price-row" data-sub-id={sub.id}>
-                      <input type="radio" name="selected-service" value={sub.id} class="sd-radio" />
-                      <div class="sd-price-info">
-                        <span class="sd-sub-name">
-                          {sub.name}
-                          {sub.bestSeller && <span class="sd-bestseller">Best Seller</span>}
-                        </span>
-                        {sub.description && (
-                          <span class="sd-sub-desc">{sub.description}</span>
-                        )}
+                <div class="sd-treat-group" data-gender="all">
+                  {allGender.map((sub: any, idx: number) => (
+                    <label class="sd-treat" data-sub-id={sub.id}>
+                      <input type="radio" name="selected-service" value={sub.id} class="sd-treat__radio" />
+                      <div class="sd-treat__check">
+                        <Icon name="lucide:check" class="w-3.5 h-3.5" />
+                      </div>
+                      <div class="sd-treat__body">
+                        <div class="sd-treat__top">
+                          <span class="sd-treat__name">
+                            {sub.name}
+                            {sub.bestSeller && (
+                              <span class="sd-treat__badge">
+                                <Icon name="lucide:flame" class="w-3 h-3" />
+                                Best Seller
+                              </span>
+                            )}
+                          </span>
+                          <span class="sd-treat__price">{sub.price}</span>
+                        </div>
+                        {sub.description && <p class="sd-treat__desc">{sub.description}</p>}
                         {sub.duration && (
-                          <span class="sd-sub-dur">
+                          <span class="sd-treat__dur">
                             <Icon name="lucide:clock" class="w-3 h-3" />
                             {sub.duration}
                           </span>
                         )}
                       </div>
-                      <span class="sd-sub-price">{sub.price}</span>
                     </label>
                   ))}
                 </div>
               )}
 
-              {/* Men Only */}
               {menOnly.length > 0 && (
-                <div class="sd-price-group sd-price-group--hidden" data-gender="men">
+                <div class="sd-treat-group sd-treat-group--hidden" data-gender="men">
                   {menOnly.map((sub: any) => (
-                    <label class="sd-price-row" data-sub-id={sub.id}>
-                      <input type="radio" name="selected-service" value={sub.id} class="sd-radio" />
-                      <div class="sd-price-info">
-                        <span class="sd-sub-name">
-                          {sub.name}
-                          {sub.bestSeller && <span class="sd-bestseller">Best Seller</span>}
-                        </span>
-                        {sub.description && (
-                          <span class="sd-sub-desc">{sub.description}</span>
-                        )}
+                    <label class="sd-treat" data-sub-id={sub.id}>
+                      <input type="radio" name="selected-service" value={sub.id} class="sd-treat__radio" />
+                      <div class="sd-treat__check">
+                        <Icon name="lucide:check" class="w-3.5 h-3.5" />
+                      </div>
+                      <div class="sd-treat__body">
+                        <div class="sd-treat__top">
+                          <span class="sd-treat__name">
+                            {sub.name}
+                            {sub.bestSeller && (
+                              <span class="sd-treat__badge">
+                                <Icon name="lucide:flame" class="w-3 h-3" />
+                                Best Seller
+                              </span>
+                            )}
+                          </span>
+                          <span class="sd-treat__price">{sub.price}</span>
+                        </div>
+                        {sub.description && <p class="sd-treat__desc">{sub.description}</p>}
                         {sub.duration && (
-                          <span class="sd-sub-dur">
+                          <span class="sd-treat__dur">
                             <Icon name="lucide:clock" class="w-3 h-3" />
                             {sub.duration}
                           </span>
                         )}
                       </div>
-                      <span class="sd-sub-price">{sub.price}</span>
                     </label>
                   ))}
                 </div>
               )}
 
-              {/* Women Only */}
               {womenOnly.length > 0 && (
-                <div class="sd-price-group sd-price-group--hidden" data-gender="women">
+                <div class="sd-treat-group sd-treat-group--hidden" data-gender="women">
                   {womenOnly.map((sub: any) => (
-                    <label class="sd-price-row" data-sub-id={sub.id}>
-                      <input type="radio" name="selected-service" value={sub.id} class="sd-radio" />
-                      <div class="sd-price-info">
-                        <span class="sd-sub-name">
-                          {sub.name}
-                          {sub.bestSeller && <span class="sd-bestseller">Best Seller</span>}
-                        </span>
-                        {sub.description && (
-                          <span class="sd-sub-desc">{sub.description}</span>
-                        )}
+                    <label class="sd-treat" data-sub-id={sub.id}>
+                      <input type="radio" name="selected-service" value={sub.id} class="sd-treat__radio" />
+                      <div class="sd-treat__check">
+                        <Icon name="lucide:check" class="w-3.5 h-3.5" />
+                      </div>
+                      <div class="sd-treat__body">
+                        <div class="sd-treat__top">
+                          <span class="sd-treat__name">
+                            {sub.name}
+                            {sub.bestSeller && (
+                              <span class="sd-treat__badge">
+                                <Icon name="lucide:flame" class="w-3 h-3" />
+                                Best Seller
+                              </span>
+                            )}
+                          </span>
+                          <span class="sd-treat__price">{sub.price}</span>
+                        </div>
+                        {sub.description && <p class="sd-treat__desc">{sub.description}</p>}
                         {sub.duration && (
-                          <span class="sd-sub-dur">
+                          <span class="sd-treat__dur">
                             <Icon name="lucide:clock" class="w-3 h-3" />
                             {sub.duration}
                           </span>
                         )}
                       </div>
-                      <span class="sd-sub-price">{sub.price}</span>
                     </label>
                   ))}
                 </div>
               )}
             </div>
-          </div>
+          </article>
+        </div>
 
-          <!-- Booking Form -->
-          <div class="sd-booking-card">
-            <h3 class="sd-booking-title">
-              <Icon name="lucide:calendar" class="w-5 h-5" />
-              {i.services.bookThisService}
-            </h3>
+        <!-- ─── RIGHT COLUMN (STICKY BOOKING) ─── -->
+        <aside class="sd-col-side">
+          <div class="sd-booking" id="booking-panel">
+            <div class="sd-booking__glow"></div>
+            
+            <div class="sd-booking__header">
+              <div class="sd-booking__icon">
+                <Icon name="lucide:calendar-check" class="w-5 h-5" />
+              </div>
+              <div>
+                <h3 class="sd-booking__title">{i.services.bookThisService}</h3>
+                <p class="sd-booking__sub">Select a treatment, choose your time</p>
+              </div>
+            </div>
 
-            <form id="booking-form" class="sd-form">
-              <div class="sd-form-group">
-                <label class="sd-label">{i.booking.preferredTime}</label>
-                <select class="sd-select" id="preferred-time" required>
+            <!-- Selected treatment preview -->
+            <div class="sd-booking__selected" id="selected-preview" style="display:none">
+              <span class="sd-booking__selected-label">Selected</span>
+              <span class="sd-booking__selected-name" id="selected-name"></span>
+              <span class="sd-booking__selected-price" id="selected-price"></span>
+            </div>
+
+            <form id="booking-form" class="sd-booking__form">
+              <div class="sd-field">
+                <label class="sd-field__label">
+                  <Icon name="lucide:clock" class="w-3.5 h-3.5" />
+                  {i.booking.preferredTime}
+                </label>
+                <select class="sd-field__input" id="preferred-time" required>
                   <option value="">{i.booking.selectTime}</option>
                   <option value="9:00 AM">9:00 AM</option>
                   <option value="10:00 AM">10:00 AM</option>
@@ -224,55 +303,98 @@ const hasGenderSections = menOnly.length > 0 || womenOnly.length > 0;
                 </select>
               </div>
 
-              <div class="sd-form-group">
-                <label class="sd-label">{i.booking.firstName}</label>
-                <input type="text" class="sd-input" id="first-name" placeholder="Your name" required />
+              <div class="sd-field">
+                <label class="sd-field__label">
+                  <Icon name="lucide:user" class="w-3.5 h-3.5" />
+                  {i.booking.firstName}
+                </label>
+                <input type="text" class="sd-field__input" id="first-name" placeholder="Your name" required />
               </div>
 
-              <div class="sd-form-group">
-                <label class="sd-label">{i.booking.phone}</label>
-                <input type="tel" class="sd-input" id="phone" placeholder="+237 6XX XXX XXX" required />
+              <div class="sd-field">
+                <label class="sd-field__label">
+                  <Icon name="lucide:phone" class="w-3.5 h-3.5" />
+                  {i.booking.phone}
+                </label>
+                <input type="tel" class="sd-field__input" id="phone" placeholder="+237 6XX XXX XXX" required />
               </div>
 
-              <button type="submit" class="sd-submit-btn" id="submit-btn">
-                <Icon name="lucide:send" class="w-4 h-4" />
-                {i.services.bookNow}
+              <button type="submit" class="sd-booking__btn" id="submit-btn">
+                <span class="sd-booking__btn-text">
+                  <Icon name="lucide:send" class="w-4 h-4" />
+                  {i.services.bookNow}
+                </span>
+                <span class="sd-booking__btn-shine"></span>
               </button>
+
+              <p class="sd-booking__note">
+                <Icon name="lucide:shield-check" class="w-3.5 h-3.5" />
+                Booking confirmed via WhatsApp within 24h
+              </p>
             </form>
           </div>
-        </div>
+        </aside>
       </div>
+
+      <!-- ─── PREV / NEXT ─── -->
+      <nav class="sd-nav">
+        {prevService ? (
+          <a href={`/services/${prevService.id}`} class="sd-nav__link sd-nav__link--prev">
+            <Icon name="lucide:arrow-left" class="w-4 h-4" />
+            <div class="sd-nav__text">
+              <span class="sd-nav__label">Previous</span>
+              <span class="sd-nav__name">{prevService.name.en}</span>
+            </div>
+          </a>
+        ) : <div></div>}
+
+        {nextService ? (
+          <a href={`/services/${nextService.id}`} class="sd-nav__link sd-nav__link--next">
+            <div class="sd-nav__text" style="text-align:right">
+              <span class="sd-nav__label">Next</span>
+              <span class="sd-nav__name">{nextService.name.en}</span>
+            </div>
+            <Icon name="lucide:arrow-right" class="w-4 h-4" />
+          </a>
+        ) : <div></div>}
+      </nav>
     </div>
   </section>
+
+  <CTA 
+    title={i.services.readyTitle}
+    subtitle={i.services.readyDesc}
+    primaryCta={{ text: i.services.readyCta, href: "/book" }}
+    secondaryCta={{ text: i.services.readyContact, href: "/contact" }}
+  />
 
   <Footer slot="footer" lang="en" />
 </Layout>
 
 <script define:vars={{ serviceName: service.name, serviceId: id }}>
-  // Gender tab switching
+  // ── Gender tab switching ──
   const tabContainer = document.getElementById('gender-tabs');
   if (tabContainer) {
-    const tabs = tabContainer.querySelectorAll('.sd-tab');
-    const groups = document.querySelectorAll('.sd-price-group');
+    const tabs = tabContainer.querySelectorAll('.sd-tabs__btn');
+    const groups = document.querySelectorAll('.sd-treat-group');
 
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         const target = tab.getAttribute('data-tab');
-
-        tabs.forEach(t => t.classList.remove('sd-tab--active'));
-        tab.classList.add('sd-tab--active');
+        tabs.forEach(t => t.classList.remove('sd-tabs__btn--active'));
+        tab.classList.add('sd-tabs__btn--active');
 
         groups.forEach(g => {
           const el = g;
           if (el instanceof HTMLElement) {
             if (target === 'all') {
-              el.classList.remove('sd-price-group--hidden');
+              el.classList.remove('sd-treat-group--hidden');
             } else {
               const gender = el.getAttribute('data-gender');
               if (gender === target || gender === 'all') {
-                el.classList.remove('sd-price-group--hidden');
+                el.classList.remove('sd-treat-group--hidden');
               } else {
-                el.classList.add('sd-price-group--hidden');
+                el.classList.add('sd-treat-group--hidden');
               }
             }
           }
@@ -281,7 +403,31 @@ const hasGenderSections = menOnly.length > 0 || womenOnly.length > 0;
     });
   }
 
-  // Booking form submission → WhatsApp
+  // ── Treatment selection → update preview ──
+  document.querySelectorAll('.sd-treat__radio').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      const target = e.target;
+      if (!(target instanceof HTMLInputElement)) return;
+      const treat = target.closest('.sd-treat');
+      if (!treat) return;
+
+      const nameEl = treat.querySelector('.sd-treat__name');
+      const priceEl = treat.querySelector('.sd-treat__price');
+      const preview = document.getElementById('selected-preview');
+      const selName = document.getElementById('selected-name');
+      const selPrice = document.getElementById('selected-price');
+
+      if (preview && selName && selPrice && nameEl && priceEl) {
+        // Get just the text content without the badge
+        const nameText = nameEl.childNodes[0]?.textContent?.trim() || nameEl.textContent?.trim() || '';
+        selName.textContent = nameText;
+        selPrice.textContent = priceEl.textContent || '';
+        preview.style.display = 'flex';
+      }
+    });
+  });
+
+  // ── Booking form → WhatsApp ──
   const form = document.getElementById('booking-form');
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -295,7 +441,7 @@ const hasGenderSections = menOnly.length > 0 || womenOnly.length > 0;
 
       const selectedRadio = document.querySelector('input[name="selected-service"]:checked');
       const treatment = selectedRadio instanceof HTMLInputElement
-        ? selectedRadio.closest('.sd-price-row')?.querySelector('.sd-sub-name')?.textContent?.trim() || ''
+        ? selectedRadio.closest('.sd-treat')?.querySelector('.sd-treat__name')?.childNodes[0]?.textContent?.trim() || ''
         : '';
 
       const msg = [
@@ -315,430 +461,790 @@ const hasGenderSections = menOnly.length > 0 || womenOnly.length > 0;
 </script>
 
 <style>
-  /* ─── Hero ─── */
+  /* ═══════════════════════════════════════════
+     SERVICE DETAIL — CINEMATIC EDITORIAL
+     Ultra-immersive, abstract, fluid
+     ═══════════════════════════════════════════ */
+
+  /* ──────── HERO ──────── */
   .sd-hero {
     position: relative;
-    height: 420px;
+    height: 70vh;
+    height: 70svh;
+    min-height: 480px;
+    max-height: 700px;
     display: flex;
     align-items: flex-end;
+    overflow: hidden;
   }
 
-  .sd-hero-bg {
+  .sd-hero__bg {
     position: absolute;
     inset: 0;
   }
 
-  .sd-hero-img {
+  .sd-hero__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform: scale(1.03);
+    animation: sd-hero-zoom 20s ease-in-out infinite alternate;
   }
 
-  .sd-hero-overlay {
+  @keyframes sd-hero-zoom {
+    0% { transform: scale(1.03); }
+    100% { transform: scale(1.08); }
+  }
+
+  .sd-hero__gradient {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.05) 100%);
+    background: 
+      linear-gradient(to top, var(--color-black) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.1) 70%, rgba(0,0,0,0.15) 100%),
+      linear-gradient(to right, rgba(0,0,0,0.3) 0%, transparent 50%);
   }
 
-  .sd-hero-content {
+  .sd-hero__noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .sd-hero__inner {
     position: relative;
     z-index: 2;
-    padding-bottom: 2.5rem;
+    padding-bottom: 3rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
   }
 
-  .sd-back {
+  /* Breadcrumb */
+  .sd-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+
+  .sd-breadcrumb__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: all 0.25s ease;
+    padding: 0.375rem 0.875rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 100px;
+    backdrop-filter: blur(8px);
+  }
+
+  .sd-breadcrumb__link:hover {
+    color: white;
+    background: rgba(255,255,255,0.12);
+    gap: 0.5rem;
+  }
+
+  .sd-breadcrumb__sep { color: rgba(255,255,255,0.2); }
+  .sd-breadcrumb__current { color: rgba(255,255,255,0.5); }
+
+  /* Hero Badge */
+  .sd-hero__badge {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: rgba(255,255,255,0.85);
-    text-decoration: none;
-    transition: all 0.25s ease;
+    padding: 0.4rem 1rem;
+    background: rgba(225, 29, 72, 0.12);
+    border: 1px solid rgba(225, 29, 72, 0.2);
+    border-radius: 100px;
     width: fit-content;
   }
 
-  .sd-back:hover {
-    color: white;
-    gap: 0.75rem;
+  .sd-hero__badge [data-icon] { color: var(--color-red); }
+
+  .sd-hero__badge span {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-red-light);
   }
 
-  .sd-hero-text {
+  .sd-hero__title {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 900;
+    color: white;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    max-width: 32rem;
+  }
+
+  /* Chips */
+  .sd-hero__chips {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 0.5rem;
   }
 
-  .sd-tagline {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--color-red-muted);
-  }
-
-  .sd-title {
-    font-size: clamp(2rem, 4.5vw, 3.25rem);
-    font-weight: 800;
-    color: white;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-  }
-
-  .sd-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: rgba(255,255,255,0.8);
-    font-size: 0.875rem;
-    font-weight: 500;
-    margin-top: 0.25rem;
-  }
-
-  .sd-meta-item {
+  .sd-chip {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.375rem;
+    padding: 0.4rem 0.875rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
   }
 
-  .sd-meta-divider {
-    opacity: 0.5;
+  /* Scroll indicator */
+  .sd-hero__scroll {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
   }
 
-  /* ─── Content Layout ─── */
-  .sd-content {
-    padding: 3.5rem 0 5rem;
+  .sd-hero__scroll-bar {
+    width: 2px;
+    height: 32px;
+    background: linear-gradient(to bottom, rgba(225,29,72,0.5), transparent);
+    animation: sd-scroll 2s ease-in-out infinite;
+  }
+
+  @keyframes sd-scroll {
+    0%, 100% { opacity: 1; height: 32px; }
+    50% { opacity: 0.3; height: 16px; }
+  }
+
+  /* ──────── MAIN LAYOUT ──────── */
+  .sd-main {
+    padding: 3.5rem 0 0;
     background: var(--color-snow);
   }
 
-  .sd-layout {
+  .sd-grid {
     display: grid;
-    grid-template-columns: 1fr 420px;
-    gap: 2rem;
+    grid-template-columns: 1fr 380px;
+    gap: 2.5rem;
     align-items: start;
   }
 
-  /* ─── Info Column ─── */
-  .sd-info {
+  /* ──────── CONTENT BLOCKS ──────── */
+  .sd-col-main {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
   }
 
-  .sd-desc-card,
-  .sd-features-card {
+  .sd-block {
     background: white;
-    border-radius: 1.25rem;
+    border-radius: 1.5rem;
     padding: 2rem;
     border: 1px solid var(--color-mist);
   }
 
-  .sd-section-title {
-    font-size: 1.25rem;
-    font-weight: 750;
-    color: var(--color-black);
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
+  .sd-block__header {
+    margin-bottom: 1.5rem;
   }
 
-  .sd-long-desc {
+  .sd-block__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-red);
+    margin-bottom: 0.5rem;
+  }
+
+  .sd-block__title {
+    font-size: 1.375rem;
+    font-weight: 800;
+    color: var(--color-black);
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+  }
+
+  .sd-block__text {
     font-size: 0.9375rem;
     color: var(--color-gray);
-    line-height: 1.8;
+    line-height: 1.85;
   }
 
-  .sd-features-title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.0625rem;
-    font-weight: 700;
-    color: var(--color-black);
-    margin-bottom: 1.25rem;
-  }
-
-  .sd-features-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  /* Features */
+  .sd-features {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
   }
 
-  .sd-feature-item {
+  .sd-feat {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-charcoal);
-  }
-
-  .sd-feature-item [data-icon] {
-    color: var(--color-red);
-    flex-shrink: 0;
-  }
-
-  /* ─── Sidebar ─── */
-  .sd-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    position: sticky;
-    top: 6rem;
-  }
-
-  .sd-pricing-card,
-  .sd-booking-card {
-    background: white;
-    border-radius: 1.25rem;
-    padding: 1.75rem;
-    border: 1px solid var(--color-mist);
-  }
-
-  .sd-pricing-title,
-  .sd-booking-title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.125rem;
-    font-weight: 750;
-    color: var(--color-black);
-    margin-bottom: 1.25rem;
-    letter-spacing: -0.02em;
-  }
-
-  .sd-pricing-title [data-icon],
-  .sd-booking-title [data-icon] {
-    color: var(--color-red);
-  }
-
-  /* ─── Gender Tabs ─── */
-  .sd-gender-tabs {
-    display: flex;
-    gap: 0.375rem;
-    margin-bottom: 1.25rem;
-    padding: 0.25rem;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border-radius: 0.875rem;
     background: var(--color-snow);
-    border-radius: 0.75rem;
     border: 1px solid var(--color-mist);
+    transition: all 0.3s ease;
   }
 
-  .sd-tab {
-    flex: 1;
-    padding: 0.5rem 0.75rem;
-    border: none;
-    background: transparent;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-gray);
-    cursor: pointer;
-    border-radius: 0.5rem;
-    transition: all 0.25s ease;
-    display: inline-flex;
+  .sd-feat:hover {
+    background: var(--color-cream);
+    border-color: rgba(225,29,72,0.12);
+    transform: translateY(-2px);
+  }
+
+  .sd-feat__icon {
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.35rem;
-  }
-
-  .sd-tab:hover {
-    color: var(--color-charcoal);
-  }
-
-  .sd-tab--active {
-    background: white;
-    color: var(--color-red);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  }
-
-  /* ─── Price List ─── */
-  .sd-price-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .sd-price-group--hidden {
-    display: none;
-  }
-
-  .sd-price-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--color-mist);
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-
-  .sd-price-row:last-child {
-    border-bottom: none;
-  }
-
-  .sd-price-row:hover {
-    background: var(--color-snow);
-    margin: 0 -0.75rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    border-radius: 0.75rem;
-  }
-
-  .sd-radio {
-    margin-top: 0.2rem;
-    accent-color: var(--color-red);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--color-red);
+    color: white;
     flex-shrink: 0;
   }
 
-  .sd-price-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .sd-sub-name {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-charcoal);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .sd-bestseller {
-    font-size: 0.5625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-red);
-    background: var(--color-red-muted);
-    padding: 0.15rem 0.5rem;
-    border-radius: 100px;
-  }
-
-  .sd-sub-desc {
-    font-size: 0.75rem;
-    color: var(--color-gray);
-    line-height: 1.5;
-  }
-
-  .sd-sub-dur {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.6875rem;
-    color: var(--color-gray);
-    margin-top: 0.125rem;
-  }
-
-  .sd-sub-price {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: var(--color-red);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  /* ─── Booking Form ─── */
-  .sd-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .sd-form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-  }
-
-  .sd-label {
+  .sd-feat__text {
     font-size: 0.8125rem;
     font-weight: 600;
     color: var(--color-charcoal);
   }
 
-  .sd-select,
-  .sd-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--color-mist);
-    border-radius: 0.75rem;
-    font-size: 0.875rem;
-    color: var(--color-black);
+  /* ──────── GENDER TABS ──────── */
+  .sd-tabs {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
     background: var(--color-snow);
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
-    outline: none;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-mist);
+    margin-bottom: 1.5rem;
   }
 
-  .sd-select:focus,
-  .sd-input:focus {
-    border-color: var(--color-red);
-    box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.08);
-  }
-
-  .sd-submit-btn {
+  .sd-tabs__btn {
+    flex: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 0.375rem;
+    padding: 0.625rem 1rem;
+    border: none;
+    background: transparent;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-gray);
+    cursor: pointer;
+    border-radius: 0.5rem;
+    transition: all 0.3s var(--ease-out-expo);
+  }
+
+  .sd-tabs__btn:hover { color: var(--color-charcoal); }
+
+  .sd-tabs__btn--active {
+    background: white;
+    color: var(--color-red);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  /* ──────── TREATMENTS ──────── */
+  .sd-treatments {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sd-treat-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .sd-treat-group--hidden { display: none; }
+
+  .sd-treat {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    padding: 1.125rem 1.25rem;
+    border-radius: 1rem;
+    border: 1.5px solid var(--color-mist);
+    background: white;
+    cursor: pointer;
+    transition: all 0.35s var(--ease-out-expo);
+    position: relative;
+  }
+
+  .sd-treat:hover {
+    border-color: rgba(225,29,72,0.15);
+    background: var(--color-snow);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+  }
+
+  .sd-treat:has(.sd-treat__radio:checked) {
+    border-color: var(--color-red);
+    background: var(--color-cream);
+    box-shadow: 0 0 0 3px rgba(225,29,72,0.08);
+  }
+
+  .sd-treat__radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .sd-treat__check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--color-mist);
+    background: white;
+    color: transparent;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+    transition: all 0.25s ease;
+  }
+
+  .sd-treat:has(.sd-treat__radio:checked) .sd-treat__check {
+    border-color: var(--color-red);
+    background: var(--color-red);
+    color: white;
+  }
+
+  .sd-treat__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sd-treat__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .sd-treat__name {
+    font-size: 0.9375rem;
+    font-weight: 650;
+    color: var(--color-charcoal);
+    display: flex;
+    align-items: center;
     gap: 0.5rem;
+    flex-wrap: wrap;
+    line-height: 1.4;
+  }
+
+  .sd-treat__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.15rem 0.5rem;
+    background: rgba(225,29,72,0.08);
+    border: 1px solid rgba(225,29,72,0.12);
+    border-radius: 100px;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-red);
+  }
+
+  .sd-treat__price {
+    font-size: 0.9375rem;
+    font-weight: 800;
+    color: var(--color-red);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .sd-treat__desc {
+    font-size: 0.75rem;
+    color: var(--color-gray);
+    line-height: 1.6;
+    margin-bottom: 0.25rem;
+  }
+
+  .sd-treat__dur {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.6875rem;
+    color: var(--color-silver);
+    font-weight: 500;
+  }
+
+  /* ──────── BOOKING SIDEBAR ──────── */
+  .sd-col-side {
+    position: sticky;
+    top: 5.5rem;
+  }
+
+  .sd-booking {
+    position: relative;
+    background: white;
+    border: 1px solid var(--color-mist);
+    border-radius: 1.5rem;
+    padding: 1.75rem;
+    overflow: hidden;
+  }
+
+  .sd-booking__glow {
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(225,29,72,0.06), transparent 70%);
+    pointer-events: none;
+  }
+
+  .sd-booking__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .sd-booking__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--color-cream);
+    color: var(--color-red);
+    flex-shrink: 0;
+  }
+
+  .sd-booking__title {
+    font-size: 1.0625rem;
+    font-weight: 800;
+    color: var(--color-black);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.125rem;
+  }
+
+  .sd-booking__sub {
+    font-size: 0.75rem;
+    color: var(--color-gray);
+  }
+
+  /* Selected preview */
+  .sd-booking__selected {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    padding: 0.875rem 1rem;
+    background: var(--color-cream);
+    border: 1px solid rgba(225,29,72,0.1);
+    border-radius: 0.75rem;
+    margin-bottom: 1.25rem;
+    animation: sd-slideDown 0.3s var(--ease-out-expo);
+  }
+
+  @keyframes sd-slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .sd-booking__selected-label {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-red);
+  }
+
+  .sd-booking__selected-name {
+    font-size: 0.8125rem;
+    font-weight: 650;
+    color: var(--color-charcoal);
+  }
+
+  .sd-booking__selected-price {
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: var(--color-red);
+  }
+
+  /* Form */
+  .sd-booking__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+  }
+
+  .sd-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .sd-field__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 650;
+    color: var(--color-charcoal);
+  }
+
+  .sd-field__label [data-icon] { color: var(--color-silver); }
+
+  .sd-field__input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--color-mist);
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-black);
+    background: var(--color-snow);
+    outline: none;
+    transition: all 0.3s var(--ease-out-expo);
+  }
+
+  .sd-field__input:focus {
+    border-color: var(--color-red);
+    box-shadow: 0 0 0 4px rgba(225,29,72,0.06);
+    background: white;
+  }
+
+  .sd-field__input::placeholder { color: var(--color-silver); }
+
+  /* Submit button */
+  .sd-booking__btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     padding: 0.875rem 1.5rem;
     background: var(--color-red);
     color: white;
     border: none;
-    border-radius: 0.75rem;
+    border-radius: 0.875rem;
     font-size: 0.9375rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 0.5rem;
+    overflow: hidden;
+    transition: all 0.35s var(--ease-out-expo);
+    margin-top: 0.375rem;
   }
 
-  .sd-submit-btn:hover {
+  .sd-booking__btn:hover {
     background: var(--color-red-dark);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(225,29,72,0.3);
   }
 
-  /* ─── Responsive ─── */
+  .sd-booking__btn:active {
+    transform: translateY(0);
+  }
+
+  .sd-booking__btn-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .sd-booking__btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .sd-booking__btn:hover .sd-booking__btn-shine {
+    left: 120%;
+  }
+
+  .sd-booking__note {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.6875rem;
+    color: var(--color-silver);
+    font-weight: 500;
+    justify-content: center;
+  }
+
+  /* ──────── PREV/NEXT NAV ──────── */
+  .sd-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 3rem 0 4rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--color-mist);
+  }
+
+  .sd-nav__link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--color-mist);
+    background: white;
+    transition: all 0.35s var(--ease-out-expo);
+    max-width: 50%;
+  }
+
+  .sd-nav__link:hover {
+    border-color: rgba(225,29,72,0.15);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+  }
+
+  .sd-nav__link [data-icon] { color: var(--color-red); flex-shrink: 0; }
+
+  .sd-nav__label {
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-silver);
+    display: block;
+  }
+
+  .sd-nav__name {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--color-charcoal);
+    display: block;
+    line-height: 1.3;
+  }
+
+  .sd-nav__link:hover .sd-nav__name { color: var(--color-red); }
+
+  /* ══════════════════
+     RESPONSIVE
+     ══════════════════ */
   @media (max-width: 1024px) {
-    .sd-layout {
+    .sd-grid {
       grid-template-columns: 1fr;
     }
-
-    .sd-sidebar {
+    .sd-col-side {
       position: static;
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     .sd-hero {
-      height: 340px;
+      height: 55vh;
+      height: 55svh;
+      min-height: 380px;
     }
 
-    .sd-hero-content {
-      padding-bottom: 1.5rem;
+    .sd-hero__inner {
+      padding-bottom: 2rem;
     }
 
-    .sd-content {
+    .sd-hero__title {
+      font-size: clamp(1.75rem, 6vw, 2.5rem);
+    }
+
+    .sd-hero__scroll { display: none; }
+
+    .sd-main { padding: 2.5rem 0 0; }
+
+    .sd-block { padding: 1.5rem; border-radius: 1.25rem; }
+
+    .sd-features {
+      grid-template-columns: 1fr;
+    }
+
+    .sd-booking {
+      padding: 1.5rem;
+      border-radius: 1.25rem;
+    }
+
+    .sd-nav {
+      flex-direction: column;
+      gap: 0.75rem;
       padding: 2rem 0 3rem;
     }
 
-    .sd-desc-card,
-    .sd-features-card,
-    .sd-pricing-card,
-    .sd-booking-card {
+    .sd-nav__link { max-width: 100%; }
+  }
+
+  @media (max-width: 480px) {
+    .sd-hero {
+      height: 50vh;
+      height: 50svh;
+      min-height: 340px;
+    }
+
+    .sd-hero__chips {
+      gap: 0.375rem;
+    }
+
+    .sd-chip {
+      font-size: 0.6875rem;
+      padding: 0.3rem 0.625rem;
+    }
+
+    .sd-breadcrumb__link {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.75rem;
+    }
+
+    .sd-breadcrumb__current { display: none; }
+    .sd-breadcrumb__sep { display: none; }
+
+    .sd-block {
       padding: 1.25rem;
     }
 
-    .sd-features-list {
-      grid-template-columns: 1fr;
+    .sd-block__title {
+      font-size: 1.1875rem;
+    }
+
+    .sd-treat {
+      padding: 0.875rem 1rem;
+    }
+
+    .sd-treat__top {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .sd-treat__price {
+      font-size: 0.8125rem;
+    }
+
+    .sd-booking { padding: 1.25rem; }
+
+    .sd-nav__link {
+      padding: 0.875rem 1rem;
     }
   }
 </style>
