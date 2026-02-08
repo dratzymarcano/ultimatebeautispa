@@ -1,0 +1,107 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ContactSection from '../../components/Contact.astro';
+import { t } from '../../i18n/index';
+
+const i = t('fr');
+---
+
+<Layout title={i.contact.pageTitle} lang="fr">
+  <Header slot="header" currentPath="/fr/contact" lang="fr" />
+  
+  <!-- Page Hero -->
+  <section class="relative py-24 overflow-hidden">
+    <div class="absolute inset-0">
+      <div 
+        class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=1920&q=80')"
+      ></div>
+      <div class="absolute inset-0 bg-obsidian/90"></div>
+    </div>
+    
+    <div class="container relative z-10 text-center">
+      <div class="flex items-center justify-center gap-4 mb-4" data-animate="fade-in-up">
+        <span class="ornament"></span>
+        <span class="text-red text-sm uppercase tracking-[0.3em] font-medium">{i.contact.eyebrow}</span>
+        <span class="ornament"></span>
+      </div>
+      
+      <h1 class="text-5xl sm:text-6xl font-display font-semibold text-white mb-6" data-animate="fade-in-up" style="animation-delay: 100ms">
+        {i.contact.pageHeroTitle}
+      </h1>
+      
+      <p class="text-xl text-white/70 max-w-2xl mx-auto" data-animate="fade-in-up" style="animation-delay: 200ms">
+        {i.contact.pageHeroSubtitle}
+      </p>
+    </div>
+  </section>
+  
+  <ContactSection lang="fr" />
+  
+  <!-- FAQ Preview -->
+  <section class="section bg-cloud" id="faq">
+    <div class="container max-w-3xl">
+      <div class="text-center mb-12" data-animate="fade-in-up">
+        <h2 class="text-3xl font-display font-semibold text-black mb-4">
+          Questions Fréquemment Posées
+        </h2>
+        <p class="text-gray">Réponses rapides aux questions courantes</p>
+      </div>
+      
+      <div class="space-y-4">
+        <details class="glass rounded-lg group" data-animate="fade-in-up">
+          <summary class="p-6 cursor-pointer flex items-center justify-between text-black font-medium hover:text-red transition-colors">
+            <span>Dois-je prendre rendez-vous ?</span>
+            <svg class="w-5 h-5 text-red transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="px-6 pb-6 text-gray">
+            Bien que nous acceptions les visites sans rendez-vous selon les disponibilités, nous vous recommandons fortement de réserver à l'avance pour garantir le créneau et le styliste de votre choix. Vous pouvez réserver en ligne ou nous appeler directement.
+          </div>
+        </details>
+        
+        <details class="glass rounded-lg group" data-animate="fade-in-up" style="animation-delay: 100ms">
+          <summary class="p-6 cursor-pointer flex items-center justify-between text-black font-medium hover:text-red transition-colors">
+            <span>Quelle est votre politique d'annulation ?</span>
+            <svg class="w-5 h-5 text-red transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="px-6 pb-6 text-gray">
+            Nous demandons un préavis de 48 heures pour les annulations ou les reports. Les annulations tardives ou les absences peuvent entraîner des frais. Nous comprenons les urgences — appelez-nous simplement.
+          </div>
+        </details>
+        
+        <details class="glass rounded-lg group" data-animate="fade-in-up" style="animation-delay: 200ms">
+          <summary class="p-6 cursor-pointer flex items-center justify-between text-black font-medium hover:text-red transition-colors">
+            <span>Quels modes de paiement acceptez-vous ?</span>
+            <svg class="w-5 h-5 text-red transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="px-6 pb-6 text-gray">
+            Nous acceptons toutes les principales cartes de crédit, cartes de débit, Apple Pay, Google Pay et les espèces. Des cartes-cadeaux sont également disponibles à l'achat en ligne ou en magasin.
+          </div>
+        </details>
+        
+        <details class="glass rounded-lg group" data-animate="fade-in-up" style="animation-delay: 300ms">
+          <summary class="p-6 cursor-pointer flex items-center justify-between text-black font-medium hover:text-red transition-colors">
+            <span>Proposez-vous des cartes-cadeaux ?</span>
+            <svg class="w-5 h-5 text-red transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </summary>
+          <div class="px-6 pb-6 text-gray">
+            Oui ! Les cartes-cadeaux sont disponibles pour tout montant, en ligne ou en personne. C'est le cadeau parfait pour ceux qui apprécient les soins de qualité.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+  
+  <Footer slot="footer" lang="fr" />
+</Layout>

@@ -1,30 +1,40 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = 'en' } = Astro.props;
+const i = t(lang);
+const prefix = lang === 'fr' ? '/fr' : '';
 
 const contactInfo = [
   {
     iconName: 'lucide:map-pin',
-    title: 'Visit Us',
+    title: i.contact.visitUs,
     lines: ['Avant Saint James hôtel', 'Bonamoussadi', 'Douala, Cameroon'],
-    action: { text: 'Get Directions', href: 'https://maps.google.com/?q=Avant+Saint+James+hotel+Bonamoussadi+Douala+Cameroon' }
+    action: { text: i.contact.getDirections, href: 'https://maps.google.com/?q=Avant+Saint+James+hotel+Bonamoussadi+Douala+Cameroon' }
   },
   {
     iconName: 'lucide:phone',
-    title: 'Call Us',
-    lines: ['Main: +237 000 000 000', 'Booking: +237 000 000 001'],
-    action: { text: 'Call Now', href: 'tel:+237000000000' }
+    title: i.contact.callUs,
+    lines: [`${i.contact.mainPhone}: +237 000 000 000`, `${i.contact.bookingPhone}: +237 000 000 001`],
+    action: { text: i.contact.callNow, href: 'tel:+237000000000' }
   },
   {
     iconName: 'lucide:mail',
-    title: 'Email Us',
+    title: i.contact.emailUs,
     lines: ['hello@ultimatebeautyspa.com', 'bookings@ultimatebeautyspa.com'],
-    action: { text: 'Send Email', href: 'mailto:hello@ultimatebeautyspa.com' }
+    action: { text: i.contact.sendEmail, href: 'mailto:hello@ultimatebeautyspa.com' }
   },
   {
     iconName: 'lucide:clock',
-    title: 'Hours',
-    lines: ['Mon - Sat: 9:00am - 9:00pm', 'Sunday: 10:00am - 6:00pm'],
-    action: { text: 'Book Now', href: '/book' }
+    title: i.contact.hours,
+    lines: [i.contact.hoursValue],
+    action: { text: i.nav.bookNow, href: prefix + '/book' }
   }
 ];
 ---
@@ -36,15 +46,15 @@ const contactInfo = [
       <div data-animate="slide-left">
         <div class="flex items-center gap-4 mb-4">
           <span class="w-12 h-0.5 bg-red"></span>
-          <span class="text-red text-sm uppercase tracking-[0.3em] font-semibold">Get In Touch</span>
+          <span class="text-red text-sm uppercase tracking-[0.3em] font-semibold">{i.contact.eyebrow}</span>
         </div>
         
         <h2 class="text-4xl sm:text-5xl font-bold text-black mb-6">
-          Let's Connect
+          {i.contact.title}
         </h2>
         
         <p class="text-charcoal text-lg mb-10">
-          Have questions about our services or ready to schedule your visit? We'd love to hear from you. Reach out through any of the channels below.
+          {i.contact.subtitle}
         </p>
         
         <!-- Contact Cards -->
@@ -91,16 +101,16 @@ const contactInfo = [
       <div data-animate="slide-right">
         <div class="glass rounded-xl p-8 lg:p-10">
           <h3 class="text-2xl font-bold text-black mb-2">
-            Send Us a Message
+            {i.contact.sendMessage}
           </h3>
           <p class="text-charcoal text-sm mb-8">
-            We typically respond within 24 hours
+            {i.contact.responseTime}
           </p>
           
           <form id="contact-form" class="space-y-5">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label for="contact-first-name" class="form-label">First Name</label>
+                <label for="contact-first-name" class="form-label">{i.contact.firstName}</label>
                 <input 
                   type="text" 
                   id="contact-first-name" 
@@ -111,7 +121,7 @@ const contactInfo = [
                 />
               </div>
               <div>
-                <label for="contact-last-name" class="form-label">Last Name</label>
+                <label for="contact-last-name" class="form-label">{i.contact.lastName}</label>
                 <input 
                   type="text" 
                   id="contact-last-name" 
@@ -124,7 +134,7 @@ const contactInfo = [
             </div>
             
             <div>
-              <label for="contact-email" class="form-label">Email Address</label>
+              <label for="contact-email" class="form-label">{i.contact.email}</label>
               <input 
                 type="email" 
                 id="contact-email" 
@@ -136,7 +146,7 @@ const contactInfo = [
             </div>
             
             <div>
-              <label for="contact-phone" class="form-label">Phone Number (Optional)</label>
+              <label for="contact-phone" class="form-label">{i.contact.phone}</label>
               <input 
                 type="tel" 
                 id="contact-phone" 
@@ -147,27 +157,27 @@ const contactInfo = [
             </div>
             
             <div>
-              <label for="subject" class="form-label">Subject</label>
+              <label for="subject" class="form-label">{i.contact.subject}</label>
               <select id="subject" name="subject" required class="form-input">
-                <option value="">Select a topic</option>
-                <option value="general">General Inquiry</option>
-                <option value="booking">Booking Question</option>
-                <option value="services">Services Information</option>
-                <option value="feedback">Feedback</option>
-                <option value="partnership">Partnership Opportunity</option>
-                <option value="other">Other</option>
+                <option value="">{i.contact.selectTopic}</option>
+                <option value="general">{i.contact.general}</option>
+                <option value="booking">{i.contact.bookingQ}</option>
+                <option value="services">{i.contact.servicesInfo}</option>
+                <option value="feedback">{i.contact.feedback}</option>
+                <option value="partnership">{i.contact.partnership}</option>
+                <option value="other">{i.contact.other}</option>
               </select>
             </div>
             
             <div>
-              <label for="message" class="form-label">Message</label>
+              <label for="message" class="form-label">{i.contact.message}</label>
               <textarea 
                 id="message" 
                 name="message"
                 required
                 rows="5"
                 class="form-input resize-none"
-                placeholder="How can we help you?"
+                placeholder={i.contact.messagePlaceholder}
               ></textarea>
             </div>
             
@@ -179,13 +189,11 @@ const contactInfo = [
                 required
                 class="mt-1 w-4 h-4 accent-red"
               />
-              <label for="contact-consent" class="text-sm text-charcoal">
-                I agree to the <a href="/privacy" class="text-red hover:underline">Privacy Policy</a> and consent to being contacted about my inquiry.
-              </label>
+              <label for="contact-consent" class="text-sm text-charcoal" set:html={i.contact.consent.replace('/privacy', prefix + '/privacy')} />
             </div>
             
             <button type="submit" class="btn-primary w-full justify-center py-4">
-              <span>Send Message</span>
+              <span>{i.contact.sendBtn}</span>
               <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
             </button>
             <div id="contact-alert" class="hidden text-sm rounded-lg px-4 py-3 border"></div>

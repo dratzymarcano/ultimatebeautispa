@@ -1,17 +1,24 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
 
 interface Props {
   title?: string;
   subtitle?: string;
   showVideo?: boolean;
+  lang?: Locale;
 }
 
 const { 
   title = "Ultimate Beauty Spa",
-  subtitle = "Where Artistry Meets Tranquility — a sanctuary for the modern individual seeking refinement, restoration, and radiance.",
-  showVideo = true 
+  subtitle,
+  showVideo = true,
+  lang = 'en'
 } = Astro.props;
+const i = t(lang);
+const prefix = lang === 'fr' ? '/fr' : '';
+const heroSubtitle = subtitle || i.hero.subtitle;
 ---
 
 <section class="hero" id="hero">
@@ -27,35 +34,35 @@ const {
       <!-- Badge -->
       <div class="hero-badge">
         <span class="badge-dot"></span>
-        <span class="badge-text">Now Accepting New Clients</span>
+        <span class="badge-text">{i.hero.badge}</span>
       </div>
 
       <!-- Headline -->
       <h1 class="hero-title">
         <span class="title-line title-line-1">
-          <span class="title-text">Redefining</span>
+          <span class="title-text">{i.hero.titleLine1}</span>
         </span>
         <span class="title-line title-line-2">
-          <span class="title-text">Beauty<span class="title-ampersand">&</span></span>
+          <span class="title-text">{i.hero.titleLine2}<span class="title-ampersand">&</span></span>
         </span>
         <span class="title-line title-line-3">
-          <span class="title-text">Wellness</span>
+          <span class="title-text">{i.hero.titleLine3}</span>
         </span>
       </h1>
 
       <!-- Subtitle -->
-      <p class="hero-subtitle">{subtitle}</p>
+      <p class="hero-subtitle">{heroSubtitle}</p>
 
       <!-- CTAs -->
       <div class="hero-actions">
-        <a href="/book" class="hero-cta-primary">
-          <span class="cta-text">Book Your Experience</span>
+        <a href={`${prefix}/book`} class="hero-cta-primary">
+          <span class="cta-text">{i.hero.cta}</span>
           <span class="cta-icon">
             <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
           </span>
         </a>
-        <a href="/services" class="hero-cta-secondary">
-          <span>View Services</span>
+        <a href={`${prefix}/services`} class="hero-cta-secondary">
+          <span>{i.hero.secondaryCta}</span>
         </a>
       </div>
 

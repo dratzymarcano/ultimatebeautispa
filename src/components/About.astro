@@ -1,16 +1,21 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
 
 interface Props {
   variant?: 'home' | 'full';
+  lang?: Locale;
 }
 
-const { variant = 'home' } = Astro.props;
+const { variant = 'home', lang = 'en' } = Astro.props;
+const i = t(lang);
+const prefix = lang === 'fr' ? '/fr' : '';
 
 const stats = [
-  { value: '15+', label: 'Expert Artists', icon: 'lucide:users' },
-  { value: '10K+', label: 'Happy Clients', icon: 'lucide:smile' },
-  { value: '50+', label: 'Awards Won', icon: 'lucide:award' },
+  { value: '15+', label: i.about.stat1, icon: 'lucide:users' },
+  { value: '10K+', label: i.about.stat2, icon: 'lucide:smile' },
+  { value: '50+', label: i.about.stat3, icon: 'lucide:award' },
   { value: '98%', label: 'Satisfaction', icon: 'lucide:badge-check' },
 ];
 
@@ -74,30 +79,22 @@ const features = [
         <!-- Label -->
         <div class="content-label" data-animate="fade-in">
           <span class="label-line"></span>
-          <span class="label-text">Our Story</span>
+          <span class="label-text">{i.about.eyebrow}</span>
         </div>
 
         <!-- Title -->
         <h2 class="about-title" data-animate="fade-in-up">
-          Where Tradition
-          <span class="title-highlight">Meets Modern</span>
-          <span class="title-accent">Excellence</span>
+          {i.about.title}
         </h2>
 
         <!-- Description -->
         <div class="about-text" data-animate="fade-in-up">
-          <p>
-            Ultimate Beauty Spa was born from a vision to create a sanctuary where personal grooming transcends routine and becomes ritual. We believe that looking your best is an act of self-respect that transforms how you move through the world.
-          </p>
+          <p>{i.about.p1}</p>
           
-          <p>
-            Our team of master artisans brings together decades of combined experience in classic barbering, modern styling, therapeutic massage, and tattoo artistry. Each service is delivered with meticulous attention to detail.
-          </p>
+          <p>{i.about.p2}</p>
           
           {variant === 'full' && (
-            <p>
-              From the moment you step through our doors, you'll experience hospitality that anticipates your needs. Premium beverages, curated music, and spaces designed for comfort ensure that every visit is as rejuvenating for the spirit as it is transformative for your appearance.
-            </p>
+            <p>{i.about.p3}</p>
           )}
         </div>
 
@@ -118,8 +115,8 @@ const features = [
 
         <!-- CTA -->
         <div class="about-cta" data-animate="fade-in-up">
-          <a href="/about" class="btn-primary">
-            <span>Discover Our Story</span>
+          <a href={prefix + '/about'} class="btn-primary">
+            <span>{i.about.learnMore}</span>
             <Icon name="lucide:arrow-up-right" size={16} />
           </a>
         </div>

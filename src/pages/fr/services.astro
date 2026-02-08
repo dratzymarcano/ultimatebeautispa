@@ -1,23 +1,20 @@
 ---
 import { Icon } from 'astro-icon/components';
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import ServicesGrid from '../components/Services.astro';
-import CTA from '../components/CTA.astro';
-import Products from '../components/Products.astro';
-import { t } from '../i18n/index';
-import { getAllServicesForLang } from '../data/services';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ServicesGrid from '../../components/Services.astro';
+import CTA from '../../components/CTA.astro';
+import Products from '../../components/Products.astro';
+import { t } from '../../i18n/index';
+import { getAllServicesForLang } from '../../data/services';
 
-const i = t('en');
-const allServices = getAllServicesForLang('en');
+const i = t('fr');
+const allServices = getAllServicesForLang('fr');
 ---
 
-<Layout 
-  title={i.services.pageTitle}
-  description="Explore our premium grooming and lifestyle services. From precision haircuts to massage therapy and tattoo artistry."
->
-  <Header slot="header" currentPath="/services" />
+<Layout title={i.services.pageTitle} lang="fr">
+  <Header slot="header" currentPath="/fr/services" lang="fr" />
   
   <!-- Page Hero -->
   <section class="relative py-32 overflow-hidden">
@@ -61,7 +58,6 @@ const allServices = getAllServicesForLang('en');
           class={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-start ${index > 0 ? 'mt-24 pt-24 border-t border-mist' : ''}`}
           data-animate="fade-in-up"
         >
-          <!-- Image -->
           <div class={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
             <div class="relative rounded-lg overflow-hidden aspect-[4/3]">
               <img 
@@ -75,7 +71,6 @@ const allServices = getAllServicesForLang('en');
             <div class={`absolute -bottom-6 ${index % 2 === 1 ? '-left-6' : '-right-6'} w-32 h-32 border border-red/20 rounded-lg -z-10`}></div>
           </div>
           
-          <!-- Content -->
           <div class={index % 2 === 1 ? 'lg:order-1' : ''}>
             <span class="inline-block text-red text-sm uppercase tracking-widest font-medium mb-4">{service.duration}</span>
             <h2 class="text-3xl sm:text-4xl font-display font-semibold text-black mb-4">
@@ -85,7 +80,6 @@ const allServices = getAllServicesForLang('en');
               {service.longDescription}
             </p>
             
-            <!-- Features -->
             <div class="flex flex-wrap gap-3 mb-8">
               {service.features.map((feature: string) => (
                 <span class="inline-flex items-center gap-2 px-3 py-1 bg-red/10 rounded-full text-sm text-red">
@@ -95,11 +89,9 @@ const allServices = getAllServicesForLang('en');
               ))}
             </div>
             
-            <!-- Pricing Table -->
             <div class="glass rounded-lg p-6 mb-6">
               <h4 class="text-black font-semibold mb-4">{i.services.pricing}</h4>
               
-              {/* Universal services (gender: 'all') */}
               {allSubs.length > 0 && (
                 <div class="space-y-2 mb-4">
                   {hasGenderSplit && (
@@ -117,7 +109,6 @@ const allServices = getAllServicesForLang('en');
                 </div>
               )}
               
-              {/* Men-specific services */}
               {menSubs.length > 0 && (
                 <div class="space-y-2 mb-4">
                   <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-charcoal mb-2">
@@ -133,7 +124,6 @@ const allServices = getAllServicesForLang('en');
                 </div>
               )}
               
-              {/* Women-specific services */}
               {womenSubs.length > 0 && (
                 <div class="space-y-2">
                   <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-charcoal mb-2">
@@ -150,7 +140,7 @@ const allServices = getAllServicesForLang('en');
               )}
             </div>
             
-            <a href="/book" class="btn-primary">
+            <a href="/fr/book" class="btn-primary">
               <span>{i.services.bookNow}</span>
               <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
             </a>
@@ -161,18 +151,19 @@ const allServices = getAllServicesForLang('en');
     </div>
   </section>
 
-  <!-- Products Cross-sell -->
   <Products
+    lang="fr"
     title={i.services.productsTitle}
     subtitle={i.services.productsSubtitle}
   />
   
-  <CTA 
+  <CTA
+    lang="fr"
     title={i.services.readyTitle}
     subtitle={i.services.readyDesc}
-    primaryCta={{ text: i.services.readyCta, href: "/book" }}
-    secondaryCta={{ text: i.services.readyContact, href: "/contact" }}
+    primaryCta={{ text: i.services.readyCta, href: "/fr/book" }}
+    secondaryCta={{ text: i.services.readyContact, href: "/fr/contact" }}
   />
   
-  <Footer slot="footer" />
+  <Footer slot="footer" lang="fr" />
 </Layout>

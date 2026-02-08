@@ -1,14 +1,26 @@
 ---
 import { Icon } from 'astro-icon/components';
 import DatePicker from './DatePicker.astro';
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = 'en' } = Astro.props;
+const i = t(lang);
+const prefix = lang === 'fr' ? '/fr' : '';
 
 const services = [
-  { id: 'haircuts', name: 'Haircuts & Styling', price: 'À partir de 35 000 XAF' },
-  { id: 'shaves', name: 'Traditional Shaves', price: 'À partir de 30 000 XAF' },
-  { id: 'massage', name: 'Massage Therapy', price: 'À partir de 50 000 XAF' },
-  { id: 'tattoo', name: 'Tattoo Consultation', price: 'Gratuit' },
-  { id: 'skincare', name: 'Skincare Treatments', price: 'À partir de 45 000 XAF' },
-  { id: 'hair-styling', name: 'Hair Braiding & Styling', price: 'À partir de 40 000 XAF' },
+  { id: 'haircuts', name: i.booking.haircutService, price: i.booking.haircutPrice },
+  { id: 'coloring', name: i.booking.coloringService, price: i.booking.coloringPrice },
+  { id: 'braiding', name: i.booking.braidingService, price: i.booking.braidingPrice },
+  { id: 'shaves', name: i.booking.shaveService, price: i.booking.shavePrice },
+  { id: 'massage', name: i.booking.massageService, price: i.booking.massagePrice },
+  { id: 'skincare', name: i.booking.skincareService, price: i.booking.skincarePrice },
+  { id: 'nails', name: i.booking.nailsService, price: i.booking.nailsPrice },
+  { id: 'tattoo', name: i.booking.tattooService, price: i.booking.tattooPrice },
 ];
 
 const timeSlots = [
@@ -26,15 +38,15 @@ const timeSlots = [
       <div class="lg:col-span-1" data-animate="slide-left">
         <div class="flex items-center gap-4 mb-4">
           <span class="w-12 h-0.5 bg-red"></span>
-          <span class="text-red text-sm uppercase tracking-[0.3em] font-semibold">Book Now</span>
+          <span class="text-red text-sm uppercase tracking-[0.3em] font-semibold">{i.booking.eyebrow}</span>
         </div>
         
         <h2 class="text-4xl sm:text-5xl font-bold text-black mb-6">
-          Reserve Your Experience
+          {i.booking.title}
         </h2>
         
         <p class="text-charcoal mb-8">
-          Select your preferred service, date, and time. We'll confirm your appointment within 24 hours.
+          {i.booking.subtitle}
         </p>
         
         <!-- Contact Info -->
@@ -44,7 +56,7 @@ const timeSlots = [
               <Icon name="lucide:map-pin" class="w-5 h-5 text-red" />
             </div>
             <div>
-              <span class="text-charcoal text-sm">Location</span>
+              <span class="text-charcoal text-sm">{i.booking.location}</span>
               <p class="text-black">Avant Saint James hôtel, Bonamoussadi, Douala</p>
             </div>
           </div>
@@ -54,8 +66,8 @@ const timeSlots = [
               <Icon name="lucide:clock" class="w-5 h-5 text-red" />
             </div>
             <div>
-              <span class="text-charcoal text-sm">Hours</span>
-              <p class="text-black">Mon-Sat: 9am-9pm, Sun: 10am-6pm</p>
+              <span class="text-charcoal text-sm">{i.booking.hoursLabel}</span>
+              <p class="text-black">{i.booking.hoursValue}</p>
             </div>
           </div>
           
@@ -64,7 +76,7 @@ const timeSlots = [
               <Icon name="lucide:phone" class="w-5 h-5 text-red" />
             </div>
             <div>
-              <span class="text-charcoal text-sm">Phone</span>
+              <span class="text-charcoal text-sm">{i.booking.phoneLabel}</span>
               <a href="tel:+237-000-000-000" class="text-black hover:text-red transition-colors">+237 000 000 000</a>
             </div>
           </div>
@@ -74,24 +86,24 @@ const timeSlots = [
         <div class="glass rounded-lg p-6">
           <h4 class="text-black font-semibold mb-3 flex items-center gap-2">
             <Icon name="lucide:info" class="w-5 h-5 text-red" />
-            Booking Notes
+            {i.booking.bookingNotes}
           </h4>
           <ul class="space-y-2 text-sm text-charcoal">
             <li class="flex items-start gap-2">
               <span class="text-red mt-1">•</span>
-              <span>Appointments confirmed within 24 hours</span>
+              <span>{i.booking.note1}</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-red mt-1">•</span>
-              <span>48-hour cancellation policy applies</span>
+              <span>{i.booking.note2}</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-red mt-1">•</span>
-              <span>Complimentary consultation for tattoos</span>
+              <span>{i.booking.note3}</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-red mt-1">•</span>
-              <span>Group bookings available on request</span>
+              <span>{i.booking.note4}</span>
             </li>
           </ul>
         </div>
@@ -103,7 +115,7 @@ const timeSlots = [
           <form id="booking-form" class="space-y-8">
             <!-- Service Selection -->
             <div>
-              <h3 class="text-lg font-semibold text-black mb-4">1. Select Service</h3>
+              <h3 class="text-lg font-semibold text-black mb-4">{i.booking.step1}</h3>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {services.map((service) => (
                   <label class="relative cursor-pointer group">
@@ -128,15 +140,15 @@ const timeSlots = [
             
             <!-- Date & Time -->
             <div>
-              <h3 class="text-lg font-semibold text-black mb-4">2. Choose Date & Time</h3>
+              <h3 class="text-lg font-semibold text-black mb-4">{i.booking.step2}</h3>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <DatePicker />
+                  <DatePicker lang={lang} />
                 </div>
                 <div>
-                  <label for="time" class="form-label">Preferred Time</label>
+                  <label for="time" class="form-label">{i.booking.preferredTime}</label>
                   <select id="time" name="time" required class="form-input">
-                    <option value="">Select time</option>
+                    <option value="">{i.booking.selectTime}</option>
                     {timeSlots.map(slot => (
                       <option value={slot}>{slot}</option>
                     ))}
@@ -147,10 +159,10 @@ const timeSlots = [
             
             <!-- Personal Information -->
             <div>
-              <h3 class="text-lg font-semibold text-black mb-4">3. Your Information</h3>
+              <h3 class="text-lg font-semibold text-black mb-4">{i.booking.step3}</h3>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label for="booking-first-name" class="form-label">First Name</label>
+                  <label for="booking-first-name" class="form-label">{i.booking.firstName}</label>
                   <input 
                     type="text" 
                     id="booking-first-name" 
@@ -161,7 +173,7 @@ const timeSlots = [
                   />
                 </div>
                 <div>
-                  <label for="booking-last-name" class="form-label">Last Name</label>
+                  <label for="booking-last-name" class="form-label">{i.booking.lastName}</label>
                   <input 
                     type="text" 
                     id="booking-last-name" 
@@ -172,7 +184,7 @@ const timeSlots = [
                   />
                 </div>
                 <div>
-                  <label for="booking-email" class="form-label">Email Address</label>
+                  <label for="booking-email" class="form-label">{i.booking.email}</label>
                   <input 
                     type="email" 
                     id="booking-email" 
@@ -183,7 +195,7 @@ const timeSlots = [
                   />
                 </div>
                 <div>
-                  <label for="booking-phone" class="form-label">Phone Number</label>
+                  <label for="booking-phone" class="form-label">{i.booking.phone}</label>
                   <input 
                     type="tel" 
                     id="booking-phone" 
@@ -196,13 +208,13 @@ const timeSlots = [
               </div>
               
               <div class="mt-5">
-                <label for="notes" class="form-label">Special Requests (Optional)</label>
+                <label for="notes" class="form-label">{i.booking.specialRequests}</label>
                 <textarea 
                   id="notes" 
                   name="notes"
                   rows="3"
                   class="form-input resize-none"
-                  placeholder="Any specific requests or information we should know..."
+                  placeholder={i.booking.specialRequestsPlaceholder}
                 ></textarea>
               </div>
             </div>
@@ -210,11 +222,11 @@ const timeSlots = [
             <!-- Submit -->
             <div class="flex flex-col sm:flex-row items-center gap-4 pt-4">
               <button type="submit" class="btn-primary w-full sm:w-auto justify-center py-4 px-12">
-                <span>Request Appointment</span>
+                <span>{i.booking.submitBtn}</span>
                 <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
               </button>
               <p class="text-sm text-charcoal text-center sm:text-left">
-                We'll confirm your appointment within 24 hours
+                {i.booking.note1}
               </p>
             </div>
             <div id="booking-alert" class="hidden text-sm rounded-lg px-4 py-3 border"></div>

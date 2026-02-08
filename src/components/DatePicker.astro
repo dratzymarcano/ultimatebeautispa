@@ -4,12 +4,24 @@
  * Inspired by premium calendar UIs with red/black brand colors
  * Features: month navigation, quick select shortcuts, visual selected state
  */
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = 'en' } = Astro.props;
+const i = t(lang);
 ---
 
 <div class="datepicker-field">
-  <label for="datepicker-trigger" class="form-label">Preferred Date</label>
-  <button type="button" id="datepicker-trigger" class="datepicker-trigger" aria-haspopup="dialog" aria-expanded="false">
-    <span id="datepicker-display" class="datepicker-display">Select a date</span>
+  <label for="datepicker-trigger" class="form-label">{i.datePicker.label}</label>
+  <button type="button" id="datepicker-trigger" class="datepicker-trigger" aria-haspopup="dialog" aria-expanded="false"
+    data-months={JSON.stringify(i.datePicker.monthNames)}
+    data-days={JSON.stringify(i.datePicker.dayNames)}
+    data-locale={lang}>
+    <span id="datepicker-display" class="datepicker-display">{i.datePicker.placeholder}</span>
     <svg class="datepicker-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M8 2v4"></path>
       <path d="M16 2v4"></path>
@@ -26,12 +38,12 @@
     
     <!-- Sidebar - Quick Selects -->
     <div class="datepicker-sidebar">
-      <div class="sidebar-title">Quick Select</div>
-      <button type="button" class="sidebar-btn" data-quick="today">Today</button>
-      <button type="button" class="sidebar-btn" data-quick="tomorrow">Tomorrow</button>
-      <button type="button" class="sidebar-btn" data-quick="this-weekend">This Weekend</button>
-      <button type="button" class="sidebar-btn" data-quick="next-week">Next Week</button>
-      <button type="button" class="sidebar-btn" data-quick="next-month">Next Month</button>
+      <div class="sidebar-title">{lang === 'fr' ? 'Sélection rapide' : 'Quick Select'}</div>
+      <button type="button" class="sidebar-btn" data-quick="today">{lang === 'fr' ? "Aujourd'hui" : 'Today'}</button>
+      <button type="button" class="sidebar-btn" data-quick="tomorrow">{lang === 'fr' ? 'Demain' : 'Tomorrow'}</button>
+      <button type="button" class="sidebar-btn" data-quick="this-weekend">{lang === 'fr' ? 'Ce week-end' : 'This Weekend'}</button>
+      <button type="button" class="sidebar-btn" data-quick="next-week">{lang === 'fr' ? 'Semaine prochaine' : 'Next Week'}</button>
+      <button type="button" class="sidebar-btn" data-quick="next-month">{lang === 'fr' ? 'Mois prochain' : 'Next Month'}</button>
     </div>
 
     <!-- Calendar Body -->
@@ -49,7 +61,7 @@
 
       <!-- Day labels -->
       <div class="datepicker-weekdays">
-        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+        {i.datePicker.dayNames.map((d: string) => <span>{d.charAt(0)}</span>)}
       </div>
 
       <!-- Calendar grid -->
@@ -57,8 +69,8 @@
 
       <!-- Actions -->
       <div class="datepicker-actions">
-        <button type="button" class="dp-btn dp-cancel" id="dp-cancel">Cancel</button>
-        <button type="button" class="dp-btn dp-apply" id="dp-apply">Apply</button>
+        <button type="button" class="dp-btn dp-cancel" id="dp-cancel">{lang === 'fr' ? 'Annuler' : 'Cancel'}</button>
+        <button type="button" class="dp-btn dp-apply" id="dp-apply">{lang === 'fr' ? 'Appliquer' : 'Apply'}</button>
       </div>
     </div>
   </div>
@@ -444,7 +456,9 @@
   const applyBtn = document.getElementById('dp-apply') as HTMLButtonElement;
   const quickBtns = document.querySelectorAll('.sidebar-btn[data-quick]') as NodeListOf<HTMLButtonElement>;
 
-  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const monthsData = trigger.getAttribute('data-months');
+  const localeData = trigger.getAttribute('data-locale') || 'en';
+  const MONTHS = monthsData ? JSON.parse(monthsData) : ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const today = new Date();
   today.setHours(0,0,0,0);
 
@@ -461,7 +475,7 @@
 
   function formatDate(d: Date): string {
     const opts: Intl.DateTimeFormatOptions = { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' };
-    return d.toLocaleDateString('en-GB', opts);
+    return d.toLocaleDateString(localeData === 'fr' ? 'fr-FR' : 'en-GB', opts);
   }
 
   function formatISO(d: Date): string {

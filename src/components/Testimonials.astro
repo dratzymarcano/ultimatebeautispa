@@ -1,5 +1,15 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = 'en' } = Astro.props;
+const i = t(lang);
+const prefix = lang === 'fr' ? '/fr' : '';
 
 interface Testimonial {
   id: number;
@@ -65,18 +75,16 @@ const allTestimonials = [...testimonials, ...testimonials];
     <header class="section-header">
       <div class="header-label" data-animate="fade-in">
         <span class="label-line"></span>
-        <span class="label-text">Testimonials</span>
+        <span class="label-text">{i.testimonials.eyebrow}</span>
         <span class="label-line"></span>
       </div>
       
       <h2 class="section-title" data-animate="fade-in-up">
-        What Our
-        <span class="title-accent">Clients</span>
-        Say
+        {i.testimonials.title}
       </h2>
       
       <p class="section-subtitle" data-animate="fade-in-up">
-        Join thousands of satisfied clients who trust us with their grooming needs
+        {i.testimonials.subtitle}
       </p>
     </header>
   </div>

@@ -1,5 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
 
 interface GalleryItem {
   src: string;
@@ -10,9 +12,23 @@ interface GalleryItem {
 
 interface Props {
   limit?: number;
+  lang?: Locale;
 }
 
-const { limit = 8 } = Astro.props;
+const { limit = 8, lang = 'en' } = Astro.props;
+const i = t(lang);
+const prefix = lang === 'fr' ? '/fr' : '';
+
+const categoryFilterMap: Record<string, string> = {
+  Haircuts: i.gallery.filterHaircuts,
+  Shaves: i.gallery.filterShaves,
+  Massage: i.gallery.filterMassage,
+  Tattoo: i.gallery.filterTattoo,
+  Interior: i.gallery.filterInterior,
+  Skincare: i.gallery.filterSkincare,
+  Styling: i.gallery.filterStyling,
+  Products: i.gallery.filterProducts,
+};
 
 const galleryItems: GalleryItem[] = [
   { src: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&q=80', alt: 'Precision haircut in progress', category: 'Haircuts', span: 'tall' },
@@ -43,7 +59,7 @@ const categories = [...new Set(galleryItems.map(item => item.category))];
       <div class="header-top">
         <div class="header-label" data-animate="fade-in">
           <span class="label-line"></span>
-          <span class="label-text">Gallery</span>
+          <span class="label-text">{i.gallery.eyebrow}</span>
         </div>
         
         <div class="header-count" data-animate="fade-in">
@@ -54,22 +70,21 @@ const categories = [...new Set(galleryItems.map(item => item.category))];
       
       <div class="header-content">
         <h2 class="gallery-title" data-animate="fade-in-up">
-          Our Work
-          <span class="title-accent">Speaks</span>
+          {i.gallery.title}
         </h2>
         
         <p class="gallery-subtitle" data-animate="fade-in-up">
-          A glimpse into the craftsmanship and artistry that defines our studio
+          {i.gallery.subtitle}
         </p>
       </div>
     </header>
 
     <!-- Category Filter -->
     <div class="category-filter" data-animate="fade-in-up">
-      <button class="filter-btn active" data-category="all">All</button>
+      <button class="filter-btn active" data-category="all">{i.gallery.filterAll}</button>
       {categories.map(category => (
         <button class="filter-btn" data-category={category.toLowerCase()}>
-          {category}
+          {categoryFilterMap[category] || category}
         </button>
       ))}
     </div>
@@ -116,8 +131,8 @@ const categories = [...new Set(galleryItems.map(item => item.category))];
     <!-- Footer -->
     {limit < galleryItems.length && (
       <div class="gallery-footer" data-animate="fade-in-up">
-        <a href="/gallery" class="btn-secondary">
-          <span>View Full Gallery</span>
+        <a href={prefix + '/gallery'} class="btn-secondary">
+          <span>{i.gallery.viewAll}</span>
           <Icon name="lucide:arrow-up-right" size={16} />
         </a>
       </div>

@@ -5,6 +5,16 @@
  * Features: live countdown timer, pulsing glow effects, particle animation
  */
 import { Icon } from 'astro-icon/components';
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = 'en' } = Astro.props;
+const i = t(lang);
+const prefix = lang === 'fr' ? '/fr' : '';
 ---
 
 <section class="launch-section" id="launch">
@@ -19,7 +29,7 @@ import { Icon } from 'astro-icon/components';
       <!-- Eyebrow -->
       <div class="launch-eyebrow">
         <span class="eyebrow-dot"></span>
-        <span class="eyebrow-text">Mark Your Calendar</span>
+        <span class="eyebrow-text">{i.launch.eyebrow}</span>
         <span class="eyebrow-dot"></span>
       </div>
 
@@ -32,38 +42,38 @@ import { Icon } from 'astro-icon/components';
         </span>
       </h2>
 
-      <p class="launch-subtitle">Sunday · Doors Open at 10:00 AM</p>
+      <p class="launch-subtitle">{lang === 'fr' ? 'Dimanche' : 'Sunday'} · {i.launch.doorsOpen}</p>
 
       <!-- Countdown -->
       <div class="countdown" id="launch-countdown">
         <div class="countdown-unit">
           <div class="countdown-number" id="cd-days">000</div>
-          <div class="countdown-label">Days</div>
+          <div class="countdown-label">{i.launch.days}</div>
         </div>
         <div class="countdown-sep">:</div>
         <div class="countdown-unit">
           <div class="countdown-number" id="cd-hours">00</div>
-          <div class="countdown-label">Hours</div>
+          <div class="countdown-label">{i.launch.hours}</div>
         </div>
         <div class="countdown-sep">:</div>
         <div class="countdown-unit">
           <div class="countdown-number" id="cd-mins">00</div>
-          <div class="countdown-label">Minutes</div>
+          <div class="countdown-label">{i.launch.minutes}</div>
         </div>
         <div class="countdown-sep">:</div>
         <div class="countdown-unit">
           <div class="countdown-number" id="cd-secs">00</div>
-          <div class="countdown-label">Seconds</div>
+          <div class="countdown-label">{i.launch.seconds}</div>
         </div>
       </div>
 
       <!-- CTA -->
       <div class="launch-cta">
-        <a href="/book" class="launch-btn">
-          <span>Reserve Your Spot</span>
+        <a href={prefix + '/book'} class="launch-btn">
+          <span>{i.launch.ctaPrimary}</span>
           <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
         </a>
-        <p class="launch-offer">First 50 clients get <strong>20% off</strong> their first visit</p>
+        <p class="launch-offer" set:html={lang === 'fr' ? 'Les 50 premiers clients obtiennent <strong>20% de réduction</strong> sur leur première visite' : 'First 50 clients get <strong>20% off</strong> their first visit'} />
       </div>
     </div>
   </div>

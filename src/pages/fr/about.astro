@@ -1,0 +1,222 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import CTA from '../../components/CTA.astro';
+import { t } from '../../i18n/index';
+
+const i = t('fr');
+
+const team = [
+  {
+    name: 'Marcus Sterling',
+    role: 'Fondateur & Maître Barbier',
+    bio: '15+ ans d\'expérience. Formé à Londres et New York. Spécialiste des coupes classiques et du rasage au coupe-chou.',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80'
+  },
+  {
+    name: 'James Chen',
+    role: 'Styliste Principal',
+    bio: 'Styliste primé avec une expertise des tendances modernes et des textures. Présenté dans GQ et Esquire.',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80'
+  },
+  {
+    name: 'David Williams',
+    role: 'Artiste Tatoueur',
+    bio: 'Spécialisé en réalisme et blackwork. 10+ ans d\'expérience. Designs personnalisés uniquement.',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80'
+  },
+  {
+    name: 'Michael Torres',
+    role: 'Massothérapeute',
+    bio: 'Massothérapeute certifié avec des spécialisations en massage des tissus profonds, sportif et suédois.',
+    image: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&q=80'
+  }
+];
+
+const values = [
+  {
+    iconName: 'lucide:badge-check',
+    title: i.about.value1,
+    description: i.about.value1Desc
+  },
+  {
+    iconName: 'lucide:heart',
+    title: 'Soin',
+    description: 'Votre confort et votre satisfaction sont notre priorité. Nous traitons chaque client comme le plus important.'
+  },
+  {
+    iconName: 'lucide:zap',
+    title: i.about.value2,
+    description: i.about.value2Desc
+  },
+  {
+    iconName: 'lucide:users',
+    title: i.about.value3,
+    description: i.about.value3Desc
+  }
+];
+---
+
+<Layout title={i.about.pageTitle} lang="fr">
+  <Header slot="header" currentPath="/fr/about" lang="fr" />
+  
+  <!-- Page Hero -->
+  <section class="relative py-32 overflow-hidden">
+    <div class="absolute inset-0">
+      <div 
+        class="absolute inset-0 bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920&q=80')"
+      ></div>
+      <div class="absolute inset-0 bg-obsidian/85"></div>
+    </div>
+    
+    <div class="container relative z-10 text-center">
+      <div class="flex items-center justify-center gap-4 mb-4" data-animate="fade-in-up">
+        <span class="ornament"></span>
+        <span class="text-red text-sm uppercase tracking-[0.3em] font-medium">{i.about.eyebrow}</span>
+        <span class="ornament"></span>
+      </div>
+      
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-display font-semibold text-white mb-6" data-animate="fade-in-up" style="animation-delay: 100ms">
+        {i.about.pageHeroTitle}
+      </h1>
+      
+      <p class="text-xl text-white/70 max-w-2xl mx-auto" data-animate="fade-in-up" style="animation-delay: 200ms">
+        {i.about.pageHeroSubtitle}
+      </p>
+    </div>
+  </section>
+  
+  <!-- Story Section -->
+  <section class="section bg-snow">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div data-animate="slide-left">
+          <h2 class="text-4xl sm:text-5xl font-display font-semibold text-black mb-6">
+            {i.about.storyTitle}
+          </h2>
+          
+          <div class="space-y-6 text-charcoal">
+            <p>{i.about.storyP1}</p>
+            <p>{i.about.storyP2}</p>
+            <p>{i.about.storyP3}</p>
+          </div>
+        </div>
+        
+        <div class="relative" data-animate="slide-right">
+          <div class="grid grid-cols-2 gap-4">
+            <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400&q=80" alt="Détail intérieur" class="rounded-lg w-full h-48 object-cover" loading="lazy" />
+            <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80" alt="Barbier au travail" class="rounded-lg w-full h-48 object-cover mt-8" loading="lazy" />
+            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80" alt="Expérience spa" class="rounded-lg w-full h-48 object-cover" loading="lazy" />
+            <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&q=80" alt="Massothérapie" class="rounded-lg w-full h-48 object-cover mt-8" loading="lazy" />
+          </div>
+          <div class="absolute -bottom-6 -left-6 w-32 h-32 border border-red/20 rounded-lg -z-10"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Values Section -->
+  <section class="section bg-cloud">
+    <div class="container">
+      <div class="text-center max-w-2xl mx-auto mb-16" data-animate="fade-in-up">
+        <div class="flex items-center justify-center gap-4 mb-4">
+          <span class="ornament"></span>
+          <span class="text-red text-sm uppercase tracking-[0.3em] font-medium">{i.about.missionValues}</span>
+          <span class="ornament"></span>
+        </div>
+        
+        <h2 class="text-4xl sm:text-5xl font-display font-semibold text-black mb-4">
+          {i.about.missionTitle}
+        </h2>
+        
+        <p class="text-gray text-lg">{i.about.missionDesc}</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {values.map((value, index) => (
+          <div 
+            class="glass rounded-lg p-8 text-center hover:border-red/30 transition-all duration-300"
+            data-animate="fade-in-up"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            <div class="w-16 h-16 rounded-full bg-red/10 flex items-center justify-center mx-auto mb-6">
+              <Icon name={value.iconName} class="w-8 h-8 text-red" />
+            </div>
+            <h3 class="text-black font-semibold text-xl mb-3">{value.title}</h3>
+            <p class="text-gray text-sm leading-relaxed">{value.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  
+  <!-- Team Section -->
+  <section class="section bg-snow">
+    <div class="container">
+      <div class="text-center max-w-2xl mx-auto mb-16" data-animate="fade-in-up">
+        <div class="flex items-center justify-center gap-4 mb-4">
+          <span class="ornament"></span>
+          <span class="text-red text-sm uppercase tracking-[0.3em] font-medium">{i.about.theTeam}</span>
+          <span class="ornament"></span>
+        </div>
+        
+        <h2 class="text-4xl sm:text-5xl font-display font-semibold text-black mb-4">
+          {i.about.teamTitle}
+        </h2>
+        
+        <p class="text-gray text-lg">{i.about.teamDesc}</p>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {team.map((member, index) => (
+          <article 
+            class="card group"
+            data-animate="fade-in-up"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            <div class="relative aspect-[3/4] img-zoom">
+              <img src={member.image} alt={member.name} class="w-full h-full object-cover" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-white font-semibold text-lg group-hover:text-red transition-colors">{member.name}</h3>
+              <p class="text-red text-sm mb-3">{member.role}</p>
+              <p class="text-white/70 text-sm">{member.bio}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  
+  <!-- Stats Banner -->
+  <section class="py-16 bg-cloud border-y border-mist">
+    <div class="container">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        <div data-animate="fade-in-up">
+          <span class="block text-5xl font-display font-semibold text-red mb-2">10+</span>
+          <span class="text-sm uppercase tracking-wider text-gray">Ans d'Expérience</span>
+        </div>
+        <div data-animate="fade-in-up" style="animation-delay: 100ms">
+          <span class="block text-5xl font-display font-semibold text-red mb-2">15+</span>
+          <span class="text-sm uppercase tracking-wider text-gray">Experts</span>
+        </div>
+        <div data-animate="fade-in-up" style="animation-delay: 200ms">
+          <span class="block text-5xl font-display font-semibold text-red mb-2">10K+</span>
+          <span class="text-sm uppercase tracking-wider text-gray">Clients Satisfaits</span>
+        </div>
+        <div data-animate="fade-in-up" style="animation-delay: 300ms">
+          <span class="block text-5xl font-display font-semibold text-red mb-2">50+</span>
+          <span class="text-sm uppercase tracking-wider text-gray">Prix de l'Industrie</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <CTA lang="fr" />
+  
+  <Footer slot="footer" lang="fr" />
+</Layout>

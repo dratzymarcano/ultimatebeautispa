@@ -1,0 +1,55 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { t } from '../../i18n/index';
+
+const i = t('fr');
+---
+
+<Layout title={i.accessibility.pageTitle} lang="fr">
+  <Header slot="header" currentPath="/fr/accessibility" lang="fr" />
+
+  <section class="section bg-snow">
+    <div class="container max-w-3xl">
+      <div class="mb-10">
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-black mb-4">{i.accessibility.heroTitle}</h1>
+      </div>
+
+      <div class="space-y-8 text-charcoal">
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.accessibility.commitment}</h2>
+          <p>{i.accessibility.commitmentText}</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.accessibility.effortsTitle}</h2>
+          <p class="mb-3">{i.accessibility.effortsIntro}</p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>{i.accessibility.effort1}</li>
+            <li>{i.accessibility.effort2}</li>
+            <li>{i.accessibility.effort3}</li>
+            <li>{i.accessibility.effort4}</li>
+            <li>{i.accessibility.effort5}</li>
+            <li>{i.accessibility.effort6}</li>
+            <li>{i.accessibility.effort7}</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.accessibility.standardsTitle}</h2>
+          <p>{i.accessibility.standardsText}</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.accessibility.feedbackTitle}</h2>
+          <p class="mb-3">{i.accessibility.feedbackText}</p>
+          <p>{i.accessibility.feedbackEmail}</p>
+          <p>{i.accessibility.feedbackPhone}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" lang="fr" />
+</Layout>

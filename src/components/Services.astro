@@ -1,93 +1,33 @@
 ---
 import { Icon } from 'astro-icon/components';
-
-interface Service {
-  id: string;
-  title: string;
-  description: string;
-  price: string;
-  duration: string;
-  image: string;
-  featured?: boolean;
-  icon: string;
-}
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
+import { services as allServiceData, getServiceByLang } from '../data/services';
 
 interface Props {
+  lang?: Locale;
   title?: string;
   subtitle?: string;
   showAll?: boolean;
 }
 
 const { 
-  title = "Our Services",
-  subtitle = "Curated experiences designed for the discerning individual",
+  lang = 'en' as Locale,
   showAll = false 
 } = Astro.props;
 
-const services: Service[] = [
-  {
-    id: 'haircuts',
-    title: 'Haircuts & Styling',
-    description: 'Precision cuts tailored to your unique features. Our master stylists blend classic techniques with modern trends.',
-    price: 'À partir de 35 000 XAF',
-    duration: '45–60 min',
-    image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=700&fit=crop&q=80',
-    featured: true,
-    icon: 'lucide:scissors'
-  },
-  {
-    id: 'shaves',
-    title: 'Traditional Shaves',
-    description: 'The timeless ritual of a straight razor shave with hot towels and premium oils.',
-    price: 'À partir de 30 000 XAF',
-    duration: '30–45 min',
-    image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&h=700&fit=crop&q=80',
-    featured: true,
-    icon: 'lucide:blend'
-  },
-  {
-    id: 'massage',
-    title: 'Massage Therapy',
-    description: 'Restore balance with therapeutic touch — deep tissue, hot stone, relaxation.',
-    price: 'À partir de 50 000 XAF',
-    duration: '60–90 min',
-    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=700&fit=crop&q=80',
-    featured: true,
-    icon: 'lucide:heart-handshake'
-  },
-  {
-    id: 'tattoo',
-    title: 'Tattoo Artistry',
-    description: 'Custom artwork that tells your story, crafted by award-winning tattoo artists.',
-    price: 'Consultation gratuite',
-    duration: 'Variable',
-    image: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=600&h=700&fit=crop&q=80',
-    featured: true,
-    icon: 'lucide:pen-tool'
-  },
-  {
-    id: 'skincare',
-    title: 'Skincare Treatments',
-    description: 'Advanced facials and skin treatments. Combat aging with science-backed solutions.',
-    price: 'À partir de 45 000 XAF',
-    duration: '45–75 min',
-    image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&h=700&fit=crop&q=80',
-    featured: true,
-    icon: 'lucide:sparkles'
-  },
-  {
-    id: 'braiding',
-    title: 'Hair Braiding',
-    description: 'Expert braiding, locs, twists — achieve your desired look with precision craftsmanship.',
-    price: 'À partir de 40 000 XAF',
-    duration: '60–180 min',
-    image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=700&fit=crop&q=80',
-    featured: true,
-    icon: 'lucide:ribbon'
-  }
-];
+const i = t(lang);
+const prefix = lang === 'fr' ? '/fr' : '';
 
-const displayServices = showAll ? services : services.filter(s => s.featured);
+const localizedServices = allServiceData.map(s => ({
+  ...getServiceByLang(s, lang),
+  icon: s.icon,
+  image: s.image,
+  featured: s.featured,
+  startingPrice: s.startingPrice,
+}));
+
+const displayServices = showAll ? localizedServices : localizedServices.filter(s => s.featured);
 ---
 
 <section class="services-section" id="services">
@@ -96,12 +36,12 @@ const displayServices = showAll ? services : services.filter(s => s.featured);
     <header class="services-header">
       <div class="header-eyebrow">
         <span class="eyebrow-line"></span>
-        <span class="eyebrow-text">What We Offer</span>
+        <span class="eyebrow-text">{i.services.eyebrow}</span>
       </div>
 
       <div class="header-row">
-        <h2 class="services-title">{title}</h2>
-        <p class="services-subtitle">{subtitle}</p>
+        <h2 class="services-title">{i.services.title}</h2>
+        <p class="services-subtitle">{i.services.subtitle}</p>
       </div>
     </header>
 
@@ -109,12 +49,12 @@ const displayServices = showAll ? services : services.filter(s => s.featured);
     <div class="services-grid">
       {displayServices.map((service, index) => (
         <article class="service-card" style={`--i:${index}`}>
-          <a href={`/services#${service.id}`} class="card-link">
+          <a href={`${prefix}/services#${service.id}`} class="card-link">
             <!-- Image -->
             <div class="card-image">
               <img
                 src={service.image}
-                alt={service.title}
+                alt={service.name}
                 loading="lazy"
                 width="600"
                 height="700"
@@ -123,7 +63,7 @@ const displayServices = showAll ? services : services.filter(s => s.featured);
 
               <!-- Price Tag (on image) -->
               <div class="card-price-tag">
-                <span>{service.price}</span>
+                <span>{service.startingPrice}</span>
               </div>
             </div>
 
@@ -133,7 +73,7 @@ const displayServices = showAll ? services : services.filter(s => s.featured);
                 <Icon name={service.icon} size={22} />
               </div>
 
-              <h3 class="card-title">{service.title}</h3>
+              <h3 class="card-title">{service.name}</h3>
               <p class="card-desc">{service.description}</p>
 
               <div class="card-footer">
@@ -154,8 +94,8 @@ const displayServices = showAll ? services : services.filter(s => s.featured);
     <!-- CTA -->
     {!showAll && (
       <div class="services-cta">
-        <a href="/services" class="btn-secondary">
-          <span>View All Services & Pricing</span>
+        <a href={`${prefix}/services`} class="btn-secondary">
+          <span>{i.services.viewAll}</span>
           <Icon name="lucide:arrow-up-right" size={16} />
         </a>
       </div>
@@ -228,7 +168,7 @@ const displayServices = showAll ? services : services.filter(s => s.featured);
      ============================================ */
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
   }
 

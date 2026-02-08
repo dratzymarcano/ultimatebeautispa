@@ -1,0 +1,630 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import { products, getProductById, getRelatedProducts } from '../../../data/products';
+import type { Product } from '../../../data/products';
+import { t } from '../../../i18n/index';
+
+const i = t('fr');
+const prefix = '/fr';
+
+export function getStaticPaths() {
+  return products.map(product => ({
+    params: { id: product.id },
+    props: { product },
+  }));
+}
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const related = getRelatedProducts(product);
+---
+
+<Layout title={`${product.name} — Ultimate Beauty Spa`} lang="fr">
+  <Header slot="header" currentPath="/fr/products" lang="fr" />
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb-list">
+        <li><a href={`${prefix}/`}>{i.products.home}</a></li>
+        <li><Icon name="lucide:chevron-right" class="w-3.5 h-3.5" /></li>
+        <li><a href={`${prefix}/products`}>{i.products.pageTitle}</a></li>
+        <li><Icon name="lucide:chevron-right" class="w-3.5 h-3.5" /></li>
+        <li><span class="current">{product.name}</span></li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Product Detail -->
+  <section class="product-detail">
+    <div class="container">
+      <div class="detail-grid">
+        <!-- Image Gallery -->
+        <div class="detail-gallery">
+          <div class="gallery-main">
+            <img
+              id="main-image"
+              src={product.gallery[0]}
+              alt={product.name}
+              loading="eager"
+            />
+            {product.badge && (
+              <span class="detail-badge">{product.badge}</span>
+            )}
+          </div>
+          <div class="gallery-thumbs">
+            {product.gallery.map((img, idx) => (
+              <button
+                class={`thumb ${idx === 0 ? 'active' : ''}`}
+                data-src={img}
+                aria-label={`View image ${idx + 1}`}
+              >
+                <img src={img} alt="" loading="lazy" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="detail-info">
+          <span class="detail-category">
+            <Icon name={product.icon} class="w-4 h-4" />
+            {product.category}
+          </span>
+
+          <h1 class="detail-name">{product.name}</h1>
+
+          <div class="detail-price-row">
+            <span class="detail-price">{product.price}</span>
+            <span class="detail-size">{product.size}</span>
+          </div>
+
+          <p class="detail-description">{product.longDescription}</p>
+
+          <!-- Actions -->
+          <div class="detail-actions">
+            <a href={`${prefix}/contact`} class="btn-primary w-full justify-center">
+              <Icon name="lucide:message-circle" class="w-5 h-5" />
+              <span>{i.products.addToCart}</span>
+            </a>
+            <a href={`${prefix}/book`} class="btn-secondary w-full justify-center">
+              <Icon name="lucide:calendar" class="w-5 h-5" />
+              <span>{i.products.backToProducts}</span>
+            </a>
+          </div>
+
+          <!-- Info Tabs -->
+          <div class="detail-tabs">
+            <div class="tab-list" role="tablist">
+              <button class="tab active" role="tab" data-tab="how-to" aria-selected="true">{i.products.howToUse}</button>
+              <button class="tab" role="tab" data-tab="ingredients" aria-selected="false">{i.products.ingredients}</button>
+            </div>
+
+            <div class="tab-panel active" id="panel-how-to" role="tabpanel">
+              <p>{product.howToUse}</p>
+            </div>
+
+            <div class="tab-panel" id="panel-ingredients" role="tabpanel">
+              <ul class="ingredients-list">
+                {product.ingredients.map(ingredient => (
+                  <li>
+                    <Icon name="lucide:check" class="w-4 h-4" />
+                    <span>{ingredient}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="trust-row">
+            <div class="trust-badge">
+              <Icon name="lucide:leaf" class="w-4 h-4" />
+              <span>{i.products.naturalIngredients}</span>
+            </div>
+            <div class="trust-badge">
+              <Icon name="lucide:shield-check" class="w-4 h-4" />
+              <span>{i.products.dermatologistTested}</span>
+            </div>
+            <div class="trust-badge">
+              <Icon name="lucide:recycle" class="w-4 h-4" />
+              <span>{i.products.satisfactionGuaranteed}</span>
+            </div>
+            <div class="trust-badge">
+              <Icon name="lucide:heart" class="w-4 h-4" />
+              <span>{i.products.naturalIngredients}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Products -->
+  {related.length > 0 && (
+    <section class="related-section">
+      <div class="container">
+        <header class="related-header">
+          <h2 class="related-title">{i.products.relatedProducts}</h2>
+          <p class="related-subtitle">Complétez votre routine avec ces produits complémentaires</p>
+        </header>
+
+        <div class="related-grid">
+          {related.map((item, index) => (
+            <a href={`/fr/products/${item.id}`} class="related-card" style={`--i: ${index}`}>
+              <div class="related-image">
+                <img src={item.image} alt={item.name} loading="lazy" />
+                {item.badge && <span class="related-badge">{item.badge}</span>}
+              </div>
+              <div class="related-info">
+                <span class="related-cat">
+                  <Icon name={item.icon} class="w-3 h-3" />
+                  {item.category}
+                </span>
+                <h3>{item.name}</h3>
+                <span class="related-price">{item.price}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div class="related-cta">
+          <a href="/fr/products" class="btn-secondary">
+            <span>{i.products.backToProducts}</span>
+            <Icon name="lucide:arrow-right" class="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Footer slot="footer" lang="fr" />
+</Layout>
+
+<script>
+  // Image gallery switching
+  const mainImage = document.getElementById('main-image') as HTMLImageElement;
+  const thumbs = document.querySelectorAll('.thumb');
+
+  thumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      thumbs.forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+      const src = thumb.getAttribute('data-src');
+      if (src && mainImage) {
+        mainImage.src = src;
+      }
+    });
+  });
+
+  // Tabs
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.tab-panel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      panels.forEach(p => p.classList.remove('active'));
+
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      const target = tab.getAttribute('data-tab');
+      document.getElementById(`panel-${target}`)?.classList.add('active');
+    });
+  });
+</script>
+
+<style>
+  /* ---- Breadcrumb ---- */
+  .breadcrumb-bar {
+    padding: 1.25rem 0;
+    background: var(--color-snow);
+    border-bottom: 1px solid var(--color-mist);
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.8rem;
+    color: var(--color-gray);
+  }
+
+  .breadcrumb-list a {
+    color: var(--color-gray);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .breadcrumb-list a:hover {
+    color: var(--color-red);
+  }
+
+  .breadcrumb-list .current {
+    color: var(--color-black);
+    font-weight: 600;
+  }
+
+  /* ---- Detail Section ---- */
+  .product-detail {
+    padding: 3rem 0 5rem;
+    background: var(--color-white);
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    .detail-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  /* ---- Gallery ---- */
+  .gallery-main {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    background: var(--color-cloud);
+  }
+
+  .gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+  }
+
+  .detail-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.35rem 0.9rem;
+    background: var(--color-red);
+    color: var(--color-white);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 9999px;
+  }
+
+  .gallery-thumbs {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .thumb {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 2px solid var(--color-mist);
+    cursor: pointer;
+    transition: border-color 0.2s;
+    padding: 0;
+    background: none;
+  }
+
+  .thumb.active,
+  .thumb:hover {
+    border-color: var(--color-red);
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ---- Info ---- */
+  .detail-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    color: var(--color-red);
+    margin-bottom: 0.75rem;
+  }
+
+  .detail-name {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    color: var(--color-black);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .detail-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-mist);
+  }
+
+  .detail-price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-black);
+  }
+
+  .detail-size {
+    font-size: 0.85rem;
+    color: var(--color-gray);
+    font-weight: 500;
+  }
+
+  .detail-description {
+    font-size: 0.95rem;
+    color: var(--color-charcoal);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  /* ---- Actions ---- */
+  .detail-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (min-width: 480px) {
+    .detail-actions {
+      flex-direction: row;
+    }
+  }
+
+  /* ---- Tabs ---- */
+  .detail-tabs {
+    margin-bottom: 2rem;
+  }
+
+  .tab-list {
+    display: flex;
+    border-bottom: 2px solid var(--color-mist);
+    margin-bottom: 1.25rem;
+  }
+
+  .tab {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-gray);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .tab:hover {
+    color: var(--color-black);
+  }
+
+  .tab.active {
+    color: var(--color-red);
+    border-bottom-color: var(--color-red);
+  }
+
+  .tab-panel {
+    display: none;
+  }
+
+  .tab-panel.active {
+    display: block;
+  }
+
+  .tab-panel p {
+    font-size: 0.9rem;
+    color: var(--color-charcoal);
+    line-height: 1.7;
+  }
+
+  .ingredients-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .ingredients-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-charcoal);
+  }
+
+  .ingredients-list li svg {
+    color: var(--color-red);
+    flex-shrink: 0;
+  }
+
+  /* ---- Trust ---- */
+  .trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-mist);
+  }
+
+  .trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .trust-badge svg {
+    color: var(--color-red);
+  }
+
+  /* ---- Related ---- */
+  .related-section {
+    padding: 5rem 0;
+    background: var(--color-snow);
+  }
+
+  .related-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .related-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--color-black);
+    margin-bottom: 0.5rem;
+  }
+
+  .related-subtitle {
+    font-size: 0.95rem;
+    color: var(--color-gray);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .related-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .related-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .related-card {
+    background: var(--color-white);
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid var(--color-mist);
+    text-decoration: none;
+    transition: all 0.35s ease;
+    animation: fadeUp 0.5s ease forwards;
+    animation-delay: calc(var(--i) * 0.1s);
+    opacity: 0;
+  }
+
+  .related-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.07);
+    border-color: transparent;
+  }
+
+  .related-image {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+
+  .related-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .related-card:hover .related-image img {
+    transform: scale(1.05);
+  }
+
+  .related-badge {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    padding: 0.25rem 0.6rem;
+    background: var(--color-red);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 9999px;
+  }
+
+  .related-info {
+    padding: 1.25rem;
+  }
+
+  .related-cat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: var(--color-red);
+    margin-bottom: 0.4rem;
+  }
+
+  .related-info h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-black);
+    margin-bottom: 0.3rem;
+  }
+
+  .related-price {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--color-charcoal);
+  }
+
+  .related-cta {
+    text-align: center;
+    margin-top: 2.5rem;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

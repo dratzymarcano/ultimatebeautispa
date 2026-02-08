@@ -1,0 +1,787 @@
+---
+/**
+ * ProductLaunchHero — A cinematic, full-bleed hero showcase
+ * for the signature product launching today at Ultimate Beauty Spa.
+ * Features: rotating image gallery, parallax glow, animated text reveals,
+ * floating feature badges, and a pulsing "Available Today" CTA.
+ */
+import { Icon } from 'astro-icon/components';
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = 'en' } = Astro.props;
+const i = t(lang);
+const prefix = lang === 'fr' ? '/fr' : '';
+---
+
+<section class="pl-hero" id="product-launch">
+  <!-- === Ambient BG === -->
+  <div class="pl-bg" aria-hidden="true">
+    <div class="pl-bg-gradient"></div>
+    <div class="pl-bg-grain"></div>
+    <div class="pl-glow pl-glow--1"></div>
+    <div class="pl-glow pl-glow--2"></div>
+    <div class="pl-glow pl-glow--3"></div>
+    <div class="pl-particles" id="pl-particles"></div>
+  </div>
+
+  <div class="pl-container">
+    <!-- === LEFT — Product Visuals === -->
+    <div class="pl-gallery">
+      <!-- Live Badge -->
+      <div class="pl-live-badge">
+        <span class="live-dot"></span>
+        <span>{i.productLaunch.launchingToday}</span>
+      </div>
+
+      <!-- Main rotating image -->
+      <div class="pl-main-image">
+        <div class="pl-image-ring"></div>
+        <div class="pl-image-ring pl-image-ring--2"></div>
+        <div class="pl-image-frame" id="pl-frame">
+          <img
+            id="pl-hero-img"
+            src="/images/products/product-1.jpeg"
+            alt="Ultimate Beauty Spa — Signature Launch Product"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <div class="pl-image-shine"></div>
+        </div>
+      </div>
+
+      <!-- Thumbnails -->
+      <div class="pl-thumbs">
+        <button class="pl-thumb active" data-idx="0" aria-label="Image 1">
+          <img src="/images/products/product-1.jpeg" alt="" />
+        </button>
+        <button class="pl-thumb" data-idx="1" aria-label="Image 2">
+          <img src="/images/products/product-2.jpeg" alt="" />
+        </button>
+        <button class="pl-thumb" data-idx="2" aria-label="Image 3">
+          <img src="/images/products/product-3.jpeg" alt="" />
+        </button>
+        <button class="pl-thumb" data-idx="3" aria-label="Image 4">
+          <img src="/images/products/product-4.jpeg" alt="" />
+        </button>
+      </div>
+    </div>
+
+    <!-- === RIGHT — Content === -->
+    <div class="pl-content">
+      <!-- Eyebrow -->
+      <div class="pl-eyebrow">
+        <span class="pl-eyebrow-line"></span>
+        <span class="pl-eyebrow-text">{i.productLaunch.eyebrow}</span>
+      </div>
+
+      <!-- Title -->
+      <h2 class="pl-title">
+        <span class="pl-title-line">
+          <span class="pl-title-text">{i.productLaunch.titleLine1}</span>
+        </span>
+        <span class="pl-title-line">
+          <span class="pl-title-text pl-title-accent">{i.productLaunch.titleLine2}</span>
+        </span>
+      </h2>
+
+      <!-- Subtitle -->
+      <p class="pl-subtitle">
+        {i.productLaunch.subtitle}
+      </p>
+
+      <!-- Feature Pills -->
+      <div class="pl-features">
+        <div class="pl-feature">
+          <Icon name="lucide:leaf" class="w-4 h-4" />
+          <span>{i.productLaunch.featureNatural}</span>
+        </div>
+        <div class="pl-feature">
+          <Icon name="lucide:shield-check" class="w-4 h-4" />
+          <span>{i.productLaunch.featureDerma}</span>
+        </div>
+        <div class="pl-feature">
+          <Icon name="lucide:sparkles" class="w-4 h-4" />
+          <span>{i.productLaunch.featureSalon}</span>
+        </div>
+        <div class="pl-feature">
+          <Icon name="lucide:heart" class="w-4 h-4" />
+          <span>{i.productLaunch.featureCruelty}</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="pl-cta-group">
+        <a href={prefix + '/products'} class="pl-cta-primary">
+          <span class="pl-cta-pulse"></span>
+          <span class="pl-cta-label">{i.productLaunch.ctaPrimary}</span>
+          <Icon name="lucide:arrow-right" class="w-5 h-5" />
+        </a>
+        <a href={prefix + '/contact'} class="pl-cta-secondary">
+          <Icon name="lucide:message-circle" class="w-4 h-4" />
+          <span>{i.productLaunch.ctaSecondary}</span>
+        </a>
+      </div>
+
+      <!-- Launch Offer -->
+      <div class="pl-offer">
+        <div class="pl-offer-icon">
+          <Icon name="lucide:gift" class="w-5 h-5" />
+        </div>
+        <div class="pl-offer-body">
+          <strong>{i.productLaunch.offerTitle}</strong>
+          <span set:html={i.productLaunch.offerText} />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // === Image Gallery Auto-Rotate ===
+  const images = [
+    '/images/products/product-1.jpeg',
+    '/images/products/product-2.jpeg',
+    '/images/products/product-3.jpeg',
+    '/images/products/product-4.jpeg',
+  ];
+  let current = 0;
+  const heroImg = document.getElementById('pl-hero-img') as HTMLImageElement;
+  const frame = document.getElementById('pl-frame') as HTMLElement;
+  const thumbs = document.querySelectorAll('.pl-thumb');
+
+  function setImage(idx: number) {
+    if (idx === current && heroImg.src.includes(images[idx])) return;
+    frame.classList.add('transitioning');
+    setTimeout(() => {
+      heroImg.src = images[idx];
+      current = idx;
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === idx));
+      frame.classList.remove('transitioning');
+    }, 300);
+  }
+
+  thumbs.forEach((thumb, i) => {
+    thumb.addEventListener('click', () => setImage(i));
+  });
+
+  // Auto rotate every 4s
+  let autoplay = setInterval(() => {
+    setImage((current + 1) % images.length);
+  }, 4000);
+
+  // Pause on hover
+  const gallery = document.querySelector('.pl-gallery');
+  gallery?.addEventListener('mouseenter', () => clearInterval(autoplay));
+  gallery?.addEventListener('mouseleave', () => {
+    autoplay = setInterval(() => {
+      setImage((current + 1) % images.length);
+    }, 4000);
+  });
+
+  // === Particles ===
+  const particlesEl = document.getElementById('pl-particles');
+  if (particlesEl) {
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      const size = Math.random() * 4 + 1;
+      const x = Math.random() * 100;
+      const delay = Math.random() * 10;
+      const dur = Math.random() * 8 + 8;
+      const isRed = Math.random() > 0.5;
+      Object.assign(p.style, {
+        position: 'absolute',
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius: '50%',
+        background: isRed ? 'rgba(225,29,72,0.35)' : 'rgba(255,255,255,0.12)',
+        left: `${x}%`,
+        bottom: '-2%',
+        animation: `plParticleRise ${dur}s linear ${delay}s infinite`,
+        pointerEvents: 'none',
+      });
+      particlesEl.appendChild(p);
+    }
+  }
+
+  const particleStyle = document.createElement('style');
+  particleStyle.textContent = `
+    @keyframes plParticleRise {
+      0%   { transform: translateY(0) scale(0); opacity: 0; }
+      10%  { transform: translateY(-10vh) scale(1); opacity: 0.8; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(-110vh) scale(0.5); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(particleStyle);
+</script>
+
+<style>
+  /* =============================================
+     PRODUCT LAUNCH HERO
+     ============================================= */
+  .pl-hero {
+    position: relative;
+    background: var(--color-void);
+    padding: 6rem 0 7rem;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* === Container === */
+  .pl-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .pl-container {
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+    }
+  }
+
+  /* =============================================
+     BACKGROUND
+     ============================================= */
+  .pl-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .pl-bg-gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 25% 50%, rgba(225,29,72,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 30%, rgba(251,113,133,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 50% 80%, rgba(225,29,72,0.05) 0%, transparent 50%);
+  }
+
+  .pl-bg-grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .pl-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    animation: plGlow 6s ease-in-out infinite;
+  }
+
+  .pl-glow--1 {
+    width: 600px;
+    height: 600px;
+    background: rgba(225,29,72,0.2);
+    top: -200px;
+    left: -150px;
+  }
+
+  .pl-glow--2 {
+    width: 400px;
+    height: 400px;
+    background: rgba(251,113,133,0.12);
+    bottom: -100px;
+    right: -80px;
+    animation-delay: 2s;
+  }
+
+  .pl-glow--3 {
+    width: 300px;
+    height: 300px;
+    background: rgba(225,29,72,0.08);
+    top: 40%;
+    left: 50%;
+    animation-delay: 4s;
+  }
+
+  @keyframes plGlow {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+
+  .pl-particles {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* =============================================
+     GALLERY — LEFT SIDE
+     ============================================= */
+  .pl-gallery {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  /* Live badge */
+  .pl-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 1.1rem;
+    background: rgba(225,29,72,0.12);
+    border: 1px solid rgba(225,29,72,0.25);
+    border-radius: 9999px;
+    animation: plFadeIn 0.6s ease 0.2s both;
+  }
+
+  .live-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-red);
+    border-radius: 50%;
+    animation: plPulse 1.8s ease-in-out infinite;
+    box-shadow: 0 0 6px 2px rgba(225,29,72,0.4);
+  }
+
+  .pl-live-badge span {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-red-light);
+  }
+
+  @keyframes plPulse {
+    0%, 100% { box-shadow: 0 0 6px 2px rgba(225,29,72,0.4); transform: scale(1); }
+    50% { box-shadow: 0 0 14px 6px rgba(225,29,72,0); transform: scale(1.2); }
+  }
+
+  /* Main image frame */
+  .pl-main-image {
+    position: relative;
+    width: clamp(280px, 70vw, 480px);
+    aspect-ratio: 3 / 4;
+  }
+
+  .pl-image-ring {
+    position: absolute;
+    inset: -16px;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(225,29,72,0.15);
+    animation: plRingRotate 20s linear infinite;
+  }
+
+  .pl-image-ring--2 {
+    inset: -32px;
+    border-color: rgba(225,29,72,0.07);
+    animation-direction: reverse;
+    animation-duration: 30s;
+  }
+
+  @keyframes plRingRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .pl-image-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    box-shadow:
+      0 40px 80px -20px rgba(0,0,0,0.5),
+      0 0 60px -10px rgba(225,29,72,0.2);
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .pl-image-frame:hover {
+    transform: scale(1.02);
+  }
+
+  .pl-image-frame.transitioning {
+    transform: scale(0.97);
+    opacity: 0.7;
+  }
+
+  .pl-image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+  }
+
+  .pl-image-shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255,255,255,0.08) 0%,
+      transparent 40%,
+      transparent 60%,
+      rgba(255,255,255,0.03) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Thumbnails */
+  .pl-thumbs {
+    display: flex;
+    gap: 0.75rem;
+    animation: plFadeIn 0.7s ease 0.6s both;
+  }
+
+  .pl-thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+    background: none;
+    opacity: 0.6;
+  }
+
+  .pl-thumb:hover {
+    opacity: 0.9;
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .pl-thumb.active {
+    opacity: 1;
+    border-color: var(--color-red);
+    box-shadow: 0 0 16px rgba(225,29,72,0.3);
+    transform: scale(1.08);
+  }
+
+  .pl-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* =============================================
+     CONTENT — RIGHT SIDE
+     ============================================= */
+  .pl-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Eyebrow */
+  .pl-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: plFadeIn 0.6s ease 0.1s both;
+  }
+
+  .pl-eyebrow-line {
+    width: 2.5rem;
+    height: 2px;
+    background: var(--color-red);
+  }
+
+  .pl-eyebrow-text {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-weight: 700;
+    color: var(--color-red);
+  }
+
+  /* Title */
+  .pl-title {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .pl-title-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.05em;
+  }
+
+  .pl-title-text {
+    display: inline-block;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-white);
+    transform: translateY(110%);
+    animation: plSlideUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+
+  .pl-title-line:nth-child(1) .pl-title-text {
+    animation-delay: 0.2s;
+  }
+
+  .pl-title-line:nth-child(2) .pl-title-text {
+    animation-delay: 0.35s;
+  }
+
+  .pl-title-accent {
+    background: linear-gradient(135deg, var(--color-red-light), var(--color-red));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  @keyframes plSlideUp {
+    to { transform: translateY(0); }
+  }
+
+  /* Subtitle */
+  .pl-subtitle {
+    font-size: clamp(0.95rem, 1.1vw, 1.125rem);
+    line-height: 1.75;
+    color: var(--color-platinum);
+    max-width: 500px;
+    margin: 0;
+    animation: plFadeIn 0.8s ease 0.5s both;
+  }
+
+  /* Feature pills */
+  .pl-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    animation: plFadeIn 0.8s ease 0.65s both;
+  }
+
+  .pl-feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.9rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-silver);
+    transition: all 0.3s ease;
+  }
+
+  .pl-feature:hover {
+    background: rgba(225,29,72,0.1);
+    border-color: rgba(225,29,72,0.2);
+    color: var(--color-red-light);
+  }
+
+  .pl-feature svg {
+    color: var(--color-red);
+  }
+
+  /* CTAs */
+  .pl-cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    animation: plFadeIn 0.8s ease 0.8s both;
+  }
+
+  .pl-cta-primary {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2.25rem;
+    background: var(--color-red);
+    color: var(--color-white);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+    border-radius: 9999px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    box-shadow:
+      0 0 40px rgba(225,29,72,0.3),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  .pl-cta-primary:hover {
+    background: var(--color-red-dark);
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 60px rgba(225,29,72,0.45),
+      0 20px 40px -10px rgba(225,29,72,0.3),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  .pl-cta-pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    animation: plCtaPulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes plCtaPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(225,29,72,0.3); }
+    50% { box-shadow: 0 0 0 12px rgba(225,29,72,0); }
+  }
+
+  .pl-cta-label {
+    position: relative;
+    z-index: 1;
+  }
+
+  .pl-cta-primary svg {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .pl-cta-primary:hover svg {
+    transform: translateX(4px);
+  }
+
+  .pl-cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.5rem;
+    color: var(--color-silver);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+    border-radius: 9999px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+  }
+
+  .pl-cta-secondary:hover {
+    color: var(--color-white);
+    border-color: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.04);
+  }
+
+  /* Opening offer */
+  .pl-offer {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 1rem;
+    background: rgba(225,29,72,0.06);
+    border: 1px solid rgba(225,29,72,0.12);
+    animation: plFadeIn 0.8s ease 0.95s both;
+  }
+
+  .pl-offer-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(225,29,72,0.15);
+    color: var(--color-red-light);
+    border-radius: 0.65rem;
+  }
+
+  .pl-offer-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .pl-offer-body strong {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-white);
+  }
+
+  .pl-offer-body span {
+    font-size: 0.82rem;
+    color: var(--color-platinum);
+    line-height: 1.5;
+  }
+
+  .pl-offer-body em {
+    color: var(--color-red-light);
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  /* =============================================
+     ANIMATION UTILS
+     ============================================= */
+  @keyframes plFadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* =============================================
+     RESPONSIVE
+     ============================================= */
+  @media (max-width: 1023px) {
+    .pl-hero {
+      padding: 4rem 0 5rem;
+    }
+
+    .pl-gallery {
+      order: -1;
+    }
+
+    .pl-content {
+      text-align: center;
+      align-items: center;
+    }
+
+    .pl-features {
+      justify-content: center;
+    }
+
+    .pl-cta-group {
+      justify-content: center;
+    }
+
+    .pl-offer {
+      text-align: left;
+    }
+
+    .pl-eyebrow {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .pl-main-image {
+      width: 85vw;
+    }
+
+    .pl-thumb {
+      width: 52px;
+      height: 52px;
+    }
+
+    .pl-cta-primary {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .pl-cta-secondary {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

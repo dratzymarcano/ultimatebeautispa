@@ -1,25 +1,42 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = 'en' } = Astro.props;
+const i = t(lang);
+const prefix = lang === 'fr' ? '/fr' : '';
 
 const currentYear = new Date().getFullYear();
 
 const footerLinks = {
   services: [
-    { href: '/services#haircuts', label: 'Haircuts & Styling' },
-    { href: '/services#shaves', label: 'Traditional Shaves' },
-    { href: '/services#massage', label: 'Massage Therapy' },
-    { href: '/services#tattoo', label: 'Tattoo Artistry' },
-    { href: '/services#skincare', label: 'Skincare Treatments' },
+    { href: `${prefix}/services#haircuts`, label: i.footer.haircutsStyling },
+    { href: `${prefix}/services#shaves`, label: i.footer.traditionalShaves },
+    { href: `${prefix}/services#massage`, label: i.footer.massageTherapy },
+    { href: `${prefix}/services#tattoo`, label: i.footer.tattooArtistry },
+    { href: `${prefix}/services#skincare`, label: i.footer.skincareTreatments },
+  ],
+  products: [
+    { href: `${prefix}/products/beard-oil`, label: i.footer.beardOil },
+    { href: `${prefix}/products/face-serum`, label: i.footer.faceSerum },
+    { href: `${prefix}/products/shea-butter`, label: i.footer.bodyButter },
+    { href: `${prefix}/products/hair-oil`, label: i.footer.hairOil },
+    { href: `${prefix}/products`, label: i.footer.allProducts },
   ],
   company: [
-    { href: '/about', label: 'Our Story' },
-    { href: '/gallery', label: 'Gallery' },
-    { href: '/contact', label: 'Contact' },
+    { href: `${prefix}/about`, label: i.footer.ourStory },
+    { href: `${prefix}/gallery`, label: i.footer.galleryLink },
+    { href: `${prefix}/contact`, label: i.footer.contactLink },
   ],
   support: [
-    { href: '/book', label: 'Book Appointment' },
-    { href: '/services', label: 'All Services' },
-    { href: '/contact#faq', label: 'FAQ' },
+    { href: `${prefix}/book`, label: i.footer.bookAppointment },
+    { href: `${prefix}/services`, label: i.footer.allServices },
+    { href: `${prefix}/contact#faq`, label: i.footer.faq },
   ],
 };
 
@@ -39,7 +56,7 @@ const socialLinks = [
       <div class="footer-top">
         <!-- Brand -->
         <div class="footer-brand">
-          <a href="/" class="brand-link">
+          <a href={`${prefix}/`} class="brand-link">
             <div class="brand-logo">
               <span>UB</span>
             </div>
@@ -49,19 +66,19 @@ const socialLinks = [
             </div>
           </a>
           <p class="brand-desc">
-            Elevating the art of personal grooming and lifestyle. Where tradition meets innovation in an atmosphere of pure luxury.
+            {i.footer.brandDesc}
           </p>
         </div>
 
         <!-- Newsletter -->
         <div class="footer-newsletter">
-          <h4 class="newsletter-title">Stay Updated</h4>
-          <p class="newsletter-desc">Get exclusive offers and updates</p>
+          <h4 class="newsletter-title">{i.footer.stayUpdated}</h4>
+          <p class="newsletter-desc">{i.footer.getOffers}</p>
           <form class="newsletter-form" action="#" method="POST">
             <input 
               type="email" 
               name="email"
-              placeholder="Enter your email"
+              placeholder={i.footer.emailPlaceholder}
               required
               class="newsletter-input"
               aria-label="Email for newsletter"
@@ -80,7 +97,7 @@ const socialLinks = [
       <div class="footer-links">
         <!-- Services -->
         <div class="link-group">
-          <h4 class="group-title">Services</h4>
+          <h4 class="group-title">{i.footer.servicesTitle}</h4>
           <ul class="group-list">
             {footerLinks.services.map(link => (
               <li>
@@ -90,9 +107,21 @@ const socialLinks = [
           </ul>
         </div>
 
+        <!-- Products -->
+        <div class="link-group">
+          <h4 class="group-title">{i.footer.productsTitle}</h4>
+          <ul class="group-list">
+            {footerLinks.products.map(link => (
+              <li>
+                <a href={link.href} class="group-link">{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <!-- Company -->
         <div class="link-group">
-          <h4 class="group-title">Company</h4>
+          <h4 class="group-title">{i.footer.companyTitle}</h4>
           <ul class="group-list">
             {footerLinks.company.map(link => (
               <li>
@@ -104,7 +133,7 @@ const socialLinks = [
 
         <!-- Support -->
         <div class="link-group">
-          <h4 class="group-title">Support</h4>
+          <h4 class="group-title">{i.footer.supportTitle}</h4>
           <ul class="group-list">
             {footerLinks.support.map(link => (
               <li>
@@ -116,7 +145,7 @@ const socialLinks = [
 
         <!-- Contact -->
         <div class="link-group">
-          <h4 class="group-title">Contact</h4>
+          <h4 class="group-title">{i.footer.contactTitle}</h4>
           <ul class="group-list contact-list">
             <li>
               <Icon name="lucide:map-pin" size={16} class="text-red flex-shrink-0 mt-0.5" />
@@ -157,14 +186,14 @@ const socialLinks = [
     <div class="container">
       <div class="bottom-content">
         <p class="copyright">
-          &copy; {currentYear} Ultimate Beauty Spa. All rights reserved.
+          &copy; {currentYear} Ultimate Beauty Spa. {lang === 'fr' ? 'Tous droits réservés.' : 'All rights reserved.'}
         </p>
         <div class="legal-links">
-          <a href="/privacy">Privacy Policy</a>
+          <a href={`${prefix}/privacy`}>{i.footer.privacyPolicy}</a>
           <span class="link-dot"></span>
-          <a href="/terms">Terms of Service</a>
+          <a href={`${prefix}/terms`}>{i.footer.termsOfService}</a>
           <span class="link-dot"></span>
-          <a href="/accessibility">Accessibility</a>
+          <a href={`${prefix}/accessibility`}>{i.footer.accessibility}</a>
         </div>
       </div>
     </div>

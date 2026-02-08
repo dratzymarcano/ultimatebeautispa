@@ -1,7 +1,10 @@
 ---
 import { Icon } from 'astro-icon/components';
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
 
 interface Props {
+  lang?: Locale;
   title?: string;
   subtitle?: string;
   primaryCta?: { text: string; href: string };
@@ -9,11 +12,19 @@ interface Props {
 }
 
 const {
-  title = "Ready to Elevate Your Style?",
-  subtitle = "Join our exclusive waitlist and be the first to experience premium grooming when we launch. Early members receive 20% off their first visit.",
-  primaryCta = { text: "Reserve Your Spot", href: "/book" },
-  secondaryCta = { text: "Contact Us", href: "/contact" }
+  lang = 'en',
+  title,
+  subtitle,
+  primaryCta,
+  secondaryCta
 } = Astro.props;
+const i = t(lang);
+const prefix = lang === 'fr' ? '/fr' : '';
+
+const ctaTitle = title ?? i.cta.title;
+const ctaSubtitle = subtitle ?? i.cta.subtitle;
+const ctaPrimary = primaryCta ?? { text: i.cta.ctaPrimary, href: prefix + '/book' };
+const ctaSecondary = secondaryCta ?? { text: i.cta.ctaSecondary, href: prefix + '/services' };
 
 const benefits = [
   { text: '20% off first visit', icon: 'lucide:check' },
@@ -54,22 +65,22 @@ const benefits = [
 
         <!-- Title -->
         <h2 class="cta-title" data-animate="fade-in-up">
-          {title}
+          {ctaTitle}
         </h2>
 
         <!-- Subtitle -->
         <p class="cta-subtitle" data-animate="fade-in-up">
-          {subtitle}
+          {ctaSubtitle}
         </p>
 
         <!-- CTAs -->
         <div class="cta-buttons" data-animate="fade-in-up">
-          <a href={primaryCta.href} class="btn-primary">
-            <span>{primaryCta.text}</span>
+          <a href={ctaPrimary.href} class="btn-primary">
+            <span>{ctaPrimary.text}</span>
             <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
           </a>
-          <a href={secondaryCta.href} class="btn-secondary">
-            <span>{secondaryCta.text}</span>
+          <a href={ctaSecondary.href} class="btn-secondary">
+            <span>{ctaSecondary.text}</span>
           </a>
         </div>
 
@@ -139,9 +150,7 @@ const benefits = [
             </button>
 
             <p class="form-privacy">
-              By joining, you agree to our 
-              <a href="/privacy">Privacy Policy</a> and 
-              <a href="/terms">Terms</a>.
+              {i.cta.note}
             </p>
           </form>
 
