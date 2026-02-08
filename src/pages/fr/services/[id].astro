@@ -1,0 +1,740 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import { t } from '../../../i18n/index';
+import { services as rawServices, getServiceById, getServiceByLang } from '../../../data/services';
+
+export function getStaticPaths() {
+  return rawServices.map(s => ({ params: { id: s.id } }));
+}
+
+const lang = 'fr';
+const i = t(lang);
+const { id } = Astro.params;
+const raw = getServiceById(id)!;
+const service = getServiceByLang(raw, lang);
+
+const allGender = service.subServices.filter((s: any) => s.gender === 'all' || !s.gender);
+const menOnly = service.subServices.filter((s: any) => s.gender === 'men');
+const womenOnly = service.subServices.filter((s: any) => s.gender === 'women');
+
+const hasGenderSections = menOnly.length > 0 || womenOnly.length > 0;
+---
+
+<Layout title={`${service.name} — Ultimate Beauty Spa`} lang="fr">
+  <Header slot="header" currentPath={`/fr/services/${id}`} lang="fr" />
+
+  <!-- Hero -->
+  <section class="sd-hero">
+    <div class="sd-hero-bg">
+      <img src={raw.image} alt={service.name} class="sd-hero-img" />
+      <div class="sd-hero-overlay"></div>
+    </div>
+
+    <div class="container sd-hero-content">
+      <a href="/fr/services" class="sd-back">
+        <Icon name="lucide:arrow-left" class="w-4 h-4" />
+        Tous les Services
+      </a>
+
+      <div class="sd-hero-text">
+        <span class="sd-tagline">{service.tagline}</span>
+        <h1 class="sd-title">{service.name}</h1>
+        <p class="sd-meta">
+          <span class="sd-meta-item">
+            <Icon name="lucide:clock" class="w-4 h-4" />
+            {raw.duration}
+          </span>
+          <span class="sd-meta-divider">·</span>
+          <span class="sd-meta-item">
+            {raw.startingPrice}
+          </span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section class="sd-content">
+    <div class="container">
+      <div class="sd-layout">
+        <!-- Left: Description + Features -->
+        <div class="sd-info">
+          <div class="sd-desc-card">
+            <h2 class="sd-section-title">À Propos de ce Service</h2>
+            <p class="sd-long-desc">{service.longDescription}</p>
+          </div>
+
+          <div class="sd-features-card">
+            <h3 class="sd-features-title">
+              <Icon name="lucide:badge-check" class="w-5 h-5 text-red" />
+              Ce Qui Est Inclus
+            </h3>
+            <ul class="sd-features-list">
+              {service.features.map((feat: string) => (
+                <li class="sd-feature-item">
+                  <Icon name="lucide:check" class="w-4 h-4" />
+                  {feat}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Right: Pricing + Booking -->
+        <div class="sd-sidebar">
+          <!-- Pricing Table -->
+          <div class="sd-pricing-card">
+            <h2 class="sd-pricing-title">
+              <Icon name="lucide:tag" class="w-5 h-5" />
+              {i.services.pricing}
+            </h2>
+
+            {hasGenderSections && (
+              <div class="sd-gender-tabs" id="gender-tabs">
+                <button class="sd-tab sd-tab--active" data-tab="all">
+                  {i.services.allGenders}
+                </button>
+                {menOnly.length > 0 && (
+                  <button class="sd-tab" data-tab="men">
+                    <Icon name="lucide:user" class="w-3.5 h-3.5" />
+                    {i.services.menServices}
+                  </button>
+                )}
+                {womenOnly.length > 0 && (
+                  <button class="sd-tab" data-tab="women">
+                    <Icon name="lucide:user" class="w-3.5 h-3.5" />
+                    {i.services.womenServices}
+                  </button>
+                )}
+              </div>
+            )}
+
+            <div class="sd-price-list" id="price-list">
+              {allGender.length > 0 && (
+                <div class="sd-price-group" data-gender="all">
+                  {allGender.map((sub: any) => (
+                    <label class="sd-price-row" data-sub-id={sub.id}>
+                      <input type="radio" name="selected-service" value={sub.id} class="sd-radio" />
+                      <div class="sd-price-info">
+                        <span class="sd-sub-name">
+                          {sub.name}
+                          {sub.bestSeller && <span class="sd-bestseller">Populaire</span>}
+                        </span>
+                        {sub.description && (
+                          <span class="sd-sub-desc">{sub.description}</span>
+                        )}
+                        {sub.duration && (
+                          <span class="sd-sub-dur">
+                            <Icon name="lucide:clock" class="w-3 h-3" />
+                            {sub.duration}
+                          </span>
+                        )}
+                      </div>
+                      <span class="sd-sub-price">{sub.price}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+
+              {menOnly.length > 0 && (
+                <div class="sd-price-group sd-price-group--hidden" data-gender="men">
+                  {menOnly.map((sub: any) => (
+                    <label class="sd-price-row" data-sub-id={sub.id}>
+                      <input type="radio" name="selected-service" value={sub.id} class="sd-radio" />
+                      <div class="sd-price-info">
+                        <span class="sd-sub-name">
+                          {sub.name}
+                          {sub.bestSeller && <span class="sd-bestseller">Populaire</span>}
+                        </span>
+                        {sub.description && (
+                          <span class="sd-sub-desc">{sub.description}</span>
+                        )}
+                        {sub.duration && (
+                          <span class="sd-sub-dur">
+                            <Icon name="lucide:clock" class="w-3 h-3" />
+                            {sub.duration}
+                          </span>
+                        )}
+                      </div>
+                      <span class="sd-sub-price">{sub.price}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+
+              {womenOnly.length > 0 && (
+                <div class="sd-price-group sd-price-group--hidden" data-gender="women">
+                  {womenOnly.map((sub: any) => (
+                    <label class="sd-price-row" data-sub-id={sub.id}>
+                      <input type="radio" name="selected-service" value={sub.id} class="sd-radio" />
+                      <div class="sd-price-info">
+                        <span class="sd-sub-name">
+                          {sub.name}
+                          {sub.bestSeller && <span class="sd-bestseller">Populaire</span>}
+                        </span>
+                        {sub.description && (
+                          <span class="sd-sub-desc">{sub.description}</span>
+                        )}
+                        {sub.duration && (
+                          <span class="sd-sub-dur">
+                            <Icon name="lucide:clock" class="w-3 h-3" />
+                            {sub.duration}
+                          </span>
+                        )}
+                      </div>
+                      <span class="sd-sub-price">{sub.price}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <!-- Booking Form -->
+          <div class="sd-booking-card">
+            <h3 class="sd-booking-title">
+              <Icon name="lucide:calendar" class="w-5 h-5" />
+              {i.services.bookThisService}
+            </h3>
+
+            <form id="booking-form" class="sd-form">
+              <div class="sd-form-group">
+                <label class="sd-label">{i.booking.preferredTime}</label>
+                <select class="sd-select" id="preferred-time" required>
+                  <option value="">{i.booking.selectTime}</option>
+                  <option value="9h00">9h00</option>
+                  <option value="10h00">10h00</option>
+                  <option value="11h00">11h00</option>
+                  <option value="12h00">12h00</option>
+                  <option value="13h00">13h00</option>
+                  <option value="14h00">14h00</option>
+                  <option value="15h00">15h00</option>
+                  <option value="16h00">16h00</option>
+                  <option value="17h00">17h00</option>
+                  <option value="18h00">18h00</option>
+                  <option value="19h00">19h00</option>
+                  <option value="20h00">20h00</option>
+                </select>
+              </div>
+
+              <div class="sd-form-group">
+                <label class="sd-label">{i.booking.firstName}</label>
+                <input type="text" class="sd-input" id="first-name" placeholder="Votre nom" required />
+              </div>
+
+              <div class="sd-form-group">
+                <label class="sd-label">{i.booking.phone}</label>
+                <input type="tel" class="sd-input" id="phone" placeholder="+237 6XX XXX XXX" required />
+              </div>
+
+              <button type="submit" class="sd-submit-btn" id="submit-btn">
+                <Icon name="lucide:send" class="w-4 h-4" />
+                {i.services.bookNow}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" lang="fr" />
+</Layout>
+
+<script define:vars={{ serviceName: service.name, serviceId: id }}>
+  // Gender tab switching
+  const tabContainer = document.getElementById('gender-tabs');
+  if (tabContainer) {
+    const tabs = tabContainer.querySelectorAll('.sd-tab');
+    const groups = document.querySelectorAll('.sd-price-group');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.getAttribute('data-tab');
+
+        tabs.forEach(t => t.classList.remove('sd-tab--active'));
+        tab.classList.add('sd-tab--active');
+
+        groups.forEach(g => {
+          const el = g;
+          if (el instanceof HTMLElement) {
+            if (target === 'all') {
+              el.classList.remove('sd-price-group--hidden');
+            } else {
+              const gender = el.getAttribute('data-gender');
+              if (gender === target || gender === 'all') {
+                el.classList.remove('sd-price-group--hidden');
+              } else {
+                el.classList.add('sd-price-group--hidden');
+              }
+            }
+          }
+        });
+      });
+    });
+  }
+
+  // Booking form submission → WhatsApp
+  const form = document.getElementById('booking-form');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const timeEl = document.getElementById('preferred-time');
+      const nameEl = document.getElementById('first-name');
+      const phoneEl = document.getElementById('phone');
+
+      if (!(timeEl instanceof HTMLSelectElement) || !(nameEl instanceof HTMLInputElement) || !(phoneEl instanceof HTMLInputElement)) return;
+
+      const selectedRadio = document.querySelector('input[name="selected-service"]:checked');
+      const treatment = selectedRadio instanceof HTMLInputElement
+        ? selectedRadio.closest('.sd-price-row')?.querySelector('.sd-sub-name')?.textContent?.trim() || ''
+        : '';
+
+      const msg = [
+        `Bonjour ! Je souhaite prendre rendez-vous.`,
+        ``,
+        `Service : ${serviceName}`,
+        treatment ? `Soin : ${treatment}` : '',
+        `Heure : ${timeEl.value}`,
+        `Nom : ${nameEl.value}`,
+        `Téléphone : ${phoneEl.value}`,
+      ].filter(Boolean).join('\n');
+
+      const url = `https://wa.me/237697113339?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    });
+  }
+</script>
+
+<style>
+  /* ─── Hero ─── */
+  .sd-hero {
+    position: relative;
+    height: 420px;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .sd-hero-bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .sd-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sd-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.05) 100%);
+  }
+
+  .sd-hero-content {
+    position: relative;
+    z-index: 2;
+    padding-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sd-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    transition: all 0.25s ease;
+    width: fit-content;
+  }
+
+  .sd-back:hover {
+    color: white;
+    gap: 0.75rem;
+  }
+
+  .sd-hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .sd-tagline {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-red-muted);
+  }
+
+  .sd-title {
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .sd-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+  }
+
+  .sd-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .sd-meta-divider {
+    opacity: 0.5;
+  }
+
+  /* ─── Content Layout ─── */
+  .sd-content {
+    padding: 3.5rem 0 5rem;
+    background: var(--color-snow);
+  }
+
+  .sd-layout {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* ─── Info Column ─── */
+  .sd-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sd-desc-card,
+  .sd-features-card {
+    background: white;
+    border-radius: 1.25rem;
+    padding: 2rem;
+    border: 1px solid var(--color-mist);
+  }
+
+  .sd-section-title {
+    font-size: 1.25rem;
+    font-weight: 750;
+    color: var(--color-black);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .sd-long-desc {
+    font-size: 0.9375rem;
+    color: var(--color-gray);
+    line-height: 1.8;
+  }
+
+  .sd-features-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--color-black);
+    margin-bottom: 1.25rem;
+  }
+
+  .sd-features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .sd-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-charcoal);
+  }
+
+  .sd-feature-item [data-icon] {
+    color: var(--color-red);
+    flex-shrink: 0;
+  }
+
+  /* ─── Sidebar ─── */
+  .sd-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: sticky;
+    top: 6rem;
+  }
+
+  .sd-pricing-card,
+  .sd-booking-card {
+    background: white;
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    border: 1px solid var(--color-mist);
+  }
+
+  .sd-pricing-title,
+  .sd-booking-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 750;
+    color: var(--color-black);
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+  }
+
+  .sd-pricing-title [data-icon],
+  .sd-booking-title [data-icon] {
+    color: var(--color-red);
+  }
+
+  /* ─── Gender Tabs ─── */
+  .sd-gender-tabs {
+    display: flex;
+    gap: 0.375rem;
+    margin-bottom: 1.25rem;
+    padding: 0.25rem;
+    background: var(--color-snow);
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-mist);
+  }
+
+  .sd-tab {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    background: transparent;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-gray);
+    cursor: pointer;
+    border-radius: 0.5rem;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+  }
+
+  .sd-tab:hover {
+    color: var(--color-charcoal);
+  }
+
+  .sd-tab--active {
+    background: white;
+    color: var(--color-red);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  /* ─── Price List ─── */
+  .sd-price-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .sd-price-group--hidden {
+    display: none;
+  }
+
+  .sd-price-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--color-mist);
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .sd-price-row:last-child {
+    border-bottom: none;
+  }
+
+  .sd-price-row:hover {
+    background: var(--color-snow);
+    margin: 0 -0.75rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    border-radius: 0.75rem;
+  }
+
+  .sd-radio {
+    margin-top: 0.2rem;
+    accent-color: var(--color-red);
+    flex-shrink: 0;
+  }
+
+  .sd-price-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .sd-sub-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-charcoal);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .sd-bestseller {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-red);
+    background: var(--color-red-muted);
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+  }
+
+  .sd-sub-desc {
+    font-size: 0.75rem;
+    color: var(--color-gray);
+    line-height: 1.5;
+  }
+
+  .sd-sub-dur {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.6875rem;
+    color: var(--color-gray);
+    margin-top: 0.125rem;
+  }
+
+  .sd-sub-price {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-red);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ─── Booking Form ─── */
+  .sd-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sd-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .sd-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-charcoal);
+  }
+
+  .sd-select,
+  .sd-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-mist);
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-black);
+    background: var(--color-snow);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    outline: none;
+  }
+
+  .sd-select:focus,
+  .sd-input:focus {
+    border-color: var(--color-red);
+    box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.08);
+  }
+
+  .sd-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: var(--color-red);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+  }
+
+  .sd-submit-btn:hover {
+    background: var(--color-red-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 1024px) {
+    .sd-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .sd-sidebar {
+      position: static;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .sd-hero {
+      height: 340px;
+    }
+
+    .sd-hero-content {
+      padding-bottom: 1.5rem;
+    }
+
+    .sd-content {
+      padding: 2rem 0 3rem;
+    }
+
+    .sd-desc-card,
+    .sd-features-card,
+    .sd-pricing-card,
+    .sd-booking-card {
+      padding: 1.25rem;
+    }
+
+    .sd-features-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
