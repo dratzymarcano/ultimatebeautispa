@@ -1,0 +1,160 @@
+---
+import { Icon } from 'astro-icon/components';
+import { t } from '../i18n/index';
+import { services as rawServices, getAllServicesForLang } from '../data/services';
+
+interface Props {
+  lang?: 'en' | 'fr';
+}
+
+const { lang = 'en' } = Astro.props;
+const i = t(lang);
+const allServices = getAllServicesForLang(lang);
+const prefix = lang === 'fr' ? '/fr' : '';
+---
+
+<!-- Booking Modal Overlay -->
+<div 
+  id="booking-modal" 
+  class="booking-modal fixed inset-0 z-[200] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="booking-modal-title"
+>
+  <!-- Backdrop -->
+  <div class="booking-modal-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+  
+  <!-- Modal Content -->
+  <div class="booking-modal-content relative w-full max-w-3xl max-h-[85vh] mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300">
+    
+    <!-- Header -->
+    <div class="sticky top-0 bg-white z-10 px-6 sm:px-8 pt-6 pb-4 border-b border-mist/50">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 id="booking-modal-title" class="text-2xl font-display font-bold text-black">{i.bookingModal.title}</h2>
+          <p class="text-sm text-charcoal mt-1">{i.bookingModal.subtitle}</p>
+        </div>
+        <button 
+          class="booking-modal-close flex items-center justify-center w-10 h-10 rounded-full bg-snow hover:bg-red/10 text-charcoal hover:text-red transition-all"
+          aria-label={i.bookingModal.close}
+        >
+          <Icon name="lucide:x" class="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+    
+    <!-- Service Grid -->
+    <div class="overflow-y-auto p-6 sm:p-8" style="max-height: calc(85vh - 100px);">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {allServices.map((service) => {
+          const raw = rawServices.find(s => s.id === service.id)!;
+          return (
+            <a 
+              href={`${prefix}/services#${service.id}`}
+              class="group relative flex flex-col bg-snow rounded-xl overflow-hidden border border-mist/50 hover:border-red/40 hover:shadow-lg transition-all duration-300"
+            >
+              {/* Image */}
+              <div class="relative h-36 overflow-hidden">
+                <img 
+                  src={service.image} 
+                  alt={service.name} 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                <span class="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-red">
+                  <Icon name={raw.icon} class="w-3.5 h-3.5" />
+                  {service.duration}
+                </span>
+              </div>
+              
+              {/* Content */}
+              <div class="flex-1 p-4">
+                <h3 class="text-base font-bold text-black group-hover:text-red transition-colors mb-1.5">
+                  {service.name}
+                </h3>
+                <p class="text-xs text-charcoal leading-relaxed line-clamp-2 mb-3">
+                  {service.description}
+                </p>
+                <div class="flex items-center justify-between mt-auto">
+                  <span class="text-sm font-bold text-red">{service.startingPrice}</span>
+                  <span class="inline-flex items-center gap-1 text-xs font-semibold text-red group-hover:gap-2 transition-all">
+                    {i.bookingModal.viewOptions}
+                    <Icon name="lucide:arrow-right" class="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .booking-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .booking-modal.active .booking-modal-content {
+    transform: scale(1);
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  function initBookingModal() {
+    const modal = document.getElementById('booking-modal');
+    if (!modal) return;
+    
+    const backdrop = modal.querySelector('.booking-modal-backdrop');
+    const closeBtn = modal.querySelector('.booking-modal-close');
+    
+    function openModal() {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close on backdrop click
+    backdrop?.addEventListener('click', closeModal);
+    closeBtn?.addEventListener('click', closeModal);
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    // Open modal via any element with data-booking-modal or href="#booking-modal"
+    document.querySelectorAll('[data-booking-modal], a[href="#booking-modal"]').forEach(trigger => {
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    // Also check the URL hash on load
+    if (window.location.hash === '#booking-modal') {
+      openModal();
+    }
+  }
+  
+  // Run on page load
+  initBookingModal();
+  
+  // Re-init on Astro page transitions  
+  document.addEventListener('astro:after-swap', initBookingModal);
+</script>

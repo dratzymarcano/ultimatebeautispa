@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { t } from '../i18n/index';
 import type { Locale } from '../i18n/config';
+import BookingModal from '../components/BookingModal.astro';
 
 interface Props {
   title: string;
@@ -131,6 +132,9 @@ const fullTitle = title === "Home" || title === "Accueil" ? `${siteName} | ${tag
     
     <slot name="footer" />
     
+    <!-- Booking Modal -->
+    <BookingModal lang={lang} />
+    
     <!-- Scroll Animations -->
     <script>
       // Intersection Observer for scroll animations
@@ -160,11 +164,13 @@ const fullTitle = title === "Home" || title === "Accueil" ? `${siteName} | ${tag
         observer.observe(el);
       });
       
-      // Smooth scroll for anchor links
+      // Smooth scroll for anchor links (skip booking modal links)
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (this: HTMLAnchorElement, e: Event) {
-          e.preventDefault();
           const href = this.getAttribute('href');
+          // Let booking modal handle its own links
+          if (href === '#booking-modal' || this.hasAttribute('data-booking-modal')) return;
+          e.preventDefault();
           if (href) {
             const target = document.querySelector(href);
             if (target) {

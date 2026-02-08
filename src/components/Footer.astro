@@ -37,7 +37,7 @@ const footerLinks = {
     { href: `${prefix}/contact`, label: i.footer.contactLink },
   ],
   support: [
-    { href: `${prefix}/book`, label: i.footer.bookAppointment },
+    { href: '#booking-modal', label: i.footer.bookAppointment },
     { href: `${prefix}/services`, label: i.footer.allServices },
     { href: `${prefix}/contact#faq`, label: i.footer.faq },
   ],
@@ -60,9 +60,7 @@ const socialLinks = [
         <!-- Brand -->
         <div class="footer-brand">
           <a href={`${prefix}/`} class="brand-link">
-            <div class="brand-logo">
-              <span>UB</span>
-            </div>
+            <img src="/images/logo.svg" alt="Ultimate Beauty Spa" class="brand-logo-img" style="height: 48px; width: auto;" />
             <div class="brand-text">
               <span class="brand-name">Ultimate Beauty</span>
               <span class="brand-tag">Spa</span>
@@ -140,7 +138,7 @@ const socialLinks = [
           <ul class="group-list">
             {footerLinks.support.map(link => (
               <li>
-                <a href={link.href} class="group-link">{link.label}</a>
+                <a href={link.href} class="group-link" data-booking-modal={link.href === '#booking-modal' ? '' : undefined}>{link.label}</a>
               </li>
             ))}
           </ul>

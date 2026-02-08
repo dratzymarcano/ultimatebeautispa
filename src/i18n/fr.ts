@@ -306,6 +306,14 @@ export const fr = {
     nailsPrice: 'À partir de XAF 3,000',
   },
 
+  // ─── Modal de Réservation ───
+  bookingModal: {
+    title: 'Choisissez un Service',
+    subtitle: 'Sélectionnez le service que vous souhaitez réserver, puis choisissez votre soin préféré.',
+    viewOptions: 'Voir les Options',
+    close: 'Fermer',
+  },
+
   // ─── Products ───
   products: {
     eyebrow: 'Boutique',

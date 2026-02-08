@@ -30,7 +30,7 @@ const alt = getAlternatePath(currentPath);
     <div class="container">
       <p>
         {i.nav.announcement}
-        <a href={`${prefix}/book`} class="underline ml-2 hover:no-underline font-semibold">{i.nav.reserveNow}</a>
+        <a href="#booking-modal" data-booking-modal class="underline ml-2 hover:no-underline font-semibold">{i.nav.reserveNow}</a>
       </p>
     </div>
   </div>
@@ -96,7 +96,7 @@ const alt = getAlternatePath(currentPath);
             <a href="tel:+237697113339" class="text-charcoal hover:text-red transition-colors duration-300" aria-label={i.nav.callUs}>
               <Icon name="lucide:phone" class="w-5 h-5" />
             </a>
-            <a href={`${prefix}/book`} class="btn-primary">
+            <a href="#booking-modal" data-booking-modal class="btn-primary">
               <span>{i.nav.bookNow}</span>
               <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
             </a>
@@ -176,7 +176,7 @@ const alt = getAlternatePath(currentPath);
       
       <!-- Mobile Menu Footer -->
       <div class="p-6 border-t border-mist space-y-4">
-        <a href={`${prefix}/book`} class="btn-primary w-full justify-center">
+        <a href="#booking-modal" data-booking-modal class="btn-primary w-full justify-center">
           <span>{i.nav.bookAppointment}</span>
         </a>
         <a href="tel:+237697113339" class="btn-secondary w-full justify-center">

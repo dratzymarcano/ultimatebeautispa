@@ -23,7 +23,7 @@ const prefix = lang === 'fr' ? '/fr' : '';
 
 const ctaTitle = title ?? i.cta.title;
 const ctaSubtitle = subtitle ?? i.cta.subtitle;
-const ctaPrimary = primaryCta ?? { text: i.cta.ctaPrimary, href: prefix + '/book' };
+const ctaPrimary = primaryCta ?? { text: i.cta.ctaPrimary, href: '#booking-modal' };
 const ctaSecondary = secondaryCta ?? { text: i.cta.ctaSecondary, href: prefix + '/services' };
 
 const benefits = [
@@ -75,7 +75,7 @@ const benefits = [
 
         <!-- CTAs -->
         <div class="cta-buttons" data-animate="fade-in-up">
-          <a href={ctaPrimary.href} class="btn-primary">
+          <a href={ctaPrimary.href} class="btn-primary" data-booking-modal={ctaPrimary.href === '#booking-modal' ? '' : undefined}>
             <span>{ctaPrimary.text}</span>
             <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
           </a>

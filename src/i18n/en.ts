@@ -307,6 +307,14 @@ export const en = {
     nailsPrice: 'From XAF 3,000',
   },
 
+  // ─── Booking Modal ───
+  bookingModal: {
+    title: 'Choose a Service',
+    subtitle: 'Select the service you\'d like to book, then choose your preferred treatment.',
+    viewOptions: 'View Options',
+    close: 'Close',
+  },
+
   // ─── Products ───
   products: {
     eyebrow: 'Shop',
