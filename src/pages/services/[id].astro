@@ -492,7 +492,7 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
       if (!(timeEl instanceof HTMLSelectElement) || !(dateEl instanceof HTMLInputElement) || !(nameEl instanceof HTMLInputElement) || !(emailEl instanceof HTMLInputElement) || !(phoneEl instanceof HTMLInputElement)) return;
 
       const selectedBoxes = document.querySelectorAll('input[name="selected-service"]:checked');
-      const treatments: string[] = [];
+      const treatments = [];
       selectedBoxes.forEach(cb => {
         if (!(cb instanceof HTMLInputElement)) return;
         const treat = cb.closest('.sd-treat');
