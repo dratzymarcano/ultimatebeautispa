@@ -1,0 +1,13 @@
+/favicon.svg
+  Cache-Control: no-cache, must-revalidate
+
+/favicon.ico
+  Cache-Control: no-cache, must-revalidate
+
+/images/logo.svg
+  Cache-Control: no-cache, must-revalidate
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
