@@ -201,7 +201,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     }
 
     const resendPayload: Record<string, unknown> = {
-      from: 'Ultimate Beauty Spa <onboarding@resend.dev>',
+      from: 'Ultimate Beauty Spa <noreply@ultimatebeautyspa.net>',
       to: ['hello@ultimatebeautyspa.net'],
       subject: emailContent.subject,
       html: emailContent.html,
@@ -210,6 +210,13 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     // Add reply-to for contact and booking forms
     if (data.email && data.type !== 'newsletter') {
       resendPayload.reply_to = data.email;
+    }
+
+    if (!context.env.RESEND_API_KEY) {
+      return new Response(JSON.stringify({ error: 'Email service not configured. RESEND_API_KEY is missing.' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders },
+      });
     }
 
     const resendRes = await fetch('https://api.resend.com/emails', {
@@ -224,7 +231,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     if (!resendRes.ok) {
       const err = await resendRes.text();
       console.error('Resend API error:', err);
-      return new Response(JSON.stringify({ error: 'Failed to send email' }), {
+      return new Response(JSON.stringify({ error: 'Failed to send email', detail: err }), {
         status: 500,
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
       });
