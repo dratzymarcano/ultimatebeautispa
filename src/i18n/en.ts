@@ -173,7 +173,7 @@ export const en = {
     eyebrow: 'Our Story',
     title: 'Where Tradition Meets Innovation',
     p1: 'Ultimate Beauty Spa was created with one guiding belief: everyone deserves a wellness experience that goes beyond a simple service — it should be a moment that genuinely transforms how you feel.',
-    p2: 'Nestled inside the prestigious Avant Saint James hôtel in Bonamoussadi, Douala, our space was designed to feel like a sanctuary. Every detail — from the ambient lighting to the curated soundscapes — has been thoughtfully chosen to help you relax the moment you walk in.',
+    p2: 'Nestled inside the prestigious Avant Saint James hotel in Bonamoussadi, Douala, our space was designed to feel like a sanctuary. Every detail — from the ambient lighting to the curated soundscapes — has been thoughtfully chosen to help you relax the moment you walk in.',
     p3: 'Our team of skilled professionals blends time-tested techniques with modern innovation, so every visit leaves you looking and feeling better than you expected. We don\'t just pamper — we help you carry confidence beyond our doors.',
     stat1: 'Services Available',
     stat2: 'Expert Team Members',
@@ -458,7 +458,7 @@ export const en = {
     section6Text: 'If you have questions about this Privacy Policy, please contact us at:',
     section6Email: 'Email: hello@ultimatebeautyspa.com',
     section6Phone: 'Phone: +237 697 113 339',
-    section6Address: 'Address: Avant Saint James hôtel, Bonamoussadi, Douala, Cameroon',
+    section6Address: 'Address: Avant Saint James hotel, Bonamoussadi, Douala, Cameroon',
   },
 
   // ─── Terms Page ───
@@ -558,7 +558,7 @@ export const en = {
     contactText: 'If you have any questions about our use of cookies, please contact us at:',
     contactEmail: 'Email: hello@ultimatebeautyspa.com',
     contactPhone: 'Phone: +237 697 113 339',
-    contactAddress: 'Address: Avant Saint James hôtel, Bonamoussadi, Douala, Cameroon',
+    contactAddress: 'Address: Avant Saint James hotel, Bonamoussadi, Douala, Cameroon',
   },
 
   // ─── FAQ (for AEO / Schema) ───
@@ -566,7 +566,7 @@ export const en = {
     q1: 'What services does Ultimate Beauty Spa offer in Douala?',
     a1: 'We offer a wide range of premium services including massage therapy (deep tissue, hot stone, relaxation), wet spa and hydrotherapy (jacuzzi, hammam), advanced facial treatments, haircuts and styling, hair coloring, braiding and protective styles, beard grooming, and manicure and pedicure. All services are available for both men and women.',
     q2: 'Where is Ultimate Beauty Spa located?',
-    a2: 'We are located at Avant Saint James hôtel, Bonamoussadi, Douala, Cameroon. Our spa is easily accessible and offers a luxurious, welcoming environment for all guests.',
+    a2: 'We are located at Avant Saint James hotel, Bonamoussadi, Douala, Cameroon. Our spa is easily accessible and offers a luxurious, welcoming environment for all guests.',
     q3: 'What are the opening hours?',
     a3: 'Ultimate Beauty Spa is open every day from 9:00 AM to 9:00 PM, including weekends and public holidays.',
     q4: 'How do I book an appointment?',

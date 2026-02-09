@@ -49,7 +49,7 @@ export const faq: FAQItem[] = [
       fr: 'À quoi dois-je m\'attendre lors de ma première visite chez Ultimate Beauty Spa ?',
     },
     answer: {
-      en: 'Welcome! When you arrive at our spa inside the Avant Saint James hôtel in Bonamoussadi, our front desk team will greet you warmly, walk you through our services, and help you settle in. Every first visit begins with a brief consultation so we understand your preferences, any sensitivities, and your goals for the session. We want you to feel completely relaxed and well taken care of from the moment you step through our doors.',
+      en: 'Welcome! When you arrive at our spa inside the Avant Saint James hotel in Bonamoussadi, our front desk team will greet you warmly, walk you through our services, and help you settle in. Every first visit begins with a brief consultation so we understand your preferences, any sensitivities, and your goals for the session. We want you to feel completely relaxed and well taken care of from the moment you step through our doors.',
       fr: 'Bienvenue ! Lorsque vous arrivez à notre spa situé dans l\'Avant Saint James hôtel à Bonamoussadi, notre équipe d\'accueil vous recevra chaleureusement, vous présentera nos services et vous aidera à vous installer. Chaque première visite commence par une brève consultation afin de comprendre vos préférences, vos éventuelles sensibilités et vos objectifs pour la séance. Nous voulons que vous vous sentiez totalement détendu(e) et bien pris(e) en charge dès votre arrivée.',
     },
   },

@@ -24,7 +24,7 @@ export interface ServiceCategory {
   image: string;
   featured: boolean;
   duration: string;
-  startingPrice: string;
+  startingPrice: { en: string; fr: string };
   subServices: SubService[];
   features: { en: string[]; fr: string[] };
 }
@@ -55,7 +55,7 @@ export const services: ServiceCategory[] = [
     image: '/images/services/massage.webp',
     featured: true,
     duration: '30–90 min',
-    startingPrice: 'À partir de XAF 10,000',
+    startingPrice: { en: 'From XAF 10,000', fr: 'À partir de XAF 10,000' },
     subServices: [
       { id: 'ms-relax-60', name: { en: 'Classic Relaxation Massage — 60 min', fr: 'Massage Relaxation Classique — 60 min' }, price: 'XAF 20,000', duration: '60 min', gender: 'all' },
       { id: 'ms-relax-90', name: { en: 'Classic Relaxation Massage — 90 min', fr: 'Massage Relaxation Classique — 90 min' }, price: 'XAF 30,000', duration: '90 min', gender: 'all' },
@@ -99,7 +99,7 @@ export const services: ServiceCategory[] = [
     image: '/images/services/wet-spa.webp',
     featured: true,
     duration: '60–90 min',
-    startingPrice: 'À partir de XAF 10,000',
+    startingPrice: { en: 'From XAF 10,000', fr: 'À partir de XAF 10,000' },
     subServices: [
       { id: 'ws-jacuzzi-60', name: { en: 'Jacuzzi Bath — 60 min', fr: 'Bain Jacuzzi — 60 min' }, price: 'XAF 15,000', duration: '60 min', gender: 'all' },
       { id: 'ws-jacuzzi-90', name: { en: 'Jacuzzi Bath — 90 min', fr: 'Bain Jacuzzi — 90 min' }, price: 'XAF 20,000', duration: '90 min', gender: 'all' },
@@ -141,7 +141,7 @@ export const services: ServiceCategory[] = [
     image: '/images/services/face-care.jpg',
     featured: true,
     duration: '30–60 min',
-    startingPrice: 'À partir de XAF 12,000',
+    startingPrice: { en: 'From XAF 12,000', fr: 'À partir de XAF 12,000' },
     subServices: [
       {
         id: 'fc-deep',
@@ -223,7 +223,7 @@ export const services: ServiceCategory[] = [
     image: '/images/services/haircuts.jpg',
     featured: true,
     duration: '30–60 min',
-    startingPrice: 'À partir de XAF 2,000',
+    startingPrice: { en: 'From XAF 2,000', fr: 'À partir de XAF 2,000' },
     subServices: [
       { id: 'hc-basic-m', name: { en: 'Basic Haircut', fr: 'Coupe Simple' }, price: 'XAF 2,000', duration: '30 min', gender: 'men' },
       { id: 'hc-classic-m', name: { en: 'Classic Cut & Style', fr: 'Coupe Classique & Coiffage' }, price: 'XAF 3,000', duration: '40 min', gender: 'men' },
@@ -265,7 +265,7 @@ export const services: ServiceCategory[] = [
     image: '/images/services/coloring.jpg',
     featured: true,
     duration: '60–180 min',
-    startingPrice: 'À partir de XAF 5,000',
+    startingPrice: { en: 'From XAF 5,000', fr: 'À partir de XAF 5,000' },
     subServices: [
       { id: 'cl-root', name: { en: 'Root Touch-Up', fr: 'Retouche Racines' }, price: 'XAF 5,000', duration: '60 min', gender: 'all' },
       { id: 'cl-full', name: { en: 'Full Color (Single Process)', fr: 'Coloration Complète (Mono-processus)' }, price: 'XAF 10,000', duration: '90 min', gender: 'all', bestSeller: true },
@@ -305,7 +305,7 @@ export const services: ServiceCategory[] = [
     image: '/images/services/braiding.jpg',
     featured: true,
     duration: '60–300 min',
-    startingPrice: 'À partir de XAF 3,000',
+    startingPrice: { en: 'From XAF 3,000', fr: 'À partir de XAF 3,000' },
     subServices: [
       { id: 'br-cornrows', name: { en: 'Cornrows (Simple)', fr: 'Cornrows (Simples)' }, price: 'XAF 3,000', duration: '60 min', gender: 'all' },
       { id: 'br-cornrows-design', name: { en: 'Cornrows (Design / Feed-In)', fr: 'Cornrows (Design / Feed-In)' }, price: 'XAF 8,000', duration: '120 min', gender: 'all', bestSeller: true },
@@ -347,7 +347,7 @@ export const services: ServiceCategory[] = [
     image: '/images/services/shaves.jpg',
     featured: true,
     duration: '20–60 min',
-    startingPrice: 'À partir de XAF 2,000',
+    startingPrice: { en: 'From XAF 2,000', fr: 'À partir de XAF 2,000' },
     subServices: [
       { id: 'sh-lineup', name: { en: 'Lineup / Edge-Up', fr: 'Ligne / Contours' }, price: 'XAF 2,000', duration: '20 min', gender: 'men' },
       { id: 'sh-beard-trim', name: { en: 'Beard Trim & Shape', fr: 'Taille & Forme Barbe' }, price: 'XAF 3,000', duration: '25 min', gender: 'men', bestSeller: true },
@@ -387,7 +387,7 @@ export const services: ServiceCategory[] = [
     image: '/images/services/nails.jpg',
     featured: true,
     duration: '30–90 min',
-    startingPrice: 'À partir de XAF 3,000',
+    startingPrice: { en: 'From XAF 3,000', fr: 'À partir de XAF 3,000' },
     subServices: [
       { id: 'nl-mani-classic', name: { en: 'Classic Manicure', fr: 'Manucure Classique' }, price: 'XAF 3,000', duration: '30 min', gender: 'all' },
       { id: 'nl-pedi-classic', name: { en: 'Classic Pedicure', fr: 'Pédicure Classique' }, price: 'XAF 4,000', duration: '40 min', gender: 'all' },
@@ -418,6 +418,7 @@ export function getServiceByLang(service: ServiceCategory, lang: 'en' | 'fr') {
     tagline: service.tagline[lang],
     description: service.description[lang],
     longDescription: service.longDescription[lang],
+    startingPrice: service.startingPrice[lang],
     features: service.features[lang],
     subServices: service.subServices.map(sub => ({
       ...sub,

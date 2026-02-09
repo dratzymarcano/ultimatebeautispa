@@ -24,7 +24,7 @@ const localizedServices = allServiceData.map(s => ({
   icon: s.icon,
   image: s.image,
   featured: s.featured,
-  startingPrice: s.startingPrice,
+  startingPrice: s.startingPrice[lang],
 }));
 
 const displayServices = showAll ? localizedServices : localizedServices.filter(s => s.featured);
