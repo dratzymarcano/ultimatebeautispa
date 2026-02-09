@@ -1,0 +1,999 @@
+---
+/**
+ * DatePicker + Time Selector — Premium Booking Component
+ * Features: animated calendar, visual time grid, booked-slot awareness, 
+ * glassmorphism panel, smooth transitions, responsive design
+ */
+import { t } from '../i18n/index';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = 'en' } = Astro.props;
+const i = t(lang);
+
+const timeSlots = [
+  { value: '9:00 AM',  label: lang === 'fr' ? '9h00'  : '9:00 AM',  period: 'morning' },
+  { value: '9:30 AM',  label: lang === 'fr' ? '9h30'  : '9:30 AM',  period: 'morning' },
+  { value: '10:00 AM', label: lang === 'fr' ? '10h00' : '10:00 AM', period: 'morning' },
+  { value: '10:30 AM', label: lang === 'fr' ? '10h30' : '10:30 AM', period: 'morning' },
+  { value: '11:00 AM', label: lang === 'fr' ? '11h00' : '11:00 AM', period: 'morning' },
+  { value: '11:30 AM', label: lang === 'fr' ? '11h30' : '11:30 AM', period: 'morning' },
+  { value: '12:00 PM', label: lang === 'fr' ? '12h00' : '12:00 PM', period: 'afternoon' },
+  { value: '12:30 PM', label: lang === 'fr' ? '12h30' : '12:30 PM', period: 'afternoon' },
+  { value: '1:00 PM',  label: lang === 'fr' ? '13h00' : '1:00 PM',  period: 'afternoon' },
+  { value: '1:30 PM',  label: lang === 'fr' ? '13h30' : '1:30 PM',  period: 'afternoon' },
+  { value: '2:00 PM',  label: lang === 'fr' ? '14h00' : '2:00 PM',  period: 'afternoon' },
+  { value: '2:30 PM',  label: lang === 'fr' ? '14h30' : '2:30 PM',  period: 'afternoon' },
+  { value: '3:00 PM',  label: lang === 'fr' ? '15h00' : '3:00 PM',  period: 'afternoon' },
+  { value: '3:30 PM',  label: lang === 'fr' ? '15h30' : '3:30 PM',  period: 'afternoon' },
+  { value: '4:00 PM',  label: lang === 'fr' ? '16h00' : '4:00 PM',  period: 'afternoon' },
+  { value: '4:30 PM',  label: lang === 'fr' ? '16h30' : '4:30 PM',  period: 'evening' },
+  { value: '5:00 PM',  label: lang === 'fr' ? '17h00' : '5:00 PM',  period: 'evening' },
+  { value: '5:30 PM',  label: lang === 'fr' ? '17h30' : '5:30 PM',  period: 'evening' },
+  { value: '6:00 PM',  label: lang === 'fr' ? '18h00' : '6:00 PM',  period: 'evening' },
+  { value: '6:30 PM',  label: lang === 'fr' ? '18h30' : '6:30 PM',  period: 'evening' },
+  { value: '7:00 PM',  label: lang === 'fr' ? '19h00' : '7:00 PM',  period: 'evening' },
+  { value: '7:30 PM',  label: lang === 'fr' ? '19h30' : '7:30 PM',  period: 'evening' },
+  { value: '8:00 PM',  label: lang === 'fr' ? '20h00' : '8:00 PM',  period: 'evening' },
+];
+
+const periodLabels = {
+  morning:   lang === 'fr' ? 'Matin'      : 'Morning',
+  afternoon: lang === 'fr' ? 'Après-midi'  : 'Afternoon',
+  evening:   lang === 'fr' ? 'Soir'        : 'Evening',
+};
+---
+
+<!-- ═══ Date & Time Picker ═══ -->
+<div class="bk-datetime" data-locale={lang}
+  data-months={JSON.stringify(i.datePicker.monthNames)}
+  data-days={JSON.stringify(i.datePicker.dayNames)}>
+
+  <!-- ── Date Trigger ── -->
+  <div class="bk-field">
+    <label class="bk-field__label">
+      <svg class="bk-field__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>
+      </svg>
+      {i.datePicker.label}
+    </label>
+    <button type="button" id="bk-date-trigger" class="bk-field__trigger" aria-haspopup="dialog" aria-expanded="false">
+      <span id="bk-date-display" class="bk-field__value bk-field__value--placeholder">{i.datePicker.placeholder}</span>
+      <span class="bk-field__chevron">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </span>
+    </button>
+    <input type="hidden" id="date" name="date" required />
+  </div>
+
+  <!-- ── Time Trigger ── -->
+  <div class="bk-field">
+    <label class="bk-field__label">
+      <svg class="bk-field__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      {i.booking.preferredTime}
+    </label>
+    <button type="button" id="bk-time-trigger" class="bk-field__trigger" aria-haspopup="dialog" aria-expanded="false" disabled>
+      <span id="bk-time-display" class="bk-field__value bk-field__value--placeholder">{i.booking.selectTime}</span>
+      <span class="bk-field__chevron">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </span>
+    </button>
+    <input type="hidden" id="time" name="time" required />
+  </div>
+</div>
+
+<!-- ═══ Calendar Modal ═══ -->
+<div id="bk-cal-overlay" class="bk-overlay" role="dialog" aria-modal="true" aria-label="Choose a date">
+  <div class="bk-cal" id="bk-cal-panel">
+
+    <!-- Quick Select Sidebar -->
+    <div class="bk-cal__sidebar">
+      <span class="bk-cal__sidebar-title">{lang === 'fr' ? 'Accès rapide' : 'Quick Select'}</span>
+      <button type="button" class="bk-cal__quick" data-quick="today">{lang === 'fr' ? "Aujourd'hui" : 'Today'}</button>
+      <button type="button" class="bk-cal__quick" data-quick="tomorrow">{lang === 'fr' ? 'Demain' : 'Tomorrow'}</button>
+      <button type="button" class="bk-cal__quick" data-quick="this-weekend">{lang === 'fr' ? 'Ce week-end' : 'This Weekend'}</button>
+      <button type="button" class="bk-cal__quick" data-quick="next-week">{lang === 'fr' ? 'Semaine prochaine' : 'Next Week'}</button>
+    </div>
+
+    <!-- Calendar -->
+    <div class="bk-cal__main">
+      <!-- Month Nav -->
+      <div class="bk-cal__nav">
+        <button type="button" class="bk-cal__arrow" id="bk-prev" aria-label="Previous month">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <span class="bk-cal__month" id="bk-month-label"></span>
+        <button type="button" class="bk-cal__arrow" id="bk-next" aria-label="Next month">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+
+      <!-- Weekday Headers -->
+      <div class="bk-cal__weekdays">
+        {i.datePicker.dayNames.map((d: string) => <span>{d.substring(0, 2)}</span>)}
+      </div>
+
+      <!-- Day Grid -->
+      <div class="bk-cal__grid" id="bk-cal-grid"></div>
+
+      <!-- Actions -->
+      <div class="bk-cal__actions">
+        <button type="button" class="bk-btn bk-btn--ghost" id="bk-cal-cancel">{lang === 'fr' ? 'Annuler' : 'Cancel'}</button>
+        <button type="button" class="bk-btn bk-btn--primary" id="bk-cal-apply" disabled>{lang === 'fr' ? 'Confirmer' : 'Confirm'}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Time Selector Modal ═══ -->
+<div id="bk-time-overlay" class="bk-overlay" role="dialog" aria-modal="true" aria-label="Choose a time">
+  <div class="bk-time" id="bk-time-panel">
+    <div class="bk-time__header">
+      <h3 class="bk-time__title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span id="bk-time-date-label"></span>
+      </h3>
+      <button type="button" class="bk-time__close" id="bk-time-close" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="bk-time__body">
+      <div class="bk-time__loading" id="bk-time-loading">
+        <div class="bk-time__spinner"></div>
+        <span>{lang === 'fr' ? 'Chargement des disponibilités...' : 'Checking availability...'}</span>
+      </div>
+
+      <div class="bk-time__slots" id="bk-time-slots" style="display:none;">
+        {Object.entries(periodLabels).map(([period, label]) => (
+          <div class="bk-time__period" data-period={period}>
+            <span class="bk-time__period-label">
+              {period === 'morning' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>}
+              {period === 'afternoon' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 3v1"/><path d="M12 20v1"/><path d="M3 12h1"/><path d="M20 12h1"/><path d="m18.364 5.636-.707.707"/><path d="m6.343 17.657-.707.707"/><path d="m5.636 5.636.707.707"/><path d="m17.657 17.657.707.707"/></svg>}
+              {period === 'evening' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>}
+              {label}
+            </span>
+            <div class="bk-time__grid">
+              {timeSlots.filter(s => s.period === period).map(slot => (
+                <button type="button" class="bk-time__slot" data-value={slot.value} data-label={slot.label}>
+                  {slot.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="bk-time__actions">
+      <button type="button" class="bk-btn bk-btn--ghost" id="bk-time-cancel">{lang === 'fr' ? 'Annuler' : 'Cancel'}</button>
+      <button type="button" class="bk-btn bk-btn--primary" id="bk-time-apply" disabled>{lang === 'fr' ? 'Confirmer' : 'Confirm'}</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ═══════════════════════════════════════════
+     BOOKING DATE/TIME — Ultra Premium UI
+     ═══════════════════════════════════════════ */
+
+  /* ── Field Triggers ── */
+  .bk-datetime {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .bk-field__label {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-charcoal);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
+  }
+
+  .bk-field__icon {
+    color: var(--color-red);
+    flex-shrink: 0;
+  }
+
+  .bk-field__trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+    background: var(--color-white);
+    border: 1.5px solid var(--color-mist);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: left;
+    color: var(--color-black);
+  }
+
+  .bk-field__trigger:hover:not(:disabled) {
+    border-color: var(--color-silver);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .bk-field__trigger:focus:not(:disabled),
+  .bk-field__trigger[aria-expanded="true"] {
+    border-color: var(--color-red);
+    box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+    outline: none;
+  }
+
+  .bk-field__trigger:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .bk-field__value { flex: 1; }
+  .bk-field__value--placeholder { color: var(--color-gray); }
+  .bk-field__value--set { color: var(--color-black); font-weight: 500; }
+
+  .bk-field__chevron {
+    color: var(--color-gray);
+    transition: transform 0.25s ease, color 0.25s ease;
+    flex-shrink: 0;
+  }
+  .bk-field__trigger[aria-expanded="true"] .bk-field__chevron {
+    transform: rotate(180deg);
+    color: var(--color-red);
+  }
+
+  /* ── Overlay ── */
+  .bk-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(10, 10, 10, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .bk-overlay.open { opacity: 1; visibility: visible; }
+
+  /* ── Calendar Panel ── */
+  .bk-cal {
+    display: flex;
+    background: var(--color-white);
+    border-radius: 16px;
+    box-shadow: 0 24px 64px -16px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04);
+    overflow: hidden;
+    max-width: 560px;
+    width: 100%;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .bk-overlay.open .bk-cal { transform: translateY(0) scale(1); }
+
+  /* Sidebar */
+  .bk-cal__sidebar {
+    width: 150px;
+    background: linear-gradient(180deg, #fafafa 0%, #f5f5f5 100%);
+    border-right: 1px solid var(--color-mist);
+    padding: 1.25rem 0.625rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .bk-cal__sidebar-title {
+    font-size: 0.5625rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-gray);
+    padding: 0 0.625rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .bk-cal__quick {
+    padding: 0.5rem 0.625rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-charcoal);
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-body);
+  }
+  .bk-cal__quick:hover { background: rgba(225,29,72,0.06); color: var(--color-red); }
+  .bk-cal__quick.active {
+    background: var(--color-red);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(225,29,72,0.25);
+  }
+
+  /* Calendar Main */
+  .bk-cal__main {
+    flex: 1;
+    padding: 1.5rem;
+    min-width: 0;
+  }
+
+  .bk-cal__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .bk-cal__month {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--color-black);
+    letter-spacing: -0.02em;
+  }
+
+  .bk-cal__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    border: 1px solid var(--color-mist);
+    background: transparent;
+    color: var(--color-charcoal);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .bk-cal__arrow:hover {
+    border-color: var(--color-red);
+    color: var(--color-red);
+    background: rgba(225,29,72,0.04);
+  }
+
+  /* Weekday Labels */
+  .bk-cal__weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 0.375rem;
+  }
+  .bk-cal__weekdays span {
+    text-align: center;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-gray);
+    padding: 0.25rem 0;
+  }
+
+  /* Day Grid */
+  .bk-cal__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+  }
+
+  .bk-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: var(--color-black);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    font-family: var(--font-body);
+    position: relative;
+  }
+
+  .bk-day:hover:not(.bk-day--disabled):not(.bk-day--selected) {
+    background: rgba(225,29,72,0.06);
+    color: var(--color-red);
+  }
+
+  .bk-day--today:not(.bk-day--selected) {
+    font-weight: 700;
+    color: var(--color-red);
+  }
+  .bk-day--today:not(.bk-day--selected)::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: var(--color-red);
+    border-radius: 50%;
+  }
+
+  .bk-day--selected {
+    background: var(--color-red);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(225,29,72,0.3);
+    transform: scale(1.05);
+  }
+
+  .bk-day--disabled {
+    color: var(--color-silver);
+    cursor: not-allowed;
+    opacity: 0.35;
+  }
+
+  .bk-day--other {
+    color: var(--color-silver);
+    opacity: 0.3;
+  }
+
+  .bk-day--has-slots::before {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 3px;
+    background: #22c55e;
+    border-radius: 50%;
+  }
+  .bk-day--today.bk-day--has-slots::after { display: none; }
+  .bk-day--selected.bk-day--has-slots::before { background: rgba(255,255,255,0.6); }
+
+  /* Actions */
+  .bk-cal__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.625rem;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-mist);
+  }
+
+  .bk-btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-family: var(--font-body);
+  }
+  .bk-btn--ghost {
+    background: transparent;
+    color: var(--color-charcoal);
+    border: 1px solid var(--color-mist);
+  }
+  .bk-btn--ghost:hover { background: var(--color-cloud); border-color: var(--color-silver); }
+  .bk-btn--primary {
+    background: var(--color-red);
+    color: #fff;
+  }
+  .bk-btn--primary:hover:not(:disabled) {
+    background: var(--color-red-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(225,29,72,0.25);
+  }
+  .bk-btn--primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── Time Panel ── */
+  .bk-time {
+    background: var(--color-white);
+    border-radius: 16px;
+    box-shadow: 0 24px 64px -16px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04);
+    max-width: 480px;
+    width: 100%;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+  .bk-overlay.open .bk-time { transform: translateY(0) scale(1); }
+
+  .bk-time__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-black);
+    color: #fff;
+  }
+
+  .bk-time__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .bk-time__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .bk-time__close:hover { background: rgba(255,255,255,0.2); }
+
+  .bk-time__body {
+    padding: 1.25rem 1.5rem;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+
+  .bk-time__loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem 0;
+    color: var(--color-gray);
+    font-size: 0.875rem;
+  }
+
+  .bk-time__spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid var(--color-mist);
+    border-top-color: var(--color-red);
+    border-radius: 50%;
+    animation: bk-spin 0.7s linear infinite;
+  }
+  @keyframes bk-spin { to { transform: rotate(360deg); } }
+
+  .bk-time__period { margin-bottom: 1rem; }
+  .bk-time__period:last-child { margin-bottom: 0; }
+
+  .bk-time__period-label {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-gray);
+    margin-bottom: 0.5rem;
+    padding-left: 0.125rem;
+  }
+
+  .bk-time__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.375rem;
+  }
+
+  .bk-time__slot {
+    padding: 0.625rem 0.25rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-align: center;
+    border: 1.5px solid var(--color-mist);
+    border-radius: 10px;
+    background: var(--color-white);
+    color: var(--color-black);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    font-family: var(--font-body);
+  }
+
+  .bk-time__slot:hover:not(:disabled):not(.bk-time__slot--booked) {
+    border-color: var(--color-red);
+    background: rgba(225,29,72,0.04);
+    color: var(--color-red);
+  }
+
+  .bk-time__slot--selected {
+    background: var(--color-red) !important;
+    border-color: var(--color-red) !important;
+    color: #fff !important;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(225,29,72,0.25);
+    transform: scale(1.03);
+  }
+
+  .bk-time__slot--booked {
+    background: var(--color-cloud);
+    border-color: transparent;
+    color: var(--color-silver);
+    cursor: not-allowed;
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  .bk-time__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.625rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--color-mist);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .bk-datetime {
+      grid-template-columns: 1fr;
+    }
+
+    .bk-cal {
+      flex-direction: column;
+      max-width: 380px;
+    }
+    .bk-cal__sidebar {
+      width: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: 0.75rem;
+      border-right: none;
+      border-bottom: 1px solid var(--color-mist);
+      gap: 0.375rem;
+    }
+    .bk-cal__sidebar-title {
+      width: 100%;
+      margin-bottom: 0.125rem;
+    }
+    .bk-cal__quick {
+      flex: 0 0 auto;
+      padding: 0.375rem 0.75rem;
+      font-size: 0.75rem;
+      border: 1px solid var(--color-mist);
+      border-radius: 20px;
+    }
+    .bk-cal__quick.active { border-color: var(--color-red); }
+
+    .bk-cal__main { padding: 1rem; }
+    .bk-day { font-size: 0.75rem; border-radius: 8px; }
+
+    .bk-time__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bk-cal, .bk-time { transition: none; transform: none; }
+    .bk-day { transition: none; }
+    .bk-time__slot { transition: none; }
+    .bk-time__spinner { animation: none; }
+  }
+</style>
+
+<script>
+  // ══════════════════════════════════════
+  //  DATE + TIME PICKER LOGIC
+  // ══════════════════════════════════════
+
+  const root = document.querySelector('.bk-datetime') as HTMLElement;
+  const locale = root?.dataset.locale || 'en';
+  const MONTHS: string[] = JSON.parse(root?.dataset.months || '[]');
+
+  // ── Date Picker Elements ──
+  const dateTrigger  = document.getElementById('bk-date-trigger') as HTMLButtonElement;
+  const dateDisplay  = document.getElementById('bk-date-display') as HTMLSpanElement;
+  const dateInput    = document.getElementById('date') as HTMLInputElement;
+  const calOverlay   = document.getElementById('bk-cal-overlay') as HTMLDivElement;
+  const calGrid      = document.getElementById('bk-cal-grid') as HTMLDivElement;
+  const monthLabel   = document.getElementById('bk-month-label') as HTMLSpanElement;
+  const prevBtn      = document.getElementById('bk-prev') as HTMLButtonElement;
+  const nextBtn      = document.getElementById('bk-next') as HTMLButtonElement;
+  const calCancel    = document.getElementById('bk-cal-cancel') as HTMLButtonElement;
+  const calApply     = document.getElementById('bk-cal-apply') as HTMLButtonElement;
+  const quickBtns    = root?.querySelectorAll('.bk-cal__quick') as NodeListOf<HTMLButtonElement>;
+
+  // ── Time Picker Elements ──
+  const timeTrigger  = document.getElementById('bk-time-trigger') as HTMLButtonElement;
+  const timeDisplay  = document.getElementById('bk-time-display') as HTMLSpanElement;
+  const timeInput    = document.getElementById('time') as HTMLInputElement;
+  const timeOverlay  = document.getElementById('bk-time-overlay') as HTMLDivElement;
+  const timeLoading  = document.getElementById('bk-time-loading') as HTMLDivElement;
+  const timeSlotsEl  = document.getElementById('bk-time-slots') as HTMLDivElement;
+  const timeDateLabel = document.getElementById('bk-time-date-label') as HTMLSpanElement;
+  const timeCancel   = document.getElementById('bk-time-cancel') as HTMLButtonElement;
+  const timeApply    = document.getElementById('bk-time-apply') as HTMLButtonElement;
+  const timeClose    = document.getElementById('bk-time-close') as HTMLButtonElement;
+  const allSlotBtns  = timeSlotsEl?.querySelectorAll('.bk-time__slot') as NodeListOf<HTMLButtonElement>;
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  let viewYear  = today.getFullYear();
+  let viewMonth = today.getMonth();
+  let selectedDate: Date | null = null;
+  let tempDate: Date | null = null;
+  let selectedTime: string | null = null;
+  let tempTime: string | null = null;
+  let bookedSlots: Record<string, string[]> = {}; // { "2026-02-09": ["9:00 AM", "10:00 AM"] }
+
+  // ── Helpers ──
+  function isoDate(d: Date): string {
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function prettyDate(d: Date): string {
+    return d.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-GB', {
+      weekday: 'short', day: 'numeric', month: 'long', year: 'numeric'
+    });
+  }
+
+  function sameDay(a: Date, b: Date): boolean {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  }
+
+  function isPast(d: Date): boolean {
+    const c = new Date(d); c.setHours(0,0,0,0);
+    return c < today;
+  }
+
+  // ── Fetch booked slots ──
+  async function fetchBookedSlots(dateStr: string): Promise<string[]> {
+    try {
+      const res = await fetch(`/api/booked-slots?date=${dateStr}`);
+      if (res.ok) {
+        const data = await res.json();
+        return (data as { slots: string[] }).slots || [];
+      }
+    } catch { /* ignore */ }
+    return [];
+  }
+
+  // ═══ CALENDAR ═══
+
+  function renderCalendar() {
+    monthLabel.textContent = `${MONTHS[viewMonth]} ${viewYear}`;
+
+    const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+    const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+    const daysInPrev = new Date(viewYear, viewMonth, 0).getDate();
+
+    calGrid.innerHTML = '';
+
+    // Previous month trailing
+    for (let i = firstDay - 1; i >= 0; i--) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'bk-day bk-day--other bk-day--disabled';
+      btn.textContent = String(daysInPrev - i);
+      btn.disabled = true;
+      calGrid.appendChild(btn);
+    }
+
+    // Current month
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(viewYear, viewMonth, d);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'bk-day';
+      btn.textContent = String(d);
+
+      if (isPast(date)) {
+        btn.classList.add('bk-day--disabled');
+        btn.disabled = true;
+      } else {
+        btn.addEventListener('click', () => { tempDate = new Date(date); renderCalendar(); });
+      }
+
+      if (sameDay(date, today)) btn.classList.add('bk-day--today');
+      if (tempDate && sameDay(date, tempDate)) btn.classList.add('bk-day--selected');
+
+      calGrid.appendChild(btn);
+    }
+
+    // Next month fill to 42 cells
+    const total = calGrid.children.length;
+    for (let i = 1; i <= 42 - total; i++) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'bk-day bk-day--other bk-day--disabled';
+      btn.textContent = String(i);
+      btn.disabled = true;
+      calGrid.appendChild(btn);
+    }
+
+    calApply.disabled = !tempDate;
+    quickBtns.forEach(b => b.classList.remove('active'));
+  }
+
+  function openCalendar() {
+    tempDate = selectedDate ? new Date(selectedDate) : null;
+    viewYear = (selectedDate || today).getFullYear();
+    viewMonth = (selectedDate || today).getMonth();
+    renderCalendar();
+    calOverlay.classList.add('open');
+    dateTrigger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCalendar() {
+    calOverlay.classList.remove('open');
+    dateTrigger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  function applyDate() {
+    if (!tempDate) return;
+    selectedDate = new Date(tempDate);
+    dateInput.value = isoDate(selectedDate);
+    dateDisplay.textContent = prettyDate(selectedDate);
+    dateDisplay.className = 'bk-field__value bk-field__value--set';
+
+    // Reset time when date changes
+    selectedTime = null;
+    tempTime = null;
+    timeInput.value = '';
+    timeDisplay.textContent = locale === 'fr' ? 'Sélectionner une heure' : 'Select a time';
+    timeDisplay.className = 'bk-field__value bk-field__value--placeholder';
+
+    // Enable time trigger
+    timeTrigger.disabled = false;
+
+    closeCalendar();
+  }
+
+  // Events
+  dateTrigger.addEventListener('click', openCalendar);
+  calOverlay.addEventListener('click', (e) => { if (e.target === calOverlay) closeCalendar(); });
+  calCancel.addEventListener('click', closeCalendar);
+  calApply.addEventListener('click', applyDate);
+
+  prevBtn.addEventListener('click', () => {
+    viewMonth--;
+    if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+    renderCalendar();
+  });
+  nextBtn.addEventListener('click', () => {
+    viewMonth++;
+    if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+    renderCalendar();
+  });
+
+  // Quick selects
+  quickBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      quickBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      let target: Date;
+      const q = btn.dataset.quick;
+      switch (q) {
+        case 'today':
+          target = new Date(today); break;
+        case 'tomorrow':
+          target = new Date(today); target.setDate(target.getDate() + 1); break;
+        case 'this-weekend': {
+          target = new Date(today);
+          const dow = target.getDay();
+          target.setDate(target.getDate() + (dow === 6 ? 0 : 6 - dow));
+          break;
+        }
+        case 'next-week': {
+          target = new Date(today);
+          const dw = target.getDay();
+          target.setDate(target.getDate() + (dw === 0 ? 1 : 8 - dw));
+          break;
+        }
+        default: return;
+      }
+
+      tempDate = target;
+      viewYear = target.getFullYear();
+      viewMonth = target.getMonth();
+      renderCalendar();
+    });
+  });
+
+  // ═══ TIME PICKER ═══
+
+  async function openTimePicker() {
+    if (!selectedDate) return;
+
+    tempTime = selectedTime;
+    const dateStr = isoDate(selectedDate);
+    timeDateLabel.textContent = prettyDate(selectedDate);
+
+    // Show loading
+    timeLoading.style.display = 'flex';
+    timeSlotsEl.style.display = 'none';
+    timeOverlay.classList.add('open');
+    timeTrigger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+
+    // Fetch booked slots
+    const booked = await fetchBookedSlots(dateStr);
+    bookedSlots[dateStr] = booked;
+
+    // Update slot states
+    allSlotBtns.forEach(btn => {
+      const val = btn.dataset.value || '';
+      btn.classList.remove('bk-time__slot--selected', 'bk-time__slot--booked');
+      btn.disabled = false;
+
+      if (booked.includes(val)) {
+        btn.classList.add('bk-time__slot--booked');
+        btn.disabled = true;
+      }
+
+      if (tempTime === val && !booked.includes(val)) {
+        btn.classList.add('bk-time__slot--selected');
+      }
+    });
+
+    timeApply.disabled = !tempTime || booked.includes(tempTime);
+
+    // Show slots
+    timeLoading.style.display = 'none';
+    timeSlotsEl.style.display = 'block';
+  }
+
+  function closeTimePicker() {
+    timeOverlay.classList.remove('open');
+    timeTrigger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  function applyTime() {
+    if (!tempTime) return;
+    selectedTime = tempTime;
+    timeInput.value = selectedTime;
+
+    const btn = timeSlotsEl.querySelector(`.bk-time__slot[data-value="${selectedTime}"]`) as HTMLButtonElement | null;
+    timeDisplay.textContent = btn?.dataset.label || selectedTime;
+    timeDisplay.className = 'bk-field__value bk-field__value--set';
+
+    closeTimePicker();
+  }
+
+  // Slot click
+  allSlotBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('bk-time__slot--booked')) return;
+      allSlotBtns.forEach(b => b.classList.remove('bk-time__slot--selected'));
+      btn.classList.add('bk-time__slot--selected');
+      tempTime = btn.dataset.value || null;
+      timeApply.disabled = false;
+    });
+  });
+
+  // Events
+  timeTrigger.addEventListener('click', openTimePicker);
+  timeOverlay.addEventListener('click', (e) => { if (e.target === timeOverlay) closeTimePicker(); });
+  timeCancel.addEventListener('click', closeTimePicker);
+  timeClose.addEventListener('click', closeTimePicker);
+  timeApply.addEventListener('click', applyTime);
+
+  // Global escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (calOverlay.classList.contains('open')) closeCalendar();
+    if (timeOverlay.classList.contains('open')) closeTimePicker();
+  });
+</script>

@@ -454,7 +454,7 @@ export const fr = {
     section5Item4: 'Vous désabonner des communications marketing à tout moment',
     section6Title: '6. Nous Contacter',
     section6Text: 'Si vous avez des questions sur cette Politique de Confidentialité, veuillez nous contacter à :',
-    section6Email: 'Email : hello@ultimatebeautyspa.com',
+    section6Email: 'Email : hello@ultimatebeautyspa.net',
     section6Phone: 'Téléphone : +237 697 113 339',
     section6Address: 'Adresse : Avant Saint James hôtel, Bonamoussadi, Douala, Cameroun',
   },
@@ -487,7 +487,7 @@ export const fr = {
     section7Title: '7. Modifications des Conditions',
     section7Text: 'Nous nous réservons le droit de modifier ces Conditions à tout moment. Les modifications prendront effet dès leur publication sur notre site web.',
     section8Title: '8. Contact',
-    section8Text: 'Pour toute question concernant ces Conditions, contactez-nous à hello@ultimatebeautyspa.com.',
+    section8Text: 'Pour toute question concernant ces Conditions, contactez-nous à hello@ultimatebeautyspa.net.',
   },
 
   // ─── Accessibility Page ───
@@ -510,7 +510,7 @@ export const fr = {
     standardsText: 'Nous visons la conformité aux normes WCAG 2.1 Niveau AA. Nos efforts continus incluent des audits réguliers et des mises à jour pour améliorer l\'accessibilité.',
     feedbackTitle: 'Retours',
     feedbackText: 'Nous accueillons vos retours sur l\'accessibilité de notre site web. Veuillez nous contacter si vous rencontrez des obstacles :',
-    feedbackEmail: 'Email : hello@ultimatebeautyspa.com',
+    feedbackEmail: 'Email : hello@ultimatebeautyspa.net',
     feedbackPhone: 'Téléphone : +237 697 113 339',
   },
 
@@ -554,7 +554,7 @@ export const fr = {
     changesText: 'Nous pouvons mettre à jour cette Politique de Cookies de temps en temps pour refléter les changements technologiques, législatifs ou dans nos pratiques de données. Nous vous encourageons à consulter régulièrement cette page pour les dernières informations.',
     contactTitle: '6. Nous Contacter',
     contactText: 'Si vous avez des questions sur notre utilisation des cookies, veuillez nous contacter à :',
-    contactEmail: 'Email : hello@ultimatebeautyspa.com',
+    contactEmail: 'Email : hello@ultimatebeautyspa.net',
     contactPhone: 'Téléphone : +237 697 113 339',
     contactAddress: 'Adresse : Avant Saint James hôtel, Bonamoussadi, Douala, Cameroun',
   },

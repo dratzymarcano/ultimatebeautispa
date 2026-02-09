@@ -355,7 +355,7 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
 
               <p class="sd-booking__note">
                 <Icon name="lucide:shield-check" class="w-3.5 h-3.5" />
-                Booking confirmed via WhatsApp within 24h
+                Booking confirmed via email within 24h
               </p>
             </form>
           </div>
@@ -477,10 +477,10 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
     });
   }
 
-  // ── Booking form → WhatsApp ──
+  // ── Booking form → Email via Resend ──
   const form = document.getElementById('booking-form');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const timeEl = document.getElementById('preferred-time');
@@ -492,6 +492,7 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
       if (!(timeEl instanceof HTMLSelectElement) || !(dateEl instanceof HTMLInputElement) || !(nameEl instanceof HTMLInputElement) || !(emailEl instanceof HTMLInputElement) || !(phoneEl instanceof HTMLInputElement)) return;
 
       const selectedBoxes = document.querySelectorAll('input[name="selected-service"]:checked');
+      /** @type {string[]} */
       const treatments = [];
       selectedBoxes.forEach(cb => {
         if (!(cb instanceof HTMLInputElement)) return;
@@ -502,20 +503,37 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
         treatments.push(`${name} (${price})`);
       });
 
-      const msg = [
-        `Hello! I'd like to book an appointment.`,
-        ``,
-        `Service: ${serviceName}`,
-        treatments.length > 0 ? `Treatments:\n${treatments.map(t => `  • ${t}`).join('\n')}` : '',
-        `Date: ${dateEl.value}`,
-        `Time: ${timeEl.value}`,
-        `Name: ${nameEl.value}`,
-        `Email: ${emailEl.value}`,
-        `Phone: ${phoneEl.value}`,
-      ].filter(Boolean).join('\n');
+      const submitBtn = /** @type {HTMLButtonElement|null} */ (form.querySelector('button[type="submit"]'));
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.style.opacity = '0.6'; }
 
-      const url = `https://wa.me/237697113339?text=${encodeURIComponent(msg)}`;
-      window.open(url, '_blank');
+      try {
+        const res = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'booking',
+            service: serviceName,
+            treatments,
+            date: dateEl.value,
+            time: timeEl.value,
+            firstName: nameEl.value,
+            lastName: '',
+            email: emailEl.value,
+            phone: phoneEl.value,
+          }),
+        });
+
+        if (res.ok) {
+          alert('Your booking request has been sent! We\'ll confirm via email within 24 hours.');
+          form.reset();
+        } else {
+          alert('Something went wrong. Please try again or call +237 697 113 339.');
+        }
+      } catch {
+        alert('Network error. Please try again or call +237 697 113 339.');
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = '1'; }
+      }
     });
   }
 </script>

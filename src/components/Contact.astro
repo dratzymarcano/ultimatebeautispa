@@ -27,8 +27,8 @@ const contactInfo = [
   {
     iconName: 'lucide:mail',
     title: i.contact.emailUs,
-    lines: ['hello@ultimatebeautyspa.com', 'bookings@ultimatebeautyspa.com'],
-    action: { text: i.contact.sendEmail, href: 'mailto:hello@ultimatebeautyspa.com' }
+    lines: ['hello@ultimatebeautyspa.net', 'bookings@ultimatebeautyspa.net'],
+    action: { text: i.contact.sendEmail, href: 'mailto:hello@ultimatebeautyspa.net' }
   },
   {
     iconName: 'lucide:clock',
@@ -215,7 +215,7 @@ const contactInfo = [
     alertEl.className = `text-sm rounded-lg px-4 py-3 border ${type === 'error' ? 'bg-red/10 text-red border-red/20' : 'bg-success/10 text-success border-success/20'}`;
   };
 
-  form?.addEventListener('submit', (e) => {
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     if (!form) return;
@@ -236,24 +236,41 @@ const contactInfo = [
       return;
     }
 
-    // Build WhatsApp message
-    const message = [
-      `💬 *New Contact Message*`,
-      ``,
-      `*Name:* ${payload.firstName} ${payload.lastName}`,
-      `*Email:* ${payload.email}`,
-      payload.phone ? `*Phone:* ${payload.phone}` : '',
-      ``,
-      `*Message:*`,
-      payload.message,
-    ].filter(Boolean).join('\n');
+    // Disable submit button
+    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.6';
+    }
 
-    const whatsappUrl = `https://wa.me/237000000000?text=${encodeURIComponent(message)}`;
+    try {
+      const res = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'contact',
+          firstName: payload.firstName,
+          lastName: payload.lastName,
+          email: payload.email,
+          phone: payload.phone || '',
+          subject: payload.subject || '',
+          message: payload.message,
+        }),
+      });
 
-    setAlert('Redirecting you to WhatsApp to send your message...', 'success');
-
-    setTimeout(() => {
-      window.open(whatsappUrl, '_blank');
-    }, 500);
+      if (res.ok) {
+        setAlert('Your message has been sent successfully! We\'ll get back to you shortly.', 'success');
+        form.reset();
+      } else {
+        setAlert('Something went wrong. Please try again or email us directly at hello@ultimatebeautyspa.net.', 'error');
+      }
+    } catch {
+      setAlert('Network error. Please try again or email us directly at hello@ultimatebeautyspa.net.', 'error');
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+      }
+    }
   });
 </script>

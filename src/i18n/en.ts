@@ -456,7 +456,7 @@ export const en = {
     section5Item4: 'Opt out of marketing communications at any time',
     section6Title: '6. Contact Us',
     section6Text: 'If you have questions about this Privacy Policy, please contact us at:',
-    section6Email: 'Email: hello@ultimatebeautyspa.com',
+    section6Email: 'Email: hello@ultimatebeautyspa.net',
     section6Phone: 'Phone: +237 697 113 339',
     section6Address: 'Address: Avant Saint James hotel, Bonamoussadi, Douala, Cameroon',
   },
@@ -489,7 +489,7 @@ export const en = {
     section7Title: '7. Changes to Terms',
     section7Text: 'We reserve the right to modify these Terms at any time. Changes will be effective upon posting to our website.',
     section8Title: '8. Contact',
-    section8Text: 'For questions about these Terms, contact us at hello@ultimatebeautyspa.com.',
+    section8Text: 'For questions about these Terms, contact us at hello@ultimatebeautyspa.net.',
   },
 
   // ─── Accessibility Page ───
@@ -512,7 +512,7 @@ export const en = {
     standardsText: 'We aim to conform to WCAG 2.1 Level AA standards. Our ongoing efforts include regular audits and updates to improve accessibility.',
     feedbackTitle: 'Feedback',
     feedbackText: 'We welcome your feedback on the accessibility of our website. Please contact us if you encounter any barriers:',
-    feedbackEmail: 'Email: hello@ultimatebeautyspa.com',
+    feedbackEmail: 'Email: hello@ultimatebeautyspa.net',
     feedbackPhone: 'Phone: +237 697 113 339',
   },
 
@@ -556,7 +556,7 @@ export const en = {
     changesText: 'We may update this Cookies Policy from time to time to reflect changes in technology, legislation, or our data practices. We encourage you to periodically review this page for the latest information.',
     contactTitle: '6. Contact Us',
     contactText: 'If you have any questions about our use of cookies, please contact us at:',
-    contactEmail: 'Email: hello@ultimatebeautyspa.com',
+    contactEmail: 'Email: hello@ultimatebeautyspa.net',
     contactPhone: 'Phone: +237 697 113 339',
     contactAddress: 'Address: Avant Saint James hotel, Bonamoussadi, Douala, Cameroon',
   },

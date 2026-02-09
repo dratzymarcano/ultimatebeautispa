@@ -345,7 +345,7 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
 
               <p class="sd-booking__note">
                 <Icon name="lucide:shield-check" class="w-3.5 h-3.5" />
-                Réservation confirmée via WhatsApp sous 24h
+                Réservation confirmée par email sous 24h
               </p>
             </form>
           </div>
@@ -462,10 +462,10 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
     });
   }
 
-  // ── Booking form → WhatsApp ──
+  // ── Booking form → Email via Resend ──
   const form = document.getElementById('booking-form');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const dateEl = document.getElementById('preferred-date');
@@ -476,29 +476,48 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
 
       if (!(dateEl instanceof HTMLInputElement) || !(timeEl instanceof HTMLSelectElement) || !(nameEl instanceof HTMLInputElement) || !(emailEl instanceof HTMLInputElement) || !(phoneEl instanceof HTMLInputElement)) return;
 
+      /** @type {string[]} */
       const treatments = [];
       document.querySelectorAll('.sd-treat__radio:checked').forEach(cb => {
         if (!(cb instanceof HTMLInputElement)) return;
         const label = cb.closest('.sd-treat');
         const name = label?.getAttribute('data-name') || '';
         const price = label?.getAttribute('data-price') || '';
-        treatments.push(`• ${name} — ${price}`);
+        treatments.push(`${name} — ${price}`);
       });
 
-      const msg = [
-        `Bonjour ! Je souhaite prendre rendez-vous.`,
-        ``,
-        `Service : ${serviceName}`,
-        treatments.length ? `Soins :\n${treatments.join('\n')}` : '',
-        `Date : ${dateEl.value}`,
-        `Heure : ${timeEl.value}`,
-        `Nom : ${nameEl.value}`,
-        `Email : ${emailEl.value}`,
-        `Téléphone : ${phoneEl.value}`,
-      ].filter(Boolean).join('\n');
+      const submitBtn = /** @type {HTMLButtonElement|null} */ (form.querySelector('button[type="submit"]'));
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.style.opacity = '0.6'; }
 
-      const url = `https://wa.me/237697113339?text=${encodeURIComponent(msg)}`;
-      window.open(url, '_blank');
+      try {
+        const res = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'booking',
+            service: serviceName,
+            treatments,
+            date: dateEl.value,
+            time: timeEl.value,
+            firstName: nameEl.value,
+            lastName: '',
+            email: emailEl.value,
+            phone: phoneEl.value,
+            lang: 'fr',
+          }),
+        });
+
+        if (res.ok) {
+          alert('Votre demande de réservation a été envoyée ! Nous confirmerons par email sous 24 heures.');
+          form.reset();
+        } else {
+          alert('Une erreur est survenue. Veuillez réessayer ou appeler le +237 697 113 339.');
+        }
+      } catch {
+        alert('Erreur réseau. Veuillez réessayer ou appeler le +237 697 113 339.');
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = '1'; }
+      }
     });
   }
 </script>

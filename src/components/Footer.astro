@@ -93,7 +93,7 @@ const hours = lang === 'fr' ? 'Ouvert tous les jours : 9h — 21h' : 'Open Daily
             <span>{i.footer.stayUpdated}</span>
           </span>
           <h3 class="ft-newsletter__title">{i.footer.getOffers}</h3>
-          <form class="ft-form" action="#" method="POST">
+          <form class="ft-form" id="newsletter-form">
             <div class="ft-form__wrap">
               <input
                 type="email"
@@ -107,6 +107,7 @@ const hours = lang === 'fr' ? 'Ouvert tous les jours : 9h — 21h' : 'Open Daily
                 <Icon name="lucide:arrow-right" class="w-4 h-4" />
               </button>
             </div>
+            <p class="ft-form__msg" id="newsletter-msg" style="display:none; margin-top: 0.5rem; font-size: 0.8125rem;"></p>
           </form>
         </div>
       </div>
@@ -172,7 +173,7 @@ const hours = lang === 'fr' ? 'Ouvert tous les jours : 9h — 21h' : 'Open Daily
             </li>
             <li>
               <span class="ft-contact__dot"></span>
-              <a href="mailto:hello@ultimatebeautyspa.com">hello@ultimatebeautyspa.com</a>
+              <a href="mailto:hello@ultimatebeautyspa.net">hello@ultimatebeautyspa.net</a>
             </li>
             <li>
               <span class="ft-contact__dot ft-contact__dot--live"></span>
@@ -210,6 +211,46 @@ const hours = lang === 'fr' ? 'Ouvert tous les jours : 9h — 21h' : 'Open Daily
     </div>
   </div>
 </footer>
+
+<script>
+  const nlForm = document.getElementById('newsletter-form') as HTMLFormElement | null;
+  const nlMsg = document.getElementById('newsletter-msg');
+
+  nlForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!nlForm || !nlMsg) return;
+
+    const email = (nlForm.querySelector('input[name="email"]') as HTMLInputElement)?.value;
+    if (!email) return;
+
+    const btn = nlForm.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.5'; }
+
+    try {
+      const res = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'newsletter', email }),
+      });
+
+      nlMsg.style.display = 'block';
+      if (res.ok) {
+        nlMsg.textContent = 'Thank you for subscribing! ✨';
+        nlMsg.style.color = '#22c55e';
+        nlForm.reset();
+      } else {
+        nlMsg.textContent = 'Something went wrong. Please try again.';
+        nlMsg.style.color = '#ef4444';
+      }
+    } catch {
+      nlMsg.style.display = 'block';
+      nlMsg.textContent = 'Network error. Please try again.';
+      nlMsg.style.color = '#ef4444';
+    } finally {
+      if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+    }
+  });
+</script>
 
 <style>
   /* ═══════════════════════════════════════════
