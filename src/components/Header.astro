@@ -69,6 +69,14 @@ const alt = getAlternatePath(currentPath);
           </ul>
           
           <div class="flex items-center gap-3">
+            <a href="tel:+237697113339" class="flex items-center gap-2 text-charcoal hover:text-red transition-colors duration-300" aria-label={i.nav.callUs}>
+              <Icon name="lucide:phone" class="w-5 h-5" />
+              <span class="text-sm font-semibold hidden xl:inline">697 113 339</span>
+            </a>
+            <a href="#booking-modal" data-booking-modal class="btn-primary">
+              <span>{i.nav.bookNow}</span>
+              <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+            </a>
             <!-- Language Pill Toggle (Desktop) -->
             <div class="lang-pill" role="radiogroup" aria-label="Language">
               <a 
@@ -89,14 +97,6 @@ const alt = getAlternatePath(currentPath);
               </a>
               <div class={`lang-pill__slider ${lang === 'fr' ? 'lang-pill__slider--fr' : ''}`}></div>
             </div>
-            
-            <a href="tel:+237697113339" class="text-charcoal hover:text-red transition-colors duration-300" aria-label={i.nav.callUs}>
-              <Icon name="lucide:phone" class="w-5 h-5" />
-            </a>
-            <a href="#booking-modal" data-booking-modal class="btn-primary">
-              <span>{i.nav.bookNow}</span>
-              <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
-            </a>
           </div>
         </div>
         
