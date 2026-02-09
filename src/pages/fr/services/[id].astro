@@ -28,7 +28,7 @@ const prevService = currentIdx > 0 ? rawServices[currentIdx - 1] : null;
 const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx + 1] : null;
 ---
 
-<Layout title={`${service.name} | Services Spa Douala`} description={`${service.description.slice(0, 140)}…`} lang="fr">
+<Layout title={`${service.name} | Services Spa Douala`} description={`${service.description.slice(0, 140)}…`} image={service.image} imageAlt={`${service.name} — Service Spa chez Ultimate Beauty Spa Douala`} lang="fr">
   <Header slot="header" currentPath={`/fr/services/${id}`} lang="fr" />
 
   <!-- ═══════ CINEMATIC HERO ═══════ -->

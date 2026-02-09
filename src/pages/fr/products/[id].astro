@@ -25,7 +25,7 @@ const { product } = Astro.props;
 const related = getRelatedProducts(product);
 ---
 
-<Layout title={`${product.name} | Produits Beauté Douala`} description={`${product.description.slice(0, 140)}…`} lang="fr">
+<Layout title={`${product.name} | Produits Beauté Douala`} description={`${product.description.slice(0, 140)}…`} image={product.image} imageAlt={`${product.name} — Produit de Beauté chez Ultimate Beauty Spa Douala`} lang="fr">
   <Header slot="header" currentPath="/fr/products" lang="fr" />
 
   <!-- Breadcrumb -->
