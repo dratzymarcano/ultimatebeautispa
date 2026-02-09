@@ -201,6 +201,9 @@ const socialLinks = [
           <a href={`${prefix}/cookies`}>{i.footer.cookiesPolicy}</a>
         </div>
       </div>
+      <div class="ft-credit">
+        <p>{i.footer.designedBy} <a href="https://bigtee.dev" target="_blank" rel="noopener noreferrer">bigtee.dev</a></p>
+      </div>
     </div>
   </div>
 </footer>
@@ -514,6 +517,28 @@ const socialLinks = [
 
   .ft-legal a:hover {
     color: rgba(255,255,255,0.7);
+  }
+
+  .ft-credit {
+    text-align: center;
+    padding: 0.75rem 0 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    margin-top: 0.75rem;
+  }
+
+  .ft-credit p {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.25);
+  }
+
+  .ft-credit a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+
+  .ft-credit a:hover {
+    color: var(--color-red);
   }
 
   /* ── Responsive ── */

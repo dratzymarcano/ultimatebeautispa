@@ -21,7 +21,7 @@ const { product } = Astro.props;
 const related = getRelatedProducts(product);
 ---
 
-<Layout title={`${product.name} — Ultimate Beauty Spa`}>
+<Layout title={`${product.name} | Beauty Products Douala`} description={`${product.description.slice(0, 140)}…`}>
   <Header slot="header" currentPath="/products" />
 
   <!-- Breadcrumb -->

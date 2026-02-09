@@ -10,9 +10,27 @@ import Gallery from '../../components/Gallery.astro';
 import CTA from '../../components/CTA.astro';
 import Products from '../../components/Products.astro';
 import ProductLaunchHero from '../../components/ProductLaunchHero.astro';
+import { t } from '../../i18n/index';
+
+const i = t('fr');
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": i.faq.q1, "acceptedAnswer": { "@type": "Answer", "text": i.faq.a1 } },
+    { "@type": "Question", "name": i.faq.q2, "acceptedAnswer": { "@type": "Answer", "text": i.faq.a2 } },
+    { "@type": "Question", "name": i.faq.q3, "acceptedAnswer": { "@type": "Answer", "text": i.faq.a3 } },
+    { "@type": "Question", "name": i.faq.q4, "acceptedAnswer": { "@type": "Answer", "text": i.faq.a4 } },
+    { "@type": "Question", "name": i.faq.q5, "acceptedAnswer": { "@type": "Answer", "text": i.faq.a5 } },
+    { "@type": "Question", "name": i.faq.q6, "acceptedAnswer": { "@type": "Answer", "text": i.faq.a6 } },
+    { "@type": "Question", "name": i.faq.q7, "acceptedAnswer": { "@type": "Answer", "text": i.faq.a7 } },
+    { "@type": "Question", "name": i.faq.q8, "acceptedAnswer": { "@type": "Answer", "text": i.faq.a8 } },
+  ]
+};
 ---
 
-<Layout title="Accueil" lang="fr">
+<Layout title={i.seo.homeTitle} description={i.seo.homeDesc} lang="fr" schema={faqSchema}>
   <Header slot="header" currentPath="/fr" lang="fr" />
   
   <Hero lang="fr" />

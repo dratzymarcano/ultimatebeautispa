@@ -27,13 +27,13 @@ const prevService = currentIdx > 0 ? rawServices[currentIdx - 1] : null;
 const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx + 1] : null;
 ---
 
-<Layout title={`${service.name} — Ultimate Beauty Spa`} lang="fr">
+<Layout title={`${service.name} | Services Spa Douala`} description={`${service.description.slice(0, 140)}…`} lang="fr">
   <Header slot="header" currentPath={`/fr/services/${id}`} lang="fr" />
 
   <!-- ═══════ CINEMATIC HERO ═══════ -->
   <section class="sd-hero">
     <div class="sd-hero__bg">
-      <img src={raw.image} alt={service.name} class="sd-hero__img" />
+      <img src={raw.image} alt={`${service.name} — service spa premium chez Ultimate Beauty Spa à Douala, Cameroun`} class="sd-hero__img" />
       <div class="sd-hero__gradient"></div>
       <div class="sd-hero__noise"></div>
     </div>

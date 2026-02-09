@@ -5,11 +5,37 @@ export const en = {
   // ─── Site-wide ───
   site: {
     name: 'Ultimate Beauty Spa',
-    tagline: 'Premium Grooming & Lifestyle',
-    description: 'Ultimate Beauty Spa - Premium spa and wellness services. Massage therapy, hydrotherapy, jacuzzi, hammam, and advanced face care treatments in an elevated environment.',
+    tagline: 'Luxury Spa & Beauty Salon in Douala',
+    description: 'Premium spa and beauty salon in Bonamoussadi, Douala. Massage, facials, hair styling, braiding, nails and more. Book your appointment today.',
     locale: 'en',
     lang: 'en',
     skipLink: 'Skip to main content',
+  },
+
+  // ─── SEO Meta ───
+  seo: {
+    homeTitle: 'Ultimate Beauty Spa Douala | Luxury Spa & Salon',
+    homeDesc: 'Premium spa & beauty salon in Bonamoussadi, Douala. Massage, facials, hair styling, nails & more. Book your appointment today.',
+    servicesTitle: 'Spa Services | Massage, Hair, Nails & Facials',
+    servicesDesc: 'Explore our full range of spa services in Douala: massage, hydrotherapy, facials, braiding, nail care & beard grooming. Book now.',
+    aboutTitle: 'About Us | Ultimate Beauty Spa Douala',
+    aboutDesc: 'Discover Ultimate Beauty Spa — Douala\'s premier beauty and wellness destination in Bonamoussadi. Our story, our mission and our values.',
+    galleryTitle: 'Gallery | See Our Spa & Salon Work',
+    galleryDesc: 'Browse photos of spa treatments, hairstyles, nail art and relaxation spaces at Ultimate Beauty Spa, Bonamoussadi, Douala.',
+    contactTitle: 'Contact Us | Ultimate Beauty Spa Douala',
+    contactDesc: 'Get in touch with Ultimate Beauty Spa in Bonamoussadi, Douala. Find our address, phone number, opening hours & directions.',
+    bookTitle: 'Book an Appointment | Ultimate Beauty Spa',
+    bookDesc: 'Book your spa or salon appointment online at Ultimate Beauty Spa, Bonamoussadi, Douala. Quick and easy scheduling for all services.',
+    productsTitle: 'Beauty Products | Ultimate Beauty Spa',
+    productsDesc: 'Shop premium beauty products at Ultimate Beauty Spa Douala. Professional-grade skincare, hair care and grooming essentials.',
+    privacyTitle: 'Privacy Policy | Ultimate Beauty Spa',
+    privacyDesc: 'Read our privacy policy. Learn how Ultimate Beauty Spa collects, uses, and protects your personal information.',
+    termsTitle: 'Terms & Conditions | Ultimate Beauty Spa',
+    termsDesc: 'Review the terms and conditions for services and bookings at Ultimate Beauty Spa, Douala, Cameroon.',
+    accessibilityTitle: 'Accessibility | Ultimate Beauty Spa',
+    accessibilityDesc: 'Our commitment to accessibility. Learn about inclusive design and accommodations for all visitors at Ultimate Beauty Spa.',
+    cookiesTitle: 'Cookie Policy | Ultimate Beauty Spa',
+    cookiesDesc: 'Learn how Ultimate Beauty Spa uses cookies to enhance your browsing experience and what choices you have.',
   },
 
   // ─── Navigation ───
@@ -35,17 +61,17 @@ export const en = {
     titleLine1: 'Redefining',
     titleLine2: 'Beauty',
     titleLine3: 'Wellness',
-    subtitle: 'Where artistry meets luxury. Experience premium grooming, relaxation, and personal care in an elevated atmosphere crafted for those who appreciate the finest.',
+    subtitle: 'Your personal retreat in the heart of Douala. We bring together expert hands, premium products, and a calming space so you can truly unwind and feel your best.',
     cta: 'Book Now',
     secondaryCta: 'Explore Services',
     trustLabel: 'premium spa',
     ratingLabel: 'Exclusive Experience',
-    ratingText: 'Loved by thousands of clients',
+    ratingText: 'Trusted by happy clients across Douala',
     scrollDown: 'Scroll down',
     card1Title: 'Premium Spa',
     card1Subtitle: 'Luxury treatments',
     card2Title: 'Expert Team',
-    card2Subtitle: 'Top stylists',
+    card2Subtitle: 'Skilled professionals',
   },
 
   // ─── Product Launch Hero ───
@@ -144,9 +170,9 @@ export const en = {
   about: {
     eyebrow: 'Our Story',
     title: 'Where Tradition Meets Innovation',
-    p1: 'Ultimate Beauty Spa was born from a simple belief: everyone deserves a grooming experience that\'s more than just a service — it\'s a moment of transformation.',
-    p2: 'Located in the vibrant heart of Douala at the prestigious Avant Saint James Hotel, our space is designed to be a sanctuary. Every detail — from the ambient lighting to the curated soundscapes — creates an atmosphere where you can truly unwind.',
-    p3: 'Our team of skilled artisans combines time-honored techniques with modern innovation, ensuring every visit exceeds expectations. We don\'t just groom — we craft confidence.',
+    p1: 'Ultimate Beauty Spa was created with one guiding belief: everyone deserves a wellness experience that goes beyond a simple service — it should be a moment that genuinely transforms how you feel.',
+    p2: 'Nestled inside the prestigious Avant Saint James hôtel in Bonamoussadi, Douala, our space was designed to feel like a sanctuary. Every detail — from the ambient lighting to the curated soundscapes — has been thoughtfully chosen to help you relax the moment you walk in.',
+    p3: 'Our team of skilled professionals blends time-tested techniques with modern innovation, so every visit leaves you looking and feeling better than you expected. We don\'t just pamper — we help you carry confidence beyond our doors.',
     stat1: 'Services Available',
     stat2: 'Expert Team Members',
     stat3: 'Client Satisfaction',
@@ -210,8 +236,8 @@ export const en = {
 
   // ─── CTA ───
   cta: {
-    title: 'Ready for the Ultimate Experience?',
-    subtitle: 'Book your appointment today and discover what makes Ultimate Beauty Spa Douala\'s premier destination for grooming and wellness.',
+    title: 'You Deserve a Moment for Yourself',
+    subtitle: 'Whether it\'s a relaxing massage after a long week or a fresh new look for that special occasion — we\'re here for you. Book your visit at our Bonamoussadi spa and see why clients across Douala keep coming back.',
     ctaPrimary: 'Book Now',
     ctaSecondary: 'View Services',
     note: 'Open every day from 9 AM to 9 PM. Walk-ins welcome.',
@@ -393,6 +419,7 @@ export const en = {
     termsOfService: 'Terms of Service',
     accessibility: 'Accessibility',
     cookiesPolicy: 'Cookies Policy',
+    designedBy: 'Designed by',
   },
 
   // ─── Privacy Page ───
@@ -530,6 +557,26 @@ export const en = {
     contactEmail: 'Email: hello@ultimatebeautyspa.com',
     contactPhone: 'Phone: +237 697 113 339',
     contactAddress: 'Address: Avant Saint James hôtel, Bonamoussadi, Douala, Cameroon',
+  },
+
+  // ─── FAQ (for AEO / Schema) ───
+  faq: {
+    q1: 'What services does Ultimate Beauty Spa offer in Douala?',
+    a1: 'We offer a wide range of premium services including massage therapy (deep tissue, hot stone, relaxation), wet spa and hydrotherapy (jacuzzi, hammam), advanced facial treatments, haircuts and styling, hair coloring, braiding and protective styles, beard grooming, and manicure and pedicure. All services are available for both men and women.',
+    q2: 'Where is Ultimate Beauty Spa located?',
+    a2: 'We are located at Avant Saint James hôtel, Bonamoussadi, Douala, Cameroon. Our spa is easily accessible and offers a luxurious, welcoming environment for all guests.',
+    q3: 'What are the opening hours?',
+    a3: 'Ultimate Beauty Spa is open every day from 9:00 AM to 9:00 PM, including weekends and public holidays.',
+    q4: 'How do I book an appointment?',
+    a4: 'You can book an appointment online through our website, call us at +237 697 113 339, or visit us in person at our Bonamoussadi location. Online booking is quick and available 24/7.',
+    q5: 'What makes Ultimate Beauty Spa different from other spas in Douala?',
+    a5: 'We combine traditional wellness techniques with modern innovation in a luxury setting. Our professionally trained team, premium products, personalized service approach, and state-of-the-art facilities set us apart as Douala\'s premier spa destination.',
+    q6: 'Do you offer services for both men and women?',
+    a6: 'Yes, all our services are available for both men and women. From barbering and beard care to braiding, facials, and nail art, we cater to everyone who values self-care.',
+    q7: 'What is the cancellation policy?',
+    a7: 'We require at least 48 hours notice for cancellations or rescheduling. Late cancellations or no-shows may be subject to a cancellation fee. Please contact us as soon as possible if you need to change your appointment.',
+    q8: 'What payment methods do you accept?',
+    a8: 'We accept cash, mobile money (Orange Money, MTN Mobile Money), and major payment methods. All prices are listed in XAF (Central African CFA Franc).',
   },
 
   // ─── Date Picker ───
