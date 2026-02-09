@@ -1,0 +1,571 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { Icon } from 'astro-icon/components';
+import { t } from '../i18n/index';
+import { faq, faqCategories, type FAQItem } from '../data/faq';
+
+const i = t('en');
+const lang = 'en';
+
+// Group FAQs by category
+const grouped = faqCategories.map(cat => ({
+  id: cat.id,
+  label: cat.en,
+  items: faq.filter(item => item.category.en === cat.en),
+})).filter(g => g.items.length > 0);
+
+// Build FAQ schema for ALL questions
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faq.map(item => ({
+    "@type": "Question",
+    "name": item.question.en,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer.en,
+    },
+  })),
+};
+---
+
+<Layout
+  title="Frequently Asked Questions | Ultimate Beauty Spa Douala"
+  description="Find answers to common questions about our spa services, pricing, booking, hygiene, and more at Ultimate Beauty Spa in Bonamoussadi, Douala, Cameroon."
+  lang="en"
+  schema={faqSchema}
+>
+  <Header currentPath="/faq" lang="en" />
+
+  <!-- Hero -->
+  <section class="fq-hero">
+    <div class="fq-hero-bg"></div>
+    <div class="container relative z-10">
+      <div class="fq-hero-inner">
+        <span class="fq-eyebrow">
+          <Icon name="lucide:help-circle" class="w-4 h-4" />
+          Help Center
+        </span>
+        <h1 class="fq-hero-title">Frequently Asked<br /><span class="text-gradient">Questions</span></h1>
+        <p class="fq-hero-sub">Everything you need to know about our services, booking, pricing, and spa experience — all in one place.</p>
+        
+        <!-- Search bar (cosmetic) -->
+        <div class="fq-search">
+          <Icon name="lucide:search" class="fq-search-icon" />
+          <input type="text" placeholder="Search for a question..." class="fq-search-input" id="faq-search" autocomplete="off" />
+        </div>
+
+        <!-- Quick jump pills -->
+        <div class="fq-pills">
+          {faqCategories.map(cat => (
+            <a href={`#${cat.id}`} class="fq-pill">{cat.en}</a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Content -->
+  <section class="fq-content">
+    <div class="container">
+      <div class="fq-layout">
+        <!-- Sticky sidebar nav (desktop) -->
+        <aside class="fq-sidebar">
+          <nav class="fq-sidebar-nav" aria-label="FAQ categories">
+            <p class="fq-sidebar-label">Categories</p>
+            {faqCategories.map(cat => (
+              <a href={`#${cat.id}`} class="fq-sidebar-link" data-cat={cat.id}>
+                {cat.en}
+                <span class="fq-sidebar-count">{faq.filter(item => item.category.en === cat.en).length}</span>
+              </a>
+            ))}
+          </nav>
+
+          <!-- CTA card -->
+          <div class="fq-sidebar-cta">
+            <Icon name="lucide:message-circle" class="w-6 h-6 text-red" />
+            <h3>Still have questions?</h3>
+            <p>Our team is ready to help you with anything.</p>
+            <a href="/contact" class="btn-primary text-sm">Contact Us</a>
+          </div>
+        </aside>
+
+        <!-- FAQ accordion groups -->
+        <div class="fq-main" id="faq-results">
+          {grouped.map(group => (
+            <div class="fq-group" id={group.id}>
+              <div class="fq-group-header">
+                <h2 class="fq-group-title">{group.label}</h2>
+                <span class="fq-group-count">{group.items.length} questions</span>
+              </div>
+
+              <div class="fq-accordions">
+                {group.items.map((item) => (
+                  <details class="fq-accordion" data-q={item.question.en.toLowerCase()} data-a={item.answer.en.toLowerCase()}>
+                    <summary class="fq-accordion-trigger">
+                      <span class="fq-accordion-q">{item.question.en}</span>
+                      <span class="fq-accordion-icon">
+                        <Icon name="lucide:plus" class="w-5 h-5" />
+                      </span>
+                    </summary>
+                    <div class="fq-accordion-body">
+                      <p>{item.answer.en}</p>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          <!-- No results message -->
+          <div class="fq-no-results" id="faq-no-results" style="display:none;">
+            <Icon name="lucide:search-x" class="w-12 h-12 text-silver" />
+            <h3>No questions found</h3>
+            <p>Try a different search term, or <a href="/contact" class="text-red hover:underline">contact us</a> directly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="fq-bottom-cta">
+    <div class="container">
+      <div class="fq-bottom-inner">
+        <div class="fq-bottom-text">
+          <h2>Ready to Experience Ultimate Beauty?</h2>
+          <p>Book your appointment today and let us take care of the rest.</p>
+        </div>
+        <div class="fq-bottom-actions">
+          <a href="/book" class="btn-primary">
+            <span>Book Now</span>
+            <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+          </a>
+          <a href="tel:+237697113339" class="btn-secondary">
+            <Icon name="lucide:phone" class="w-4 h-4" />
+            <span>Call Us</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer lang="en" />
+</Layout>
+
+<script>
+  // FAQ search functionality
+  const searchInput = document.getElementById('faq-search') as HTMLInputElement;
+  const accordions = document.querySelectorAll('.fq-accordion');
+  const groups = document.querySelectorAll('.fq-group');
+  const noResults = document.getElementById('faq-no-results');
+
+  searchInput?.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase().trim();
+    let visibleCount = 0;
+
+    accordions.forEach(acc => {
+      const q = acc.getAttribute('data-q') || '';
+      const a = acc.getAttribute('data-a') || '';
+      const matches = !query || q.includes(query) || a.includes(query);
+      (acc as HTMLElement).style.display = matches ? '' : 'none';
+      if (matches) visibleCount++;
+    });
+
+    // Hide empty groups
+    groups.forEach(group => {
+      const visibleItems = group.querySelectorAll('.fq-accordion:not([style*="display: none"])');
+      (group as HTMLElement).style.display = visibleItems.length > 0 ? '' : 'none';
+    });
+
+    if (noResults) {
+      noResults.style.display = visibleCount === 0 ? 'flex' : 'none';
+    }
+  });
+</script>
+
+<style>
+  /* ═══ FAQ HERO ═══ */
+  .fq-hero {
+    position: relative;
+    padding: 8rem 0 4rem;
+    background: var(--color-black);
+    overflow: hidden;
+  }
+
+  .fq-hero-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 30% 20%, rgba(225, 29, 72, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(225, 29, 72, 0.06) 0%, transparent 50%);
+  }
+
+  .fq-hero-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .fq-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: rgba(225, 29, 72, 0.1);
+    border: 1px solid rgba(225, 29, 72, 0.2);
+    border-radius: 100px;
+    color: var(--color-red-light);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+  }
+
+  .fq-hero-title {
+    font-size: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+    font-weight: 800;
+    color: white;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.25rem;
+  }
+
+  .fq-hero-sub {
+    font-size: 1.0625rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Search */
+  .fq-search {
+    display: flex;
+    align-items: center;
+    max-width: 480px;
+    margin: 0 auto 2rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    padding: 0.125rem 0.125rem 0.125rem 1.25rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .fq-search:focus-within {
+    border-color: var(--color-red);
+    box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.1);
+  }
+
+  .fq-search-icon { width: 1.25rem; height: 1.25rem; color: rgba(255,255,255,0.35); flex-shrink: 0; }
+
+  .fq-search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 0.9375rem;
+    padding: 0.875rem 0.75rem;
+  }
+
+  .fq-search-input::placeholder { color: rgba(255,255,255,0.35); }
+
+  /* Category pills */
+  .fq-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .fq-pill {
+    padding: 0.4375rem 1rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .fq-pill:hover {
+    background: rgba(225, 29, 72, 0.15);
+    border-color: var(--color-red);
+    color: var(--color-red-light);
+  }
+
+  /* ═══ CONTENT LAYOUT ═══ */
+  .fq-content {
+    padding: 5rem 0 6rem;
+    background: var(--color-snow);
+  }
+
+  .fq-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  /* Sidebar */
+  .fq-sidebar {
+    position: sticky;
+    top: 7rem;
+  }
+
+  .fq-sidebar-nav {
+    background: white;
+    border: 1px solid var(--color-mist);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .fq-sidebar-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-gray);
+    margin-bottom: 0.75rem;
+  }
+
+  .fq-sidebar-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.625rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-charcoal);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .fq-sidebar-link:hover {
+    background: var(--color-cream);
+    color: var(--color-red);
+  }
+
+  .fq-sidebar-count {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--color-gray);
+    background: var(--color-cloud);
+    padding: 0.125rem 0.5rem;
+    border-radius: 100px;
+  }
+
+  .fq-sidebar-cta {
+    background: var(--color-cream);
+    border: 1px solid var(--color-red-muted);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    text-align: center;
+  }
+
+  .fq-sidebar-cta h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-black);
+    margin: 0.75rem 0 0.375rem;
+  }
+
+  .fq-sidebar-cta p {
+    font-size: 0.8125rem;
+    color: var(--color-gray);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+  }
+
+  /* ═══ FAQ GROUPS ═══ */
+  .fq-group {
+    margin-bottom: 3rem;
+    scroll-margin-top: 7rem;
+  }
+
+  .fq-group-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--color-mist);
+  }
+
+  .fq-group-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-black);
+    letter-spacing: -0.02em;
+  }
+
+  .fq-group-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-gray);
+  }
+
+  /* ═══ ACCORDION ═══ */
+  .fq-accordions {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .fq-accordion {
+    border-bottom: 1px solid var(--color-mist);
+  }
+
+  .fq-accordion-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.25rem 0;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .fq-accordion-trigger::-webkit-details-marker { display: none; }
+
+  .fq-accordion-q {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-charcoal);
+    line-height: 1.5;
+    text-align: left;
+  }
+
+  .fq-accordion-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--color-cloud);
+    color: var(--color-gray);
+    transition: all 0.3s ease;
+  }
+
+  .fq-accordion[open] .fq-accordion-icon {
+    background: var(--color-red);
+    color: white;
+    transform: rotate(45deg);
+  }
+
+  .fq-accordion[open] .fq-accordion-q {
+    color: var(--color-red);
+  }
+
+  .fq-accordion-body {
+    padding: 0 0 1.5rem 0;
+  }
+
+  .fq-accordion-body p {
+    font-size: 0.9375rem;
+    color: var(--color-gray);
+    line-height: 1.8;
+    max-width: 680px;
+  }
+
+  /* No results */
+  .fq-no-results {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .fq-no-results h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-charcoal);
+  }
+
+  .fq-no-results p {
+    font-size: 0.9375rem;
+    color: var(--color-gray);
+  }
+
+  /* ═══ BOTTOM CTA ═══ */
+  .fq-bottom-cta {
+    padding: 5rem 0;
+    background: var(--color-black);
+  }
+
+  .fq-bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+
+  .fq-bottom-text h2 {
+    font-size: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .fq-bottom-text p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .fq-bottom-actions {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  .fq-bottom-actions .btn-secondary {
+    color: white;
+    border-color: rgba(255,255,255,0.25);
+  }
+
+  .fq-bottom-actions .btn-secondary:hover {
+    border-color: white;
+  }
+
+  .fq-bottom-actions .btn-secondary::before {
+    background: white;
+  }
+
+  .fq-bottom-actions .btn-secondary:hover {
+    color: var(--color-black);
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 1024px) {
+    .fq-sidebar { display: none; }
+    .fq-layout { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .fq-hero { padding: 6rem 0 3rem; }
+    .fq-content { padding: 3rem 0 4rem; }
+    .fq-bottom-inner { flex-direction: column; text-align: center; }
+    .fq-bottom-actions { flex-direction: column; width: 100%; }
+    .fq-bottom-actions .btn-primary,
+    .fq-bottom-actions .btn-secondary { width: 100%; justify-content: center; }
+    .fq-pills { gap: 0.375rem; }
+    .fq-pill { font-size: 0.6875rem; padding: 0.375rem 0.75rem; }
+  }
+</style>

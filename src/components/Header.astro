@@ -24,164 +24,169 @@ const navLinks = [
 const alt = getAlternatePath(currentPath);
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="main-header">
-  <!-- Announcement Bar -->
-  <div class="bg-red text-white py-2 text-center text-sm font-medium">
+<header class="hdr" id="main-header">
+  <!-- Top Bar — Sleek Announcement Strip -->
+  <div class="hdr-topbar" id="hdr-topbar">
     <div class="container">
-      <p>
-        {i.nav.announcement}
-        <a href={`${prefix}/book`} class="underline ml-2 hover:no-underline font-semibold">{i.nav.reserveNow}</a>
-      </p>
+      <div class="hdr-topbar__inner">
+        <div class="hdr-topbar__left">
+          <Icon name="lucide:map-pin" class="hdr-topbar__icon" />
+          <span>Bonamoussadi, Douala</span>
+          <span class="hdr-topbar__sep"></span>
+          <Icon name="lucide:clock" class="hdr-topbar__icon" />
+          <span>{lang === 'fr' ? '9h — 21h' : '9 AM — 9 PM'}</span>
+        </div>
+        <div class="hdr-topbar__center">
+          <span class="hdr-topbar__pulse"></span>
+          <span>{i.nav.announcement}</span>
+          <a href={`${prefix}/book`} class="hdr-topbar__cta">{i.nav.reserveNow} <Icon name="lucide:arrow-right" class="w-3 h-3" /></a>
+        </div>
+        <div class="hdr-topbar__right">
+          <a href="tel:+237697113339" class="hdr-topbar__phone">
+            <Icon name="lucide:phone" class="hdr-topbar__icon" />
+            <span>+237 697 113 339</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
-  
+
   <!-- Main Navigation -->
-  <nav class="bg-white border-b border-mist py-4" aria-label="Main navigation">
+  <nav class="hdr-nav" id="hdr-nav" aria-label="Main navigation">
     <div class="container">
-      <div class="flex items-center justify-between">
+      <div class="hdr-nav__inner">
         <!-- Logo -->
-        <a href={`${prefix}/`} class="flex items-center gap-3 group" aria-label="Ultimate Beauty Spa - Home">
-          <img src="/images/logo.svg" alt="Ultimate Beauty Spa" class="h-12 w-auto group-hover:scale-105 transition-transform duration-300" />
-          <div class="flex flex-col">
-            <span class="text-xl font-bold text-black tracking-tight">Ultimate Beauty</span>
-            <span class="text-xs uppercase tracking-[0.2em] text-red font-semibold -mt-0.5">Spa</span>
+        <a href={`${prefix}/`} class="hdr-logo" aria-label="Ultimate Beauty Spa — Home">
+          <img src="/images/logo.svg" alt="" class="hdr-logo__img" />
+          <div class="hdr-logo__text">
+            <span class="hdr-logo__name">Ultimate Beauty</span>
+            <span class="hdr-logo__sub">Spa</span>
           </div>
         </a>
-        
-        <!-- Desktop Navigation -->
-        <div class="hidden lg:flex items-center gap-6">
-          <ul class="flex items-center gap-7" role="list">
+
+        <!-- Desktop Links -->
+        <div class="hdr-links">
+          <ul class="hdr-links__list" role="list">
             {navLinks.map(link => (
               <li>
-                <a 
+                <a
                   href={link.href}
-                  class={`text-sm uppercase tracking-wider font-semibold transition-colors duration-300 link-underline ${
-                    currentPath === link.href 
-                      ? 'text-red' 
-                      : 'text-charcoal hover:text-red'
-                  }`}
+                  class:list={['hdr-link', { 'hdr-link--active': currentPath === link.href }]}
                   aria-current={currentPath === link.href ? 'page' : undefined}
                 >
-                  {link.label}
+                  <span class="hdr-link__text">{link.label}</span>
+                  <span class="hdr-link__line"></span>
                 </a>
               </li>
             ))}
           </ul>
-          
-          <div class="flex items-center gap-3">
-            <a href="tel:+237697113339" class="flex items-center gap-2 text-charcoal hover:text-red transition-colors duration-300" aria-label={i.nav.callUs}>
-              <Icon name="lucide:phone" class="w-5 h-5" />
-              <span class="text-sm font-semibold hidden xl:inline">697 113 339</span>
-            </a>
-            <a href="#booking-modal" data-booking-modal class="btn-primary">
-              <span>{i.nav.bookNow}</span>
-              <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
-            </a>
-            <!-- Language Pill Toggle (Desktop) -->
-            <div class="lang-pill" role="radiogroup" aria-label="Language">
-              <a 
-                href={lang === 'en' ? currentPath : alt.path}
-                class={`lang-pill__opt ${lang === 'en' ? 'lang-pill__opt--active' : ''}`}
-                role="radio"
-                aria-checked={lang === 'en' ? 'true' : 'false'}
-              >
-                EN
-              </a>
-              <a 
-                href={lang === 'fr' ? currentPath : alt.path}
-                class={`lang-pill__opt ${lang === 'fr' ? 'lang-pill__opt--active' : ''}`}
-                role="radio"
-                aria-checked={lang === 'fr' ? 'true' : 'false'}
-              >
-                FR
-              </a>
-              <div class={`lang-pill__slider ${lang === 'fr' ? 'lang-pill__slider--fr' : ''}`}></div>
-            </div>
-          </div>
         </div>
-        
-        <!-- Mobile Menu Button -->
-        <button 
-          class="lg:hidden p-2 text-charcoal hover:text-red transition-colors"
+
+        <!-- Desktop Actions -->
+        <div class="hdr-actions">
+          <!-- Language Pill -->
+          <div class="lang-pill" role="radiogroup" aria-label="Language">
+            <a
+              href={lang === 'en' ? currentPath : alt.path}
+              class:list={['lang-pill__opt', { 'lang-pill__opt--active': lang === 'en' }]}
+              role="radio"
+              aria-checked={lang === 'en' ? 'true' : 'false'}
+            >EN</a>
+            <a
+              href={lang === 'fr' ? currentPath : alt.path}
+              class:list={['lang-pill__opt', { 'lang-pill__opt--active': lang === 'fr' }]}
+              role="radio"
+              aria-checked={lang === 'fr' ? 'true' : 'false'}
+            >FR</a>
+            <div class:list={['lang-pill__slider', { 'lang-pill__slider--fr': lang === 'fr' }]}></div>
+          </div>
+
+          <!-- Book CTA -->
+          <a href="#booking-modal" data-booking-modal class="hdr-cta">
+            <span class="hdr-cta__text">{i.nav.bookNow}</span>
+            <span class="hdr-cta__icon">
+              <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+            </span>
+          </a>
+        </div>
+
+        <!-- Mobile Toggle -->
+        <button
+          class="hdr-burger"
           aria-label={i.nav.openMenu}
           aria-expanded="false"
           aria-controls="mobile-menu"
           id="menu-toggle"
         >
-          <Icon name="lucide:menu" class="w-6 h-6" />
+          <span class="hdr-burger__line hdr-burger__line--1"></span>
+          <span class="hdr-burger__line hdr-burger__line--2"></span>
+          <span class="hdr-burger__line hdr-burger__line--3"></span>
         </button>
       </div>
     </div>
   </nav>
-  
-  <!-- Mobile Menu -->
-  <div class="mobile-menu lg:hidden" id="mobile-menu" aria-hidden="true">
-    <div class="h-full flex flex-col">
-      <!-- Mobile Menu Header -->
-      <div class="flex items-center justify-between p-6 border-b border-mist">
-        <a href={`${prefix}/`} class="flex items-center gap-3">
-          <img src="/images/logo.svg" alt="Ultimate Beauty Spa" class="h-10 w-auto" />
-          <span class="text-xl font-bold text-black">Ultimate Beauty</span>
+
+  <!-- Mobile Menu — Full-Screen Overlay -->
+  <div class="mob-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mob-menu__backdrop" id="mob-backdrop"></div>
+    <div class="mob-menu__panel">
+      <!-- Mobile Header -->
+      <div class="mob-menu__header">
+        <a href={`${prefix}/`} class="hdr-logo">
+          <img src="/images/logo.svg" alt="" class="hdr-logo__img" />
+          <div class="hdr-logo__text">
+            <span class="hdr-logo__name">Ultimate Beauty</span>
+            <span class="hdr-logo__sub">Spa</span>
+          </div>
         </a>
-        <button 
-          class="p-2 text-charcoal hover:text-red transition-colors"
-          aria-label={i.nav.closeMenu}
-          id="menu-close"
-        >
-          <Icon name="lucide:x" class="w-6 h-6" />
+        <button class="hdr-close" aria-label={i.nav.closeMenu} id="menu-close">
+          <Icon name="lucide:x" class="w-5 h-5" />
         </button>
       </div>
-      
-      <!-- Mobile Menu Links -->
-      <nav class="flex-1 flex flex-col justify-center px-6" aria-label="Mobile navigation">
-        <ul class="space-y-6" role="list">
-          {navLinks.map((link, index) => (
-            <li style={`animation-delay: ${index * 100}ms`}>
-              <a 
+
+      <!-- Mobile Links -->
+      <nav class="mob-menu__nav" aria-label="Mobile navigation">
+        <ul role="list">
+          {navLinks.map((link, idx) => (
+            <li class="mob-menu__item" style={`--delay: ${idx * 60}ms`}>
+              <a
                 href={link.href}
-                class={`text-3xl font-bold transition-colors duration-300 ${
-                  currentPath === link.href 
-                    ? 'text-red' 
-                    : 'text-black hover:text-red'
-                }`}
+                class:list={['mob-menu__link', { 'mob-menu__link--active': currentPath === link.href }]}
                 aria-current={currentPath === link.href ? 'page' : undefined}
               >
-                {link.label}
+                <span class="mob-menu__num">0{idx + 1}</span>
+                <span class="mob-menu__label">{link.label}</span>
+                <Icon name="lucide:arrow-up-right" class="mob-menu__arrow" />
               </a>
             </li>
           ))}
         </ul>
-        
-        <!-- Mobile Language Pill -->
-        <div class="mt-8 flex justify-center">
-          <div class="lang-pill lang-pill--lg" role="radiogroup" aria-label="Language">
-            <a 
-              href={lang === 'en' ? currentPath : alt.path}
-              class={`lang-pill__opt ${lang === 'en' ? 'lang-pill__opt--active' : ''}`}
-              role="radio"
-              aria-checked={lang === 'en' ? 'true' : 'false'}
-            >
-              {localeFlags.en} English
-            </a>
-            <a 
-              href={lang === 'fr' ? currentPath : alt.path}
-              class={`lang-pill__opt ${lang === 'fr' ? 'lang-pill__opt--active' : ''}`}
-              role="radio"
-              aria-checked={lang === 'fr' ? 'true' : 'false'}
-            >
-              {localeFlags.fr} Français
-            </a>
-            <div class={`lang-pill__slider ${lang === 'fr' ? 'lang-pill__slider--fr' : ''}`}></div>
-          </div>
-        </div>
       </nav>
-      
-      <!-- Mobile Menu Footer -->
-      <div class="p-6 border-t border-mist space-y-4">
-        <a href="#booking-modal" data-booking-modal class="btn-primary w-full justify-center">
+
+      <!-- Mobile Footer Zone -->
+      <div class="mob-menu__foot">
+        <!-- Language Pill (mobile) -->
+        <div class="lang-pill lang-pill--lg" role="radiogroup" aria-label="Language">
+          <a
+            href={lang === 'en' ? currentPath : alt.path}
+            class:list={['lang-pill__opt', { 'lang-pill__opt--active': lang === 'en' }]}
+            role="radio"
+            aria-checked={lang === 'en' ? 'true' : 'false'}
+          >{localeFlags.en} English</a>
+          <a
+            href={lang === 'fr' ? currentPath : alt.path}
+            class:list={['lang-pill__opt', { 'lang-pill__opt--active': lang === 'fr' }]}
+            role="radio"
+            aria-checked={lang === 'fr' ? 'true' : 'false'}
+          >{localeFlags.fr} Français</a>
+          <div class:list={['lang-pill__slider', { 'lang-pill__slider--fr': lang === 'fr' }]}></div>
+        </div>
+
+        <a href="#booking-modal" data-booking-modal class="mob-menu__book">
           <span>{i.nav.bookAppointment}</span>
+          <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
         </a>
-        <a href="tel:+237697113339" class="btn-secondary w-full justify-center">
+        <a href="tel:+237697113339" class="mob-menu__call">
           <Icon name="lucide:phone" class="w-4 h-4" />
           <span>+237 697 113 339</span>
         </a>
@@ -191,82 +196,631 @@ const alt = getAlternatePath(currentPath);
 </header>
 
 <!-- Spacer for fixed header -->
-<div class="h-[108px] lg:h-[108px]"></div>
+<div class="h-[44px] lg:h-[92px]" id="hdr-spacer"></div>
 
 <script>
-  // Header scroll behavior
-  const header = document.getElementById('main-header');
-  let lastScroll = 0;
-  
-  window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll > 100) {
-      header?.classList.add('header-scrolled');
-    } else {
-      header?.classList.remove('header-scrolled');
+  const header  = document.getElementById('main-header');
+  const topbar  = document.getElementById('hdr-topbar');
+  const spacer  = document.getElementById('hdr-spacer');
+  const toggle  = document.getElementById('menu-toggle');
+  const close   = document.getElementById('menu-close');
+  const mob     = document.getElementById('mobile-menu');
+  const backdrop= document.getElementById('mob-backdrop');
+
+  /* ── Scroll — hide topbar + glassmorphism nav ── */
+  let prevY = 0;
+  let topbarHidden = false;
+
+  function onScroll() {
+    const y = window.scrollY;
+
+    if (y > 60 && !topbarHidden) {
+      header?.classList.add('hdr--scrolled');
+      topbarHidden = true;
+    } else if (y <= 10 && topbarHidden) {
+      header?.classList.remove('hdr--scrolled');
+      topbarHidden = false;
     }
-    
-    lastScroll = currentScroll;
-  });
-  
-  // Mobile menu toggle
-  const menuToggle = document.getElementById('menu-toggle');
-  const menuClose = document.getElementById('menu-close');
-  const mobileMenu = document.getElementById('mobile-menu');
-  
+
+    // Auto-hide header on aggressive downward scroll (mobile UX)
+    if (y > 300 && y - prevY > 12) {
+      header?.classList.add('hdr--hidden');
+    } else if (prevY - y > 6 || y < 60) {
+      header?.classList.remove('hdr--hidden');
+    }
+
+    prevY = y;
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // set initial state
+
+  /* ── Mobile menu ── */
   function openMenu() {
-    mobileMenu?.classList.add('is-open');
-    mobileMenu?.setAttribute('aria-hidden', 'false');
-    menuToggle?.setAttribute('aria-expanded', 'true');
+    mob?.classList.add('is-open');
+    mob?.setAttribute('aria-hidden', 'false');
+    toggle?.setAttribute('aria-expanded', 'true');
+    toggle?.classList.add('is-active');
     document.body.style.overflow = 'hidden';
   }
-  
+
   function closeMenu() {
-    mobileMenu?.classList.remove('is-open');
-    mobileMenu?.setAttribute('aria-hidden', 'true');
-    menuToggle?.setAttribute('aria-expanded', 'false');
+    mob?.classList.remove('is-open');
+    mob?.setAttribute('aria-hidden', 'true');
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.classList.remove('is-active');
     document.body.style.overflow = '';
   }
-  
-  menuToggle?.addEventListener('click', openMenu);
-  menuClose?.addEventListener('click', closeMenu);
-  
-  // Close menu on escape key
+
+  toggle?.addEventListener('click', openMenu);
+  close?.addEventListener('click', closeMenu);
+  backdrop?.addEventListener('click', closeMenu);
+
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && mobileMenu?.classList.contains('is-open')) {
-      closeMenu();
-    }
+    if (e.key === 'Escape' && mob?.classList.contains('is-open')) closeMenu();
   });
-  
-  // Close menu on link click
-  mobileMenu?.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
-  
-  // Language pill toggle — no JS needed, it's just links
-  // But we add a subtle haptic-like press effect
+
+  mob?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  /* ── Language pill haptic press ── */
   document.querySelectorAll('.lang-pill__opt').forEach(opt => {
-    opt.addEventListener('mousedown', () => {
-      opt.classList.add('lang-pill__opt--press');
-    });
-    opt.addEventListener('mouseup', () => {
-      opt.classList.remove('lang-pill__opt--press');
-    });
-    opt.addEventListener('mouseleave', () => {
-      opt.classList.remove('lang-pill__opt--press');
-    });
+    opt.addEventListener('mousedown', () => opt.classList.add('lang-pill__opt--press'));
+    opt.addEventListener('mouseup',   () => opt.classList.remove('lang-pill__opt--press'));
+    opt.addEventListener('mouseleave',() => opt.classList.remove('lang-pill__opt--press'));
   });
 </script>
 
 <style>
-  .header-scrolled nav {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  /* ═══════════════════════════════════════════
+     HEADER — Premium Glass Navigation System
+     ═══════════════════════════════════════════ */
+
+  .hdr {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    transition: transform 0.45s var(--ease-out-expo);
   }
-  
-  /* ─── Language Pill Toggle ─── */
+
+  .hdr--hidden {
+    transform: translateY(-100%);
+  }
+
+  /* ── Top Bar ── */
+  .hdr-topbar {
+    background: var(--color-black);
+    color: rgba(255,255,255, 0.7);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    overflow: hidden;
+    max-height: 44px;
+    transition: max-height 0.4s var(--ease-out-expo),
+                opacity 0.3s ease;
+  }
+
+  .hdr--scrolled .hdr-topbar {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .hdr-topbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.625rem 0;
+  }
+
+  .hdr-topbar__left,
+  .hdr-topbar__right {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hdr-topbar__center {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+  }
+
+  .hdr-topbar__icon {
+    width: 0.8rem;
+    height: 0.8rem;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  .hdr-topbar__sep {
+    width: 1px;
+    height: 12px;
+    background: rgba(255,255,255,0.15);
+    margin: 0 0.375rem;
+  }
+
+  .hdr-topbar__pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-red);
+    box-shadow: 0 0 8px var(--color-red);
+    animation: hdr-pulse 2.5s infinite;
+  }
+
+  @keyframes hdr-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hdr-topbar__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 100px;
+    background: rgba(225, 29, 72, 0.2);
+    border: 1px solid rgba(225, 29, 72, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .hdr-topbar__cta:hover {
+    background: var(--color-red);
+    border-color: var(--color-red);
+  }
+
+  .hdr-topbar__phone {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .hdr-topbar__phone:hover {
+    color: white;
+  }
+
+  /* ── Main Nav ── */
+  .hdr-nav {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    transition: all 0.4s var(--ease-out-expo);
+  }
+
+  .hdr--scrolled .hdr-nav {
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 1px 24px rgba(0,0,0,0.06),
+                0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .hdr-nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 0;
+    transition: padding 0.4s var(--ease-out-expo);
+  }
+
+  .hdr--scrolled .hdr-nav__inner {
+    padding: 0.5rem 0;
+  }
+
+  /* ── Logo ── */
+  .hdr-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .hdr-logo__img {
+    height: 42px;
+    width: auto;
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+
+  .hdr-logo:hover .hdr-logo__img {
+    transform: scale(1.06) rotate(-2deg);
+  }
+
+  .hdr--scrolled .hdr-logo__img {
+    height: 36px;
+  }
+
+  .hdr-logo__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .hdr-logo__name {
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: var(--color-black);
+    letter-spacing: -0.02em;
+  }
+
+  .hdr-logo__sub {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--color-red);
+    margin-top: 1px;
+  }
+
+  /* ── Desktop Links ── */
+  .hdr-links {
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .hdr-links__list {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .hdr-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-charcoal);
+    border-radius: 8px;
+    transition: color 0.3s ease, background 0.3s ease;
+  }
+
+  .hdr-link:hover {
+    color: var(--color-red);
+    background: rgba(225, 29, 72, 0.04);
+  }
+
+  .hdr-link--active {
+    color: var(--color-red);
+  }
+
+  .hdr-link__line {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--color-red);
+    transition: transform 0.35s var(--ease-out-expo);
+  }
+
+  .hdr-link:hover .hdr-link__line,
+  .hdr-link--active .hdr-link__line {
+    transform: translateX(-50%) scaleX(1);
+  }
+
+  .hdr-link__text {
+    position: relative;
+  }
+
+  /* ── Actions ── */
+  .hdr-actions {
+    display: none;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* ── Book CTA ── */
+  .hdr-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+    background: var(--color-black);
+    color: white;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    border-radius: 100px;
+    overflow: hidden;
+    transition: all 0.4s var(--ease-out-expo);
+  }
+
+  .hdr-cta:hover {
+    background: var(--color-red);
+    gap: 0.125rem;
+    box-shadow: 0 4px 20px rgba(225, 29, 72, 0.35);
+  }
+
+  .hdr-cta__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    margin-left: 0.625rem;
+    transition: all 0.4s var(--ease-out-expo);
+  }
+
+  .hdr-cta:hover .hdr-cta__icon {
+    background: rgba(255,255,255,0.25);
+    transform: translate(2px, -2px);
+  }
+
+  /* ── Burger ── */
+  .hdr-burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 12px;
+    transition: background 0.3s ease;
+  }
+
+  .hdr-burger:hover {
+    background: rgba(0,0,0,0.04);
+  }
+
+  .hdr-burger__line {
+    display: block;
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--color-charcoal);
+    transition: all 0.4s var(--ease-out-expo);
+    transform-origin: center;
+  }
+
+  .hdr-burger__line--2 {
+    width: 16px;
+    margin-left: 6px;
+  }
+
+  .hdr-burger.is-active .hdr-burger__line--1 {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .hdr-burger.is-active .hdr-burger__line--2 {
+    opacity: 0;
+    width: 0;
+  }
+
+  .hdr-burger.is-active .hdr-burger__line--3 {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ═══ Mobile Menu ═══ */
+  .mob-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  .mob-menu.is-open {
+    pointer-events: auto;
+  }
+
+  .mob-menu__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .mob-menu.is-open .mob-menu__backdrop {
+    opacity: 1;
+  }
+
+  .mob-menu__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(420px, 92vw);
+    height: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.5s var(--ease-out-expo);
+    box-shadow: -12px 0 60px rgba(0,0,0,0.12);
+    overflow-y: auto;
+  }
+
+  .mob-menu.is-open .mob-menu__panel {
+    transform: translateX(0);
+  }
+
+  .mob-menu__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--color-mist);
+  }
+
+  .hdr-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-snow);
+    border: 1px solid var(--color-mist);
+    color: var(--color-charcoal);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .hdr-close:hover {
+    background: var(--color-red);
+    color: white;
+    border-color: var(--color-red);
+    transform: rotate(90deg);
+  }
+
+  /* Mobile Nav Links */
+  .mob-menu__nav {
+    flex: 1;
+    padding: 1.5rem 0;
+  }
+
+  .mob-menu__nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mob-menu__item {
+    opacity: 0;
+    transform: translateX(24px);
+    transition: opacity 0.4s ease var(--delay),
+                transform 0.5s var(--ease-out-expo) var(--delay);
+  }
+
+  .mob-menu.is-open .mob-menu__item {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .mob-menu__link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    color: var(--color-charcoal);
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+  }
+
+  .mob-menu__link:hover,
+  .mob-menu__link--active {
+    background: rgba(225, 29, 72, 0.03);
+    border-left-color: var(--color-red);
+    color: var(--color-red);
+  }
+
+  .mob-menu__num {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--color-silver);
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    width: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .mob-menu__link--active .mob-menu__num,
+  .mob-menu__link:hover .mob-menu__num {
+    color: var(--color-red-light);
+  }
+
+  .mob-menu__label {
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    flex: 1;
+  }
+
+  .mob-menu__arrow {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-silver);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .mob-menu__link:hover .mob-menu__arrow {
+    color: var(--color-red);
+    transform: translate(2px, -2px);
+  }
+
+  /* Mobile Footer Zone */
+  .mob-menu__foot {
+    padding: 1.5rem;
+    border-top: 1px solid var(--color-mist);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .mob-menu__book {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: var(--color-black);
+    color: white;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.35s ease;
+  }
+
+  .mob-menu__book:hover {
+    background: var(--color-red);
+    box-shadow: 0 4px 20px rgba(225, 29, 72, 0.3);
+  }
+
+  .mob-menu__call {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-snow);
+    color: var(--color-charcoal);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 100px;
+    border: 1px solid var(--color-mist);
+    transition: all 0.35s ease;
+  }
+
+  .mob-menu__call:hover {
+    border-color: var(--color-red);
+    color: var(--color-red);
+  }
+
+  /* ═══ Language Pill ═══ */
   .lang-pill {
     position: relative;
     display: inline-flex;
@@ -274,7 +828,7 @@ const alt = getAlternatePath(currentPath);
     background: var(--color-snow);
     border: 1.5px solid var(--color-mist);
     border-radius: 100px;
-    padding: 0.1875rem;
+    padding: 3px;
     gap: 0;
   }
 
@@ -284,11 +838,11 @@ const alt = getAlternatePath(currentPath);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.375rem;
-    padding: 0.375rem 0.875rem;
-    font-size: 0.75rem;
+    gap: 6px;
+    padding: 6px 14px;
+    font-size: 0.6875rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     color: var(--color-gray);
     text-decoration: none;
     border-radius: 100px;
@@ -312,29 +866,70 @@ const alt = getAlternatePath(currentPath);
 
   .lang-pill__slider {
     position: absolute;
-    top: 0.1875rem;
-    left: 0.1875rem;
-    width: calc(50% - 0.1875rem);
-    height: calc(100% - 0.375rem);
+    top: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    height: calc(100% - 6px);
     background: var(--color-red);
     border-radius: 100px;
     z-index: 1;
     transition: transform 0.35s var(--ease-out-expo);
-    box-shadow: 0 2px 8px rgba(225, 29, 72, 0.3);
+    box-shadow: 0 2px 8px rgba(225,29,72,0.3);
   }
 
   .lang-pill__slider--fr {
     transform: translateX(100%);
   }
 
-  /* ── Mobile Pill (larger) ── */
   .lang-pill--lg {
-    padding: 0.25rem;
+    padding: 4px;
+    align-self: center;
   }
 
   .lang-pill--lg .lang-pill__opt {
-    padding: 0.625rem 1.5rem;
-    font-size: 0.9375rem;
-    gap: 0.5rem;
+    padding: 10px 24px;
+    font-size: 0.875rem;
+    gap: 8px;
+  }
+
+  /* ═══ Responsive ═══ */
+  @media (min-width: 1024px) {
+    .hdr-topbar__left,
+    .hdr-topbar__right {
+      display: flex;
+    }
+
+    .hdr-topbar__center {
+      margin: 0;
+    }
+
+    .hdr-links {
+      display: block;
+    }
+
+    .hdr-actions {
+      display: flex;
+    }
+
+    .hdr-burger {
+      display: none;
+    }
+  }
+
+  /* ═══ Accessibility ═══ */
+  @media (prefers-reduced-motion: reduce) {
+    .hdr,
+    .hdr-topbar,
+    .hdr-nav,
+    .hdr-nav__inner,
+    .mob-menu__panel,
+    .mob-menu__backdrop,
+    .mob-menu__item {
+      transition-duration: 0.01ms !important;
+    }
+
+    .hdr-topbar__pulse {
+      animation: none;
+    }
   }
 </style>

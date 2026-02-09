@@ -36,6 +36,8 @@ export const fr = {
     accessibilityDesc: 'Notre engagement pour l\'accessibilité. Design inclusif et aménagements pour tous chez Ultimate Beauty Spa.',
     cookiesTitle: 'Politique des Cookies | Ultimate Beauty Spa',
     cookiesDesc: 'Découvrez comment Ultimate Beauty Spa utilise les cookies pour améliorer votre expérience de navigation.',
+    faqTitle: 'Questions Fréquentes | Ultimate Beauty Spa Douala',
+    faqDesc: 'Trouvez les réponses aux questions courantes sur nos services spa, tarifs, réservations, hygiène et plus chez Ultimate Beauty Spa à Bonamoussadi, Douala.',
   },
 
   // ─── Navigation ───
