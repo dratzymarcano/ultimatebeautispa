@@ -2,40 +2,72 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { t } from '../i18n/index';
+
+const i = t('en');
 ---
 
-<Layout 
-  title="Terms of Service" 
-  description="Terms of service for Ultimate Beauty Spa."
->
+<Layout title={i.terms.pageTitle}>
   <Header slot="header" currentPath="/terms" />
 
   <section class="section bg-snow">
     <div class="container max-w-3xl">
       <div class="mb-10">
-        <h1 class="text-4xl sm:text-5xl font-display font-bold text-black mb-4">Terms of Service</h1>
-        <p class="text-charcoal">Last updated: February 5, 2026</p>
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-black mb-4">{i.terms.heroTitle}</h1>
+        <p class="text-charcoal">{i.terms.lastUpdated}</p>
       </div>
 
       <div class="space-y-8 text-charcoal">
+        <p>{i.terms.intro}</p>
+
         <div>
-          <h2 class="text-2xl font-semibold text-black mb-3">Appointments</h2>
-          <p>All appointments are subject to availability. We may contact you to confirm, adjust, or reschedule your booking.</p>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.terms.section1Title}</h2>
+          <p>{i.terms.section1Text}</p>
         </div>
 
         <div>
-          <h2 class="text-2xl font-semibold text-black mb-3">Cancellations</h2>
-          <p>We require at least 48 hours notice for cancellations or rescheduling. Late cancellations may incur a fee.</p>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.terms.section2Title}</h2>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>{i.terms.section2Item1}</li>
+            <li>{i.terms.section2Item2}</li>
+            <li>{i.terms.section2Item3}</li>
+            <li>{i.terms.section2Item4}</li>
+          </ul>
         </div>
 
         <div>
-          <h2 class="text-2xl font-semibold text-black mb-3">Payments</h2>
-          <p>Payment terms are presented during service. Prices and promotions may change without notice.</p>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.terms.section3Title}</h2>
+          <p>{i.terms.section3Text}</p>
         </div>
 
         <div>
-          <h2 class="text-2xl font-semibold text-black mb-3">Contact</h2>
-          <p>For any questions about these terms, contact us at hello@ultimatebeautyspa.com.</p>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.terms.section4Title}</h2>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>{i.terms.section4Item1}</li>
+            <li>{i.terms.section4Item2}</li>
+            <li>{i.terms.section4Item3}</li>
+            <li>{i.terms.section4Item4}</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.terms.section5Title}</h2>
+          <p>{i.terms.section5Text}</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.terms.section6Title}</h2>
+          <p>{i.terms.section6Text}</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.terms.section7Title}</h2>
+          <p>{i.terms.section7Text}</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.terms.section8Title}</h2>
+          <p>{i.terms.section8Text}</p>
         </div>
       </div>
     </div>

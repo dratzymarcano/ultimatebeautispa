@@ -390,6 +390,7 @@ export const fr = {
     privacyPolicy: 'Politique de Confidentialité',
     termsOfService: 'Conditions d\'Utilisation',
     accessibility: 'Accessibilité',
+    cookiesPolicy: 'Politique de Cookies',
   },
 
   // ─── Privacy Page ───
@@ -482,6 +483,51 @@ export const fr = {
     feedbackText: 'Nous accueillons vos retours sur l\'accessibilité de notre site web. Veuillez nous contacter si vous rencontrez des obstacles :',
     feedbackEmail: 'Email : hello@ultimatebeautyspa.com',
     feedbackPhone: 'Téléphone : +237 697 113 339',
+  },
+
+  // ─── Cookie Consent ───
+  cookies: {
+    dialogTitle: 'Nous Respectons Votre Vie Privée',
+    dialogText: 'Nous utilisons des cookies pour améliorer votre expérience de navigation, proposer du contenu personnalisé et analyser notre trafic. Consultez notre {link} pour plus d\'informations.',
+    policyLink: 'Politique de Cookies',
+    essential: 'Cookies Essentiels',
+    essentialDesc: 'Nécessaires au bon fonctionnement du site. Ils ne peuvent pas être désactivés.',
+    analytics: 'Cookies Analytiques',
+    analyticsDesc: 'Nous aident à comprendre comment les visiteurs interagissent avec notre site pour améliorer l\'expérience.',
+    marketing: 'Cookies Marketing',
+    marketingDesc: 'Utilisés pour diffuser des publicités pertinentes et suivre l\'efficacité des campagnes.',
+    customize: 'Personnaliser',
+    rejectAll: 'Tout Refuser',
+    acceptAll: 'Tout Accepter',
+  },
+
+  // ─── Cookies Policy Page ───
+  cookiesPage: {
+    pageTitle: 'Politique de Cookies',
+    heroTitle: 'Politique de Cookies',
+    lastUpdated: 'Dernière mise à jour : Février 2026',
+    intro: 'Cette Politique de Cookies explique ce que sont les cookies, comment Ultimate Beauty Spa (« nous », « notre » ou « nos ») les utilise sur notre site web, et vos choix concernant les cookies.',
+    whatTitle: '1. Qu\'est-ce qu\'un Cookie',
+    whatText: 'Les cookies sont de petits fichiers texte placés sur votre appareil lorsque vous visitez un site web. Ils sont largement utilisés pour faire fonctionner les sites, améliorer leur efficacité et fournir des informations de rapport. Les cookies définis par le propriétaire du site sont appelés « cookies propriétaires ». Les cookies définis par des tiers sont appelés « cookies tiers ».',
+    typesTitle: '2. Types de Cookies que Nous Utilisons',
+    typesIntro: 'Nous utilisons les catégories de cookies suivantes sur notre site web :',
+    essentialTitle: 'Cookies Essentiels',
+    essentialText: 'Ces cookies sont strictement nécessaires au fonctionnement du site et ne peuvent pas être désactivés. Ils sont généralement définis en réponse à des actions que vous effectuez, comme la définition de vos préférences de confidentialité, la connexion ou le remplissage de formulaires. Sans ces cookies, certaines parties du site ne fonctionneront pas correctement.',
+    analyticsTitle: 'Cookies Analytiques',
+    analyticsText: 'Ces cookies nous permettent de compter les visites et les sources de trafic afin de mesurer et d\'améliorer les performances de notre site. Ils nous aident à savoir quelles pages sont les plus et les moins populaires et à voir comment les visiteurs naviguent sur le site. Toutes les informations collectées par ces cookies sont agrégées et donc anonymes.',
+    marketingTitle: 'Cookies Marketing',
+    marketingText: 'Ces cookies peuvent être définis via notre site par nos partenaires publicitaires. Ils peuvent être utilisés pour créer un profil de vos intérêts et vous montrer des publicités pertinentes sur d\'autres sites. Ils ne stockent pas directement d\'informations personnelles mais sont basés sur l\'identification unique de votre navigateur et de votre appareil.',
+    manageTitle: '3. Gestion de Vos Préférences de Cookies',
+    manageText: 'Vous pouvez gérer vos préférences de cookies à tout moment en cliquant sur l\'option de paramètres de cookies qui apparaît lors de votre première visite sur notre site, ou en ajustant les paramètres de votre navigateur. Veuillez noter que la désactivation de certains cookies peut affecter la fonctionnalité de notre site web.',
+    thirdPartyTitle: '4. Cookies Tiers',
+    thirdPartyText: 'Certains cookies sont placés par des services tiers qui apparaissent sur nos pages. Nous ne contrôlons pas l\'utilisation de ces cookies. Veuillez consulter les politiques de confidentialité respectives des tiers pour plus d\'informations.',
+    changesTitle: '5. Modifications de Cette Politique',
+    changesText: 'Nous pouvons mettre à jour cette Politique de Cookies de temps en temps pour refléter les changements technologiques, législatifs ou dans nos pratiques de données. Nous vous encourageons à consulter régulièrement cette page pour les dernières informations.',
+    contactTitle: '6. Nous Contacter',
+    contactText: 'Si vous avez des questions sur notre utilisation des cookies, veuillez nous contacter à :',
+    contactEmail: 'Email : hello@ultimatebeautyspa.com',
+    contactPhone: 'Téléphone : +237 697 113 339',
+    contactAddress: 'Adresse : Avant Saint James hôtel, Bonamoussadi, Douala, Cameroun',
   },
 
   // ─── Date Picker ───

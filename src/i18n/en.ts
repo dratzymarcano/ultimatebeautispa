@@ -392,6 +392,7 @@ export const en = {
     privacyPolicy: 'Privacy Policy',
     termsOfService: 'Terms of Service',
     accessibility: 'Accessibility',
+    cookiesPolicy: 'Cookies Policy',
   },
 
   // ─── Privacy Page ───
@@ -484,6 +485,51 @@ export const en = {
     feedbackText: 'We welcome your feedback on the accessibility of our website. Please contact us if you encounter any barriers:',
     feedbackEmail: 'Email: hello@ultimatebeautyspa.com',
     feedbackPhone: 'Phone: +237 697 113 339',
+  },
+
+  // ─── Cookie Consent ───
+  cookies: {
+    dialogTitle: 'We Value Your Privacy',
+    dialogText: 'We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. Read our {link} for more information.',
+    policyLink: 'Cookies Policy',
+    essential: 'Essential Cookies',
+    essentialDesc: 'Required for the website to function properly. These cannot be disabled.',
+    analytics: 'Analytics Cookies',
+    analyticsDesc: 'Help us understand how visitors interact with our website to improve the experience.',
+    marketing: 'Marketing Cookies',
+    marketingDesc: 'Used to deliver relevant advertisements and track campaign effectiveness.',
+    customize: 'Customize',
+    rejectAll: 'Reject All',
+    acceptAll: 'Accept All',
+  },
+
+  // ─── Cookies Policy Page ───
+  cookiesPage: {
+    pageTitle: 'Cookies Policy',
+    heroTitle: 'Cookies Policy',
+    lastUpdated: 'Last updated: February 2026',
+    intro: 'This Cookies Policy explains what cookies are, how Ultimate Beauty Spa ("we", "our", or "us") uses them on our website, and your choices regarding cookies.',
+    whatTitle: '1. What Are Cookies',
+    whatText: 'Cookies are small text files that are placed on your device when you visit a website. They are widely used to make websites work, improve efficiency, and provide reporting information. Cookies set by the website owner are called "first-party cookies." Cookies set by parties other than the website owner are called "third-party cookies."',
+    typesTitle: '2. Types of Cookies We Use',
+    typesIntro: 'We use the following categories of cookies on our website:',
+    essentialTitle: 'Essential Cookies',
+    essentialText: 'These cookies are strictly necessary for the website to function and cannot be switched off. They are usually set in response to actions you take, such as setting your privacy preferences, logging in, or filling out forms. Without these cookies, some parts of the site will not function properly.',
+    analyticsTitle: 'Analytics Cookies',
+    analyticsText: 'These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. They help us know which pages are the most and least popular and see how visitors navigate the site. All information these cookies collect is aggregated and therefore anonymous.',
+    marketingTitle: 'Marketing Cookies',
+    marketingText: 'These cookies may be set through our site by our advertising partners. They may be used to build a profile of your interests and show you relevant advertisements on other sites. They do not directly store personal information but are based on uniquely identifying your browser and internet device.',
+    manageTitle: '3. Managing Your Cookie Preferences',
+    manageText: 'You can manage your cookie preferences at any time by clicking the cookie settings option that appears when you first visit our site, or by adjusting your browser settings. Please note that disabling certain cookies may affect the functionality of our website.',
+    thirdPartyTitle: '4. Third-Party Cookies',
+    thirdPartyText: 'Some cookies are placed by third-party services that appear on our pages. We do not control the use of these cookies. Please refer to the respective third-party privacy policies for more information.',
+    changesTitle: '5. Changes to This Policy',
+    changesText: 'We may update this Cookies Policy from time to time to reflect changes in technology, legislation, or our data practices. We encourage you to periodically review this page for the latest information.',
+    contactTitle: '6. Contact Us',
+    contactText: 'If you have any questions about our use of cookies, please contact us at:',
+    contactEmail: 'Email: hello@ultimatebeautyspa.com',
+    contactPhone: 'Phone: +237 697 113 339',
+    contactAddress: 'Address: Avant Saint James hôtel, Bonamoussadi, Douala, Cameroon',
   },
 
   // ─── Date Picker ───

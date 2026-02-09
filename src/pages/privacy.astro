@@ -2,45 +2,74 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { t } from '../i18n/index';
+
+const i = t('en');
 ---
 
-<Layout 
-  title="Privacy Policy" 
-  description="Privacy policy for Ultimate Beauty Spa."
->
+<Layout title={i.privacy.pageTitle}>
   <Header slot="header" currentPath="/privacy" />
 
   <section class="section bg-snow">
     <div class="container max-w-3xl">
       <div class="mb-10">
-        <h1 class="text-4xl sm:text-5xl font-display font-bold text-black mb-4">Privacy Policy</h1>
-        <p class="text-charcoal">Last updated: February 5, 2026</p>
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-black mb-4">{i.privacy.heroTitle}</h1>
+        <p class="text-charcoal">{i.privacy.lastUpdated}</p>
       </div>
 
       <div class="space-y-8 text-charcoal">
+        <p>{i.privacy.intro}</p>
+
         <div>
-          <h2 class="text-2xl font-semibold text-black mb-3">Information We Collect</h2>
-          <p>We collect information you provide when booking an appointment or contacting us, including your name, email, phone number, and service details.</p>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.privacy.section1Title}</h2>
+          <p class="mb-3">{i.privacy.section1Intro}</p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li set:html={i.privacy.section1Item1} />
+            <li set:html={i.privacy.section1Item2} />
+            <li set:html={i.privacy.section1Item3} />
+            <li set:html={i.privacy.section1Item4} />
+          </ul>
         </div>
 
         <div>
-          <h2 class="text-2xl font-semibold text-black mb-3">How We Use Your Information</h2>
-          <p>We use your information to manage bookings, send confirmations, respond to inquiries, and improve our services. We do not sell your data.</p>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.privacy.section2Title}</h2>
+          <p class="mb-3">{i.privacy.section2Intro}</p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>{i.privacy.section2Item1}</li>
+            <li>{i.privacy.section2Item2}</li>
+            <li>{i.privacy.section2Item3}</li>
+            <li>{i.privacy.section2Item4}</li>
+            <li>{i.privacy.section2Item5}</li>
+          </ul>
         </div>
 
         <div>
-          <h2 class="text-2xl font-semibold text-black mb-3">Data Retention</h2>
-          <p>We retain booking and contact records only as long as necessary for business and legal requirements.</p>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.privacy.section3Title}</h2>
+          <p>{i.privacy.section3Text}</p>
         </div>
 
         <div>
-          <h2 class="text-2xl font-semibold text-black mb-3">Your Rights</h2>
-          <p>You can request access, correction, or deletion of your personal data by contacting us at hello@ultimatebeautyspa.com.</p>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.privacy.section4Title}</h2>
+          <p>{i.privacy.section4Text}</p>
         </div>
 
         <div>
-          <h2 class="text-2xl font-semibold text-black mb-3">Contact</h2>
-          <p>If you have questions about this policy, email us at hello@ultimatebeautyspa.com.</p>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.privacy.section5Title}</h2>
+          <p class="mb-3">{i.privacy.section5Intro}</p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>{i.privacy.section5Item1}</li>
+            <li>{i.privacy.section5Item2}</li>
+            <li>{i.privacy.section5Item3}</li>
+            <li>{i.privacy.section5Item4}</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.privacy.section6Title}</h2>
+          <p class="mb-3">{i.privacy.section6Text}</p>
+          <p>{i.privacy.section6Email}</p>
+          <p>{i.privacy.section6Phone}</p>
+          <p>{i.privacy.section6Address}</p>
         </div>
       </div>
     </div>

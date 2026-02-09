@@ -1,0 +1,77 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { t } from '../../i18n/index';
+
+const i = t('fr');
+---
+
+<Layout title={i.cookiesPage.pageTitle} lang="fr">
+  <Header slot="header" currentPath="/fr/cookies" lang="fr" />
+
+  <section class="section bg-snow">
+    <div class="container max-w-3xl">
+      <div class="mb-10">
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-black mb-4">{i.cookiesPage.heroTitle}</h1>
+        <p class="text-charcoal">{i.cookiesPage.lastUpdated}</p>
+      </div>
+
+      <div class="space-y-8 text-charcoal leading-relaxed">
+        <p>{i.cookiesPage.intro}</p>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.cookiesPage.whatTitle}</h2>
+          <p>{i.cookiesPage.whatText}</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.cookiesPage.typesTitle}</h2>
+          <p class="mb-4">{i.cookiesPage.typesIntro}</p>
+          
+          <div class="space-y-4">
+            <div class="bg-white border border-mist rounded-xl p-5">
+              <h3 class="font-semibold text-black mb-1">{i.cookiesPage.essentialTitle}</h3>
+              <p class="text-sm" set:html={i.cookiesPage.essentialText} />
+            </div>
+            <div class="bg-white border border-mist rounded-xl p-5">
+              <h3 class="font-semibold text-black mb-1">{i.cookiesPage.analyticsTitle}</h3>
+              <p class="text-sm" set:html={i.cookiesPage.analyticsText} />
+            </div>
+            <div class="bg-white border border-mist rounded-xl p-5">
+              <h3 class="font-semibold text-black mb-1">{i.cookiesPage.marketingTitle}</h3>
+              <p class="text-sm" set:html={i.cookiesPage.marketingText} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.cookiesPage.manageTitle}</h2>
+          <p>{i.cookiesPage.manageText}</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.cookiesPage.thirdPartyTitle}</h2>
+          <p>{i.cookiesPage.thirdPartyText}</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.cookiesPage.changesTitle}</h2>
+          <p>{i.cookiesPage.changesText}</p>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-semibold text-black mb-3">{i.cookiesPage.contactTitle}</h2>
+          <p>{i.cookiesPage.contactText}</p>
+          <ul class="list-none space-y-1 mt-2">
+            <li>{i.cookiesPage.contactEmail}</li>
+            <li>{i.cookiesPage.contactPhone}</li>
+            <li>{i.cookiesPage.contactAddress}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" lang="fr" />
+</Layout>
