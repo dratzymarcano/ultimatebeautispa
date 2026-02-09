@@ -22,6 +22,13 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   }
 
   try {
+    if (!context.env.BOOKINGS) {
+      return new Response(JSON.stringify({ date, slots: [] }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders },
+      });
+    }
+
     const existing = await context.env.BOOKINGS.get(`slots:${date}`);
     const slots: string[] = existing ? JSON.parse(existing) : [];
 

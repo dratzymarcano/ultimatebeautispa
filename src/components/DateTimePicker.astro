@@ -821,6 +821,12 @@ const periodLabels = {
 
     calApply.disabled = !tempDate;
     quickBtns.forEach(b => b.classList.remove('active'));
+
+    // Disable prev button if viewing current month
+    const isCurrentMonth = viewYear === today.getFullYear() && viewMonth === today.getMonth();
+    prevBtn.disabled = isCurrentMonth;
+    prevBtn.style.opacity = isCurrentMonth ? '0.3' : '1';
+    prevBtn.style.cursor = isCurrentMonth ? 'not-allowed' : 'pointer';
   }
 
   function openCalendar() {
@@ -866,6 +872,8 @@ const periodLabels = {
   calApply.addEventListener('click', applyDate);
 
   prevBtn.addEventListener('click', () => {
+    // Don't allow navigating before the current month
+    if (viewYear === today.getFullYear() && viewMonth === today.getMonth()) return;
     viewMonth--;
     if (viewMonth < 0) { viewMonth = 11; viewYear--; }
     renderCalendar();
@@ -892,7 +900,12 @@ const periodLabels = {
         case 'this-weekend': {
           target = new Date(today);
           const dow = target.getDay();
-          target.setDate(target.getDate() + (dow === 6 ? 0 : 6 - dow));
+          // If already Saturday or Sunday, pick today
+          if (dow === 0 || dow === 6) {
+            // already weekend, keep today
+          } else {
+            target.setDate(target.getDate() + (6 - dow));
+          }
           break;
         }
         case 'next-week': {
@@ -989,6 +1002,28 @@ const periodLabels = {
   timeCancel.addEventListener('click', closeTimePicker);
   timeClose.addEventListener('click', closeTimePicker);
   timeApply.addEventListener('click', applyTime);
+
+  // Move modals to body so they aren't trapped in parent stacking contexts
+  document.body.appendChild(calOverlay);
+  document.body.appendChild(timeOverlay);
+
+  // Reset visual state when the parent form is reset
+  const parentForm = root?.closest('form');
+  if (parentForm) {
+    parentForm.addEventListener('reset', () => {
+      selectedDate = null;
+      tempDate = null;
+      selectedTime = null;
+      tempTime = null;
+      dateInput.value = '';
+      timeInput.value = '';
+      dateDisplay.textContent = root?.dataset.locale === 'fr' ? 'Sélectionnez une date' : 'Select a date';
+      dateDisplay.className = 'bk-field__value bk-field__value--placeholder';
+      timeDisplay.textContent = root?.dataset.locale === 'fr' ? 'Sélectionner une heure' : 'Select a time';
+      timeDisplay.className = 'bk-field__value bk-field__value--placeholder';
+      timeTrigger.disabled = true;
+    });
+  }
 
   // Global escape
   document.addEventListener('keydown', (e) => {
