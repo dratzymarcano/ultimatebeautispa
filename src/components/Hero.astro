@@ -21,743 +21,382 @@ const prefix = lang === 'fr' ? '/fr' : '';
 const heroSubtitle = subtitle || i.hero.subtitle;
 ---
 
-<section class="hero" id="hero">
-  <!-- Ambient Background -->
-  <div class="hero-bg" aria-hidden="true">
-    <div class="hero-gradient"></div>
-    <div class="hero-grain"></div>
+<section class="ub-hero" id="hero">
+  <!-- ═══════ BACKGROUND LAYERS ═══════ -->
+  <div class="ub-hero__bg" aria-hidden="true">
+    <div class="ub-hero__media">
+      <img
+        src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920&h=1080&fit=crop&q=85"
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        class="ub-hero__img"
+      />
+    </div>
+    <div class="ub-hero__overlay"></div>
+    <div class="ub-hero__noise"></div>
+    <div class="ub-hero__shape ub-hero__shape--1"></div>
+    <div class="ub-hero__shape ub-hero__shape--2"></div>
+    <div class="ub-hero__shape ub-hero__shape--3"></div>
   </div>
 
-  <div class="hero-inner">
-    <!-- Left: Content -->
-    <div class="hero-content">
-      <!-- Badge -->
-      <div class="hero-badge">
-        <span class="badge-dot"></span>
-        <span class="badge-text">{i.hero.badge}</span>
+  <!-- ═══════ MAIN CONTENT ═══════ -->
+  <div class="ub-hero__inner">
+    <div class="ub-hero__side-label" aria-hidden="true">
+      <span>EST. 2026 — DOUALA</span>
+    </div>
+
+    <div class="ub-hero__content">
+      <div class="ub-hero__pill">
+        <span class="ub-hero__pill-dot"></span>
+        <span class="ub-hero__pill-text">{i.hero.badge}</span>
       </div>
 
-      <!-- Headline -->
-      <h1 class="hero-title">
-        <span class="title-line title-line-1">
-          <span class="title-text">{i.hero.titleLine1}</span>
+      <h1 class="ub-hero__heading">
+        <span class="ub-hero__line ub-hero__line--1">
+          <span class="ub-hero__word">{i.hero.titleLine1}</span>
         </span>
-        <span class="title-line title-line-2">
-          <span class="title-text">{i.hero.titleLine2}<span class="title-ampersand">&</span></span>
+        <span class="ub-hero__line ub-hero__line--2">
+          <span class="ub-hero__word">{i.hero.titleLine2}</span>
+          <span class="ub-hero__amp">&</span>
         </span>
-        <span class="title-line title-line-3">
-          <span class="title-text">{i.hero.titleLine3}</span>
+        <span class="ub-hero__line ub-hero__line--3">
+          <span class="ub-hero__word">{i.hero.titleLine3}</span>
         </span>
       </h1>
 
-      <!-- Subtitle -->
-      <p class="hero-subtitle">{heroSubtitle}</p>
+      <div class="ub-hero__sub-wrap">
+        <span class="ub-hero__rule"></span>
+        <p class="ub-hero__subtitle">{heroSubtitle}</p>
+      </div>
 
-      <!-- CTAs -->
-      <div class="hero-actions">
-        <a href="#booking-modal" data-booking-modal class="hero-cta-primary">
-          <span class="cta-text">{i.hero.cta}</span>
-          <span class="cta-icon">
-            <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
-          </span>
+      <div class="ub-hero__ctas">
+        <a href={`${prefix}/book`} class="ub-hero__btn-primary">
+          <span>{i.hero.cta}</span>
+          <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
         </a>
-        <a href={`${prefix}/services`} class="hero-cta-secondary">
+        <a href={`${prefix}/services`} class="ub-hero__btn-ghost">
           <span>{i.hero.secondaryCta}</span>
+          <span class="ub-hero__btn-line"></span>
         </a>
       </div>
 
-      <!-- Social Proof -->
-      <div class="hero-proof">
-        <!-- Avatars -->
-        <div class="proof-avatars">
-          <div class="avatar" style="--i:0"><span>JL</span></div>
-          <div class="avatar" style="--i:1"><span>AK</span></div>
-          <div class="avatar" style="--i:2"><span>MR</span></div>
-          <div class="avatar" style="--i:3"><span>TS</span></div>
-          <div class="avatar avatar-count" style="--i:4"><span>+2k</span></div>
+      <div class="ub-hero__proof">
+        <div class="ub-hero__avatars">
+          <div class="ub-hero__avatar" style="--i:0;background:#E11D48"><span>JL</span></div>
+          <div class="ub-hero__avatar" style="--i:1;background:#0EA5E9"><span>AK</span></div>
+          <div class="ub-hero__avatar" style="--i:2;background:#8B5CF6"><span>MR</span></div>
+          <div class="ub-hero__avatar" style="--i:3;background:#F59E0B"><span>TS</span></div>
         </div>
-        <div class="proof-text">
-          <div class="proof-stars" aria-label="5 out of 5 stars">
-            <svg viewBox="0 0 20 20" fill="currentColor" class="star-icon"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            <svg viewBox="0 0 20 20" fill="currentColor" class="star-icon"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            <svg viewBox="0 0 20 20" fill="currentColor" class="star-icon"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            <svg viewBox="0 0 20 20" fill="currentColor" class="star-icon"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            <svg viewBox="0 0 20 20" fill="currentColor" class="star-icon"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          </div>
-          <span class="proof-label">Loved by <strong>2,000+</strong> clients</span>
+        <div class="ub-hero__proof-text">
+          <span class="ub-hero__stars" aria-label="5 out of 5 stars">★★★★★</span>
+          <span class="ub-hero__proof-label">{lang === 'fr' ? 'Aimé par' : 'Loved by'} <strong>2,000+</strong> clients</span>
         </div>
       </div>
     </div>
 
-    <!-- Right: Visual -->
-    <div class="hero-visual">
-      <div class="visual-container">
-        <!-- Main Image -->
-        <div class="visual-image">
-          <img
-            src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=1000&fit=crop&q=80"
-            alt="Luxury spa treatment room with ambient lighting"
-            loading="eager"
-            fetchpriority="high"
-            width="800"
-            height="1000"
-          />
-          <!-- Overlay Gradient -->
-          <div class="visual-overlay"></div>
+    <div class="ub-hero__cards">
+      <div class="ub-hero__card ub-hero__card--1">
+        <Icon name="lucide:clock" class="w-5 h-5" />
+        <div>
+          <span class="ub-hero__card-label">{lang === 'fr' ? 'Ouvert' : 'Open Today'}</span>
+          <span class="ub-hero__card-value">9AM — 9PM</span>
         </div>
-
-        <!-- Floating Card: Hours -->
-        <div class="float-card float-hours">
-          <div class="float-card-icon">
-            <Icon name="lucide:clock" size={20} />
-          </div>
-          <div class="float-card-body">
-            <span class="float-card-title">Open Today</span>
-            <span class="float-card-value">9:00 AM — 9:00 PM</span>
-          </div>
+      </div>
+      <div class="ub-hero__card ub-hero__card--2">
+        <Icon name="lucide:star" class="w-5 h-5" />
+        <div>
+          <span class="ub-hero__card-label">{lang === 'fr' ? 'Note Clients' : 'Rating'}</span>
+          <span class="ub-hero__card-value">4.9 / 5.0</span>
         </div>
-
-        <!-- Floating Card: Rating -->
-        <div class="float-card float-rating">
-          <div class="float-card-icon float-card-icon--amber">
-            <Icon name="lucide:star" size={20} fill="currentColor" stroke="none" />
-          </div>
-          <div class="float-card-body">
-            <span class="float-card-title">Client Rating</span>
-            <span class="float-card-value">4.9 / 5.0</span>
-          </div>
-        </div>
-
-        <!-- Decorative ring -->
-        <div class="visual-ring" aria-hidden="true"></div>
       </div>
     </div>
   </div>
 
-  <!-- Scroll cue -->
-  <div class="scroll-cue" aria-hidden="true">
-    <div class="scroll-line"></div>
+  <div class="ub-hero__scroll" aria-hidden="true">
+    <span class="ub-hero__scroll-text">{lang === 'fr' ? 'Découvrir' : 'Discover'}</span>
+    <span class="ub-hero__scroll-bar"></span>
   </div>
 </section>
 
 <style>
-  /* ============================================
-     HERO — LAYOUT
-     ============================================ */
-  .hero {
+  .ub-hero {
     position: relative;
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: var(--color-white);
+    background: var(--color-black);
   }
 
-  .hero-inner {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: clamp(2rem, 5vw, 6rem);
-    width: 100%;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 7rem clamp(1.5rem, 5vw, 4rem) 4rem;
+  .ub-hero__bg { position: absolute; inset: 0; pointer-events: none; }
+  .ub-hero__media { position: absolute; inset: 0; }
+
+  .ub-hero__img {
+    width: 100%; height: 100%; object-fit: cover;
+    transform: scale(1.05);
+    animation: ub-hero-ken 30s ease-in-out infinite alternate;
   }
 
-  /* ============================================
-     BACKGROUND — keep it quiet
-     ============================================ */
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
+  @keyframes ub-hero-ken {
+    0% { transform: scale(1.05) translate(0, 0); }
+    100% { transform: scale(1.12) translate(-1%, -1%); }
   }
 
-  .hero-gradient {
-    position: absolute;
-    inset: 0;
+  .ub-hero__overlay {
+    position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 80% 60% at 70% 40%, rgba(225,29,72,0.06) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 80% at 10% 80%, rgba(251,113,133,0.04) 0%, transparent 60%);
+      linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.25) 30%, rgba(10,10,10,0.35) 60%, rgba(10,10,10,0.85) 100%),
+      linear-gradient(90deg, rgba(10,10,10,0.5) 0%, transparent 60%);
   }
 
-  .hero-grain {
-    position: absolute;
-    inset: 0;
-    opacity: 0.025;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  .ub-hero__noise {
+    position: absolute; inset: 0; opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
   }
 
-  /* ============================================
-     BADGE
-     ============================================ */
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.625rem;
-    padding: 0.5rem 1rem 0.5rem 0.625rem;
-    background: var(--color-cloud);
-    border: 1px solid var(--color-mist);
-    border-radius: var(--radius-full);
-    opacity: 0;
-    animation: hero-fade-in 0.7s var(--ease-out-expo) 0.1s forwards;
+  .ub-hero__shape { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; mix-blend-mode: screen; }
+
+  .ub-hero__shape--1 {
+    width: 600px; height: 600px; background: rgba(225,29,72,0.12);
+    top: -15%; right: -10%; animation: ub-shape-float 20s ease-in-out infinite;
   }
 
-  .badge-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--color-success);
-    border-radius: 50%;
+  .ub-hero__shape--2 {
+    width: 400px; height: 400px; background: rgba(251,113,133,0.08);
+    bottom: -10%; left: -5%; animation: ub-shape-float 25s ease-in-out infinite 4s;
+  }
+
+  .ub-hero__shape--3 {
+    width: 200px; height: 200px; background: rgba(225,29,72,0.06);
+    top: 30%; left: 40%; animation: ub-shape-float 18s ease-in-out infinite 8s;
+  }
+
+  @keyframes ub-shape-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -20px) scale(1.05); }
+    66% { transform: translate(-20px, 15px) scale(0.95); }
+  }
+
+  .ub-hero__inner {
+    position: relative; z-index: 2; width: 100%; max-width: 1440px;
+    margin: 0 auto; padding: 8rem clamp(1.5rem, 5vw, 4rem) 4rem;
+    display: flex; flex-direction: column; gap: 2.5rem;
+  }
+
+  .ub-hero__side-label {
+    position: absolute; left: clamp(0.5rem, 2vw, 2rem); bottom: 6rem;
+    writing-mode: vertical-rl; text-orientation: mixed;
+    font-size: 0.625rem; font-weight: 600; letter-spacing: 0.3em;
+    text-transform: uppercase; color: rgba(255,255,255,0.25);
+    transform: rotate(180deg);
+    opacity: 0; animation: ub-fade-in 1s var(--ease-out-expo) 1.4s forwards;
+  }
+
+  .ub-hero__content { display: flex; flex-direction: column; gap: 1.75rem; max-width: 720px; }
+
+  .ub-hero__pill {
+    display: inline-flex; align-items: center; gap: 0.625rem;
+    padding: 0.45rem 1.1rem 0.45rem 0.65rem;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px; width: fit-content; backdrop-filter: blur(12px);
+    opacity: 0; animation: ub-fade-up 0.7s var(--ease-out-expo) 0.2s forwards;
+  }
+
+  .ub-hero__pill-dot {
+    width: 8px; height: 8px; background: var(--color-success); border-radius: 50%;
     box-shadow: 0 0 0 0 rgba(16,185,129,0.4);
-    animation: badge-pulse 2.5s ease-in-out infinite;
+    animation: ub-dot-pulse 2.5s ease-in-out infinite;
   }
 
-  @keyframes badge-pulse {
+  @keyframes ub-dot-pulse {
     0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.35); }
     50% { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
   }
 
-  .badge-text {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--color-charcoal);
-    letter-spacing: 0.01em;
+  .ub-hero__pill-text { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.7); letter-spacing: 0.02em; }
+
+  .ub-hero__heading {
+    display: flex; flex-direction: column; margin: 0;
+    font-size: clamp(3.5rem, 8vw, 7rem); font-weight: 800;
+    line-height: 0.95; letter-spacing: -0.045em; color: var(--color-white);
   }
 
-  /* ============================================
-     HEADLINE
-     ============================================ */
-  .hero-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
+  .ub-hero__line { display: block; overflow: hidden; padding-bottom: 0.08em; }
+
+  .ub-hero__word {
+    display: inline-block; transform: translateY(110%);
+    animation: ub-slide-up 1s var(--ease-out-expo) forwards;
   }
 
-  .hero-title {
-    display: flex;
-    flex-direction: column;
-    font-size: clamp(3.25rem, 6.5vw, 5.5rem);
-    font-weight: 800;
-    line-height: 1.02;
-    letter-spacing: -0.035em;
-    color: var(--color-black);
-    margin: 0;
+  .ub-hero__line--1 .ub-hero__word { animation-delay: 0.25s; }
+  .ub-hero__line--2 .ub-hero__word { animation-delay: 0.4s; }
+  .ub-hero__line--3 .ub-hero__word { animation-delay: 0.55s; color: var(--color-red); }
+
+  @keyframes ub-slide-up { to { transform: translateY(0); } }
+
+  .ub-hero__amp {
+    display: inline-block; color: var(--color-red-light);
+    margin-left: 0.12em; font-weight: 300; font-style: italic;
+    opacity: 0; animation: ub-fade-in 0.6s var(--ease-out-expo) 0.7s forwards;
   }
 
-  .title-line {
-    display: block;
-    overflow: hidden;
-    padding-bottom: 0.1em;
+  .ub-hero__sub-wrap {
+    display: flex; align-items: flex-start; gap: 1.25rem;
+    opacity: 0; animation: ub-fade-up 0.8s var(--ease-out-expo) 0.7s forwards;
   }
 
-  .title-text {
-    display: inline-block;
-    transform: translateY(110%);
-    animation: title-slide 0.9s var(--ease-out-expo) forwards;
+  .ub-hero__rule { flex-shrink: 0; width: 32px; height: 2px; background: var(--color-red); margin-top: 0.75em; }
+
+  .ub-hero__subtitle {
+    font-size: clamp(0.9375rem, 1.1vw, 1.125rem); line-height: 1.75;
+    color: rgba(255,255,255,0.55); max-width: 440px; margin: 0;
   }
 
-  .title-line-1 .title-text { animation-delay: 0.15s; }
-  .title-line-2 .title-text { animation-delay: 0.25s; }
-  .title-line-3 .title-text {
-    animation-delay: 0.35s;
-    color: var(--color-red);
+  .ub-hero__ctas {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem;
+    opacity: 0; animation: ub-fade-up 0.8s var(--ease-out-expo) 0.9s forwards;
   }
 
-  .title-ampersand {
-    display: inline-block;
-    color: var(--color-red-light);
-    margin-left: 0.15em;
-    font-style: italic;
-    font-weight: 300;
-  }
-
-  @keyframes title-slide {
-    to { transform: translateY(0); }
-  }
-
-  /* ============================================
-     SUBTITLE
-     ============================================ */
-  .hero-subtitle {
-    font-size: clamp(1rem, 1.1vw, 1.25rem);
-    line-height: 1.7;
-    color: var(--color-gray);
-    max-width: 440px;
-    margin: 0;
-    opacity: 0;
-    animation: hero-fade-in 0.8s var(--ease-out-expo) 0.5s forwards;
-  }
-
-  /* ============================================
-     CTAs
-     ============================================ */
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1rem;
-    opacity: 0;
-    animation: hero-fade-in 0.8s var(--ease-out-expo) 0.65s forwards;
-  }
-
-  .hero-cta-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 2rem;
-    background: var(--color-red);
-    color: var(--color-white);
-    font-weight: 600;
-    font-size: 0.9375rem;
-    letter-spacing: 0.01em;
-    border: none;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
+  .ub-hero__btn-primary {
+    display: inline-flex; align-items: center; gap: 0.625rem;
+    padding: 1rem 2rem; background: var(--color-red); color: var(--color-white);
+    font-weight: 650; font-size: 0.9375rem; border-radius: 100px;
+    text-decoration: none; position: relative; overflow: hidden;
     transition: all 0.4s var(--ease-out-expo);
+    box-shadow: 0 0 0 0 rgba(225,29,72,0.4);
   }
 
-  .hero-cta-primary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
+  .ub-hero__btn-primary::before {
+    content: ''; position: absolute; inset: 0;
     background: linear-gradient(135deg, var(--color-red-bright), var(--color-red-dark));
-    opacity: 0;
-    transition: opacity 0.4s var(--ease-out-expo);
+    opacity: 0; transition: opacity 0.4s; border-radius: inherit;
   }
 
-  .hero-cta-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 40px -10px var(--color-red-glow);
+  .ub-hero__btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px -8px rgba(225,29,72,0.5); }
+  .ub-hero__btn-primary:hover::before { opacity: 1; }
+  .ub-hero__btn-primary span, .ub-hero__btn-primary [data-icon] { position: relative; z-index: 1; }
+
+  .ub-hero__btn-ghost {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 1rem 0.25rem; color: rgba(255,255,255,0.7);
+    font-weight: 600; font-size: 0.9375rem; text-decoration: none;
+    transition: color 0.3s; position: relative;
   }
 
-  .hero-cta-primary:hover::before { opacity: 1; }
-
-  .hero-cta-primary:active { transform: translateY(0) scale(0.98); }
-
-  .cta-text,
-  .cta-icon {
-    position: relative;
-    z-index: 1;
+  .ub-hero__btn-line {
+    position: absolute; bottom: 0.625rem; left: 0.25rem; right: 0.25rem;
+    height: 1px; background: rgba(255,255,255,0.2); transition: background 0.3s;
   }
 
-  .cta-icon {
-    display: flex;
-    transition: transform 0.3s var(--ease-out-expo);
+  .ub-hero__btn-ghost:hover { color: var(--color-white); }
+  .ub-hero__btn-ghost:hover .ub-hero__btn-line { background: var(--color-red); }
+
+  .ub-hero__proof {
+    display: flex; align-items: center; gap: 0.875rem;
+    opacity: 0; animation: ub-fade-up 0.8s var(--ease-out-expo) 1.1s forwards;
   }
 
-  .hero-cta-primary:hover .cta-icon {
-    transform: translateX(3px);
-  }
+  .ub-hero__avatars { display: flex; }
 
-  .hero-cta-secondary {
-    display: inline-flex;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    color: var(--color-charcoal);
-    font-weight: 600;
-    font-size: 0.9375rem;
-    text-decoration: none;
-    border-radius: var(--radius-sm);
-    transition: all 0.3s var(--ease-out-expo);
-  }
-
-  .hero-cta-secondary:hover {
-    color: var(--color-red);
-    background: rgba(225,29,72,0.05);
-  }
-
-  /* ============================================
-     SOCIAL PROOF
-     ============================================ */
-  .hero-proof {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    opacity: 0;
-    animation: hero-fade-in 0.8s var(--ease-out-expo) 0.85s forwards;
-  }
-
-  .proof-avatars {
-    display: flex;
-  }
-
-  .avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--color-red);
-    margin-left: -8px;
-    border: 2px solid var(--color-white);
-    font-size: 0.625rem;
-    font-weight: 700;
-    color: var(--color-white);
-    position: relative;
+  .ub-hero__avatar {
+    display: flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 50%;
+    margin-left: -8px; border: 2px solid rgba(255,255,255,0.2);
+    font-size: 0.5625rem; font-weight: 700; color: var(--color-white);
     z-index: calc(10 - var(--i));
   }
 
-  .avatar:first-child { margin-left: 0; }
+  .ub-hero__avatar:first-child { margin-left: 0; }
 
-  .avatar:nth-child(1) { background: #E11D48; }
-  .avatar:nth-child(2) { background: #0EA5E9; }
-  .avatar:nth-child(3) { background: #8B5CF6; }
-  .avatar:nth-child(4) { background: #F59E0B; }
+  .ub-hero__proof-text { display: flex; flex-direction: column; gap: 0.0625rem; }
+  .ub-hero__stars { font-size: 0.75rem; color: #FBBF24; letter-spacing: 1px; }
+  .ub-hero__proof-label { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+  .ub-hero__proof-label strong { color: rgba(255,255,255,0.7); font-weight: 700; }
 
-  .avatar-count {
-    background: var(--color-cloud) !important;
-    color: var(--color-charcoal) !important;
-    font-size: 0.5625rem;
+  .ub-hero__cards {
+    position: absolute; right: clamp(1.5rem, 5vw, 4rem); bottom: 8rem;
+    display: flex; flex-direction: column; gap: 0.75rem; z-index: 3;
   }
 
-  .proof-text {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-  }
-
-  .proof-stars {
-    display: flex;
-    gap: 1px;
-    color: #FBBF24;
-  }
-
-  .star-icon {
-    width: 14px;
-    height: 14px;
-  }
-
-  .proof-label {
-    font-size: 0.8125rem;
-    color: var(--color-gray);
-  }
-
-  .proof-label strong {
-    color: var(--color-charcoal);
-    font-weight: 700;
-  }
-
-  /* ============================================
-     VISUAL — RIGHT PANEL
-     ============================================ */
-  .hero-visual {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    animation: hero-fade-in 1s var(--ease-out-expo) 0.3s forwards;
-  }
-
-  .visual-container {
-    position: relative;
-    width: 100%;
-    max-width: 520px;
-  }
-
-  .visual-image {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    border-radius: var(--radius-2xl);
-    overflow: hidden;
-    box-shadow:
-      0 30px 60px -15px rgba(0,0,0,0.15),
-      0 0 0 1px rgba(0,0,0,0.04);
-  }
-
-  .visual-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 8s var(--ease-out-expo);
-  }
-
-  .visual-image:hover img {
-    transform: scale(1.04);
-  }
-
-  .visual-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      180deg,
-      transparent 50%,
-      rgba(10,10,10,0.15) 100%
-    );
-    pointer-events: none;
-  }
-
-  /* Decorative ring behind image */
-  .visual-ring {
-    position: absolute;
-    width: 110%;
-    height: 110%;
-    top: -5%;
-    left: -5%;
-    border: 1.5px solid var(--color-mist);
-    border-radius: var(--radius-2xl);
-    transform: rotate(-3deg);
-    z-index: -1;
-    opacity: 0.6;
-  }
-
-  /* ============================================
-     FLOATING CARDS
-     ============================================ */
-  .float-card {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+  .ub-hero__card {
+    display: flex; align-items: center; gap: 0.75rem;
     padding: 0.875rem 1.125rem;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid rgba(255,255,255,0.6);
-    border-radius: var(--radius-lg);
-    box-shadow:
-      0 8px 32px rgba(0,0,0,0.08),
-      0 1px 2px rgba(0,0,0,0.04);
-    z-index: 3;
-    opacity: 0;
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 1rem; opacity: 0;
     transition: transform 0.3s var(--ease-out-expo);
   }
 
-  .float-card:hover {
-    transform: translateY(-2px);
+  .ub-hero__card:hover { transform: translateY(-2px); }
+  .ub-hero__card--1 { animation: ub-card-in 0.8s var(--ease-out-expo) 1s forwards; }
+  .ub-hero__card--2 { animation: ub-card-in 0.8s var(--ease-out-expo) 1.2s forwards; }
+
+  @keyframes ub-card-in {
+    from { opacity: 0; transform: translateX(24px); }
+    to   { opacity: 1; transform: translateX(0); }
   }
 
-  .float-hours {
-    bottom: 12%;
-    left: -12%;
-    animation: float-card-in 0.8s var(--ease-out-expo) 0.8s forwards;
+  .ub-hero__card [data-icon] { color: var(--color-red); flex-shrink: 0; }
+  .ub-hero__card-label { display: block; font-size: 0.5625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); }
+  .ub-hero__card-value { display: block; font-size: 0.875rem; font-weight: 700; color: var(--color-white); letter-spacing: -0.01em; }
+
+  .ub-hero__scroll {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.625rem;
+    opacity: 0; animation: ub-fade-in 0.8s var(--ease-out-expo) 1.6s forwards; z-index: 2;
   }
 
-  .float-rating {
-    top: 10%;
-    right: -8%;
-    animation: float-card-in 0.8s var(--ease-out-expo) 1s forwards;
+  .ub-hero__scroll-text {
+    font-size: 0.5625rem; font-weight: 600; letter-spacing: 0.25em;
+    text-transform: uppercase; color: rgba(255,255,255,0.3);
   }
 
-  @keyframes float-card-in {
-    from { opacity: 0; transform: translateY(16px) scale(0.95); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
-  }
-
-  .float-card-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-md);
-    background: rgba(225,29,72,0.08);
-    color: var(--color-red);
-    flex-shrink: 0;
-  }
-
-  .float-card-icon--amber {
-    background: rgba(225,29,72,0.08);
-    color: var(--color-red);
-  }
-
-  .float-card-body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    white-space: nowrap;
-  }
-
-  .float-card-title {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-gray);
-  }
-
-  .float-card-value {
-    font-size: 0.9375rem;
-    font-weight: 700;
-    color: var(--color-black);
-    letter-spacing: -0.01em;
-  }
-
-  /* ============================================
-     SCROLL CUE
-     ============================================ */
-  .scroll-cue {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    opacity: 0;
-    animation: hero-fade-in 0.8s var(--ease-out-expo) 1.4s forwards;
-  }
-
-  .scroll-line {
-    width: 1px;
-    height: 48px;
+  .ub-hero__scroll-bar {
+    width: 1px; height: 40px;
     background: linear-gradient(180deg, var(--color-red), transparent);
-    animation: scroll-draw 2s ease-in-out infinite;
-    transform-origin: top;
+    animation: ub-scroll-draw 2s ease-in-out infinite; transform-origin: top;
   }
 
-  @keyframes scroll-draw {
+  @keyframes ub-scroll-draw {
     0%   { transform: scaleY(0); opacity: 0; }
     30%  { transform: scaleY(1); opacity: 1; }
     100% { transform: scaleY(1); opacity: 0; }
   }
 
-  /* ============================================
-     SHARED KEYFRAMES
-     ============================================ */
-  @keyframes hero-fade-in {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes ub-fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes ub-fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ============================================
-     RESPONSIVE
-     ============================================ */
   @media (max-width: 1024px) {
-    .hero-inner {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-      padding-top: 8rem;
-      padding-bottom: 5rem;
-    }
-
-    .hero-content {
-      text-align: center;
-      align-items: center;
-    }
-
-    .hero-subtitle {
-      max-width: 500px;
-      text-align: center;
-    }
-
-    .hero-actions {
-      justify-content: center;
-    }
-
-    .hero-proof {
-      justify-content: center;
-    }
-
-    .visual-container {
-      max-width: 400px;
-    }
-
-    .float-hours {
-      left: -4%;
-      bottom: 8%;
-    }
-
-    .float-rating {
-      right: -4%;
-      top: 6%;
-    }
+    .ub-hero__cards { position: relative; right: auto; bottom: auto; flex-direction: row; flex-wrap: wrap; margin-top: 1rem; }
+    .ub-hero__card--1, .ub-hero__card--2 { animation-name: ub-fade-up; }
+    .ub-hero__side-label { display: none; }
   }
 
   @media (max-width: 640px) {
-    .hero {
-      min-height: auto;
-    }
-
-    .hero-inner {
-      padding-top: 6.5rem;
-      padding-bottom: 4rem;
-      gap: 2.5rem;
-    }
-
-    .hero-title {
-      font-size: clamp(2.5rem, 11vw, 3.5rem);
-    }
-
-    .hero-actions {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .hero-cta-primary,
-    .hero-cta-secondary {
-      width: 100%;
-      justify-content: center;
-    }
-
-    .visual-container {
-      max-width: 340px;
-    }
-
-    .float-card {
-      padding: 0.625rem 0.875rem;
-    }
-
-    .float-card-icon {
-      width: 34px;
-      height: 34px;
-    }
-
-    .float-card-title { font-size: 0.625rem; }
-    .float-card-value { font-size: 0.8125rem; }
-
-    .float-hours {
-      left: 0;
-      bottom: -4%;
-    }
-
-    .float-rating {
-      right: 0;
-      top: -4%;
-    }
-
-    .visual-ring { display: none; }
-
-    .scroll-cue { display: none; }
+    .ub-hero__inner { padding-top: 7rem; padding-bottom: 5rem; }
+    .ub-hero__heading { font-size: clamp(2.75rem, 12vw, 4rem); }
+    .ub-hero__ctas { flex-direction: column; width: 100%; }
+    .ub-hero__btn-primary { width: 100%; justify-content: center; }
+    .ub-hero__btn-ghost { width: 100%; justify-content: center; }
+    .ub-hero__cards { flex-direction: column; gap: 0.5rem; }
+    .ub-hero__card { width: 100%; }
+    .ub-hero__scroll { display: none; }
   }
 
-  /* ============================================
-     REDUCED MOTION
-     ============================================ */
   @media (prefers-reduced-motion: reduce) {
-    .title-text,
-    .hero-badge,
-    .hero-subtitle,
-    .hero-actions,
-    .hero-proof,
-    .hero-visual,
-    .float-card,
-    .scroll-cue {
-      opacity: 1 !important;
-      transform: none !important;
-      animation: none !important;
+    .ub-hero__word, .ub-hero__pill, .ub-hero__sub-wrap, .ub-hero__ctas,
+    .ub-hero__proof, .ub-hero__card, .ub-hero__scroll, .ub-hero__side-label, .ub-hero__amp {
+      opacity: 1 !important; transform: none !important; animation: none !important;
     }
-
-    .badge-dot {
-      animation: none;
-    }
-
-    .scroll-line {
-      animation: none;
-      opacity: 0.4;
-    }
-
-    .visual-image img {
-      transition: none;
-    }
+    .ub-hero__img { animation: none; }
+    .ub-hero__shape { animation: none; }
+    .ub-hero__pill-dot { animation: none; }
+    .ub-hero__scroll-bar { animation: none; opacity: 0.4; }
   }
 </style>

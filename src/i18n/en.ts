@@ -25,22 +25,22 @@ export const en = {
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
     bookAppointment: 'Book Appointment',
-    announcement: 'Grand Opening — Sunday, February 8th 2026 · Join our exclusive waitlist for 20% off',
-    reserveNow: 'Reserve Now →',
+    announcement: 'Now Open in Douala · Book your premium spa experience today',
+    reserveNow: 'Book Now →',
   },
 
   // ─── Hero ───
   hero: {
-    badge: 'Grand Opening · February 8, 2026',
+    badge: 'Now Open · Douala',
     titleLine1: 'Redefining',
     titleLine2: 'Beauty',
-    titleLine3: '& Wellness',
+    titleLine3: 'Wellness',
     subtitle: 'Where artistry meets luxury. Experience premium grooming, relaxation, and personal care in an elevated atmosphere crafted for those who appreciate the finest.',
-    cta: 'Reserve Your Spot',
+    cta: 'Book Now',
     secondaryCta: 'Explore Services',
-    trustLabel: 'opening day',
+    trustLabel: 'premium spa',
     ratingLabel: 'Exclusive Experience',
-    ratingText: 'Limited spots for Grand Opening',
+    ratingText: 'Loved by thousands of clients',
     scrollDown: 'Scroll down',
     card1Title: 'Premium Spa',
     card1Subtitle: 'Luxury treatments',
@@ -211,10 +211,10 @@ export const en = {
   // ─── CTA ───
   cta: {
     title: 'Ready for the Ultimate Experience?',
-    subtitle: 'Book your appointment today and discover what sets us apart. Grand opening spots are limited.',
+    subtitle: 'Book your appointment today and discover what makes Ultimate Beauty Spa Douala\'s premier destination for grooming and wellness.',
     ctaPrimary: 'Book Now',
     ctaSecondary: 'View Services',
-    note: 'Grand Opening: February 8th, 2026. Opening day spots are filling up fast.',
+    note: 'Open every day from 9 AM to 9 PM. Walk-ins welcome.',
   },
 
   // ─── Contact ───

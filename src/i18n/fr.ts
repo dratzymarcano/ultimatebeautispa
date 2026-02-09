@@ -25,22 +25,22 @@ export const fr = {
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
     bookAppointment: 'Prendre Rendez-vous',
-    announcement: 'Grande Ouverture — Dimanche 8 février 2026 · Rejoignez notre liste d\'attente pour 20% de réduction',
-    reserveNow: 'Réserver Maintenant →',
+    announcement: 'Maintenant Ouvert à Douala · Réservez votre expérience spa premium',
+    reserveNow: 'Réserver →',
   },
 
   // ─── Hero ───
   hero: {
-    badge: 'Grande Ouverture · 8 Février 2026',
+    badge: 'Maintenant Ouvert · Douala',
     titleLine1: 'Redéfinir',
     titleLine2: 'la Beauté',
-    titleLine3: '& le Bien-être',
+    titleLine3: 'le Bien-être',
     subtitle: 'Là où l\'art rencontre le luxe. Découvrez les soins haut de gamme, la relaxation et les services personnels dans une atmosphère raffinée, conçue pour ceux qui apprécient l\'excellence.',
-    cta: 'Réservez Votre Place',
+    cta: 'Réserver',
     secondaryCta: 'Explorer les Services',
-    trustLabel: 'jour d\'ouverture',
+    trustLabel: 'spa premium',
     ratingLabel: 'Expérience Exclusive',
-    ratingText: 'Places limitées pour la Grande Ouverture',
+    ratingText: 'Aimé par des milliers de clients',
     scrollDown: 'Défiler vers le bas',
     card1Title: 'Spa Premium',
     card1Subtitle: 'Soins de luxe',
@@ -211,10 +211,10 @@ export const fr = {
   // ─── CTA ───
   cta: {
     title: 'Prêt pour l\'Expérience Ultime ?',
-    subtitle: 'Réservez votre rendez-vous aujourd\'hui et découvrez ce qui nous distingue. Les places pour la grande ouverture sont limitées.',
+    subtitle: 'Réservez votre rendez-vous aujourd\'hui et découvrez ce qui fait d\'Ultimate Beauty Spa la destination de référence à Douala pour les soins et le bien-être.',
     ctaPrimary: 'Réserver Maintenant',
     ctaSecondary: 'Voir les Services',
-    note: 'Grande Ouverture : 8 février 2026. Les places pour le jour d\'ouverture se remplissent rapidement.',
+    note: 'Ouvert tous les jours de 9h à 21h. Sans rendez-vous bienvenu.',
   },
 
   // ─── Contact ───

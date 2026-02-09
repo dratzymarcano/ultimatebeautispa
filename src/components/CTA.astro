@@ -23,506 +23,225 @@ const prefix = lang === 'fr' ? '/fr' : '';
 
 const ctaTitle = title ?? i.cta.title;
 const ctaSubtitle = subtitle ?? i.cta.subtitle;
-const ctaPrimary = primaryCta ?? { text: i.cta.ctaPrimary, href: '#booking-modal' };
+const ctaPrimary = primaryCta ?? { text: i.cta.ctaPrimary, href: prefix + '/book' };
 const ctaSecondary = secondaryCta ?? { text: i.cta.ctaSecondary, href: prefix + '/services' };
 
-const benefits = [
-  { text: '20% off first visit', icon: 'lucide:check' },
-  { text: 'Priority booking', icon: 'lucide:clock' },
-  { text: 'Exclusive updates', icon: 'lucide:mail' },
-  { text: 'VIP perks', icon: 'lucide:star' },
+const highlights = [
+  { icon: 'lucide:sparkles', text: lang === 'fr' ? 'Soins Premium' : 'Premium Care' },
+  { icon: 'lucide:clock', text: lang === 'fr' ? 'Ouvert 7j/7' : 'Open Every Day' },
+  { icon: 'lucide:award', text: lang === 'fr' ? 'Équipe Experte' : 'Expert Team' },
+  { icon: 'lucide:heart', text: lang === 'fr' ? '2 000+ Clients' : '2,000+ Clients' },
 ];
 ---
 
-<section class="cta-section">
-  <!-- Background -->
-  <div class="cta-bg">
-    <div class="bg-image">
-      <img 
-        src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=1920&q=80" 
-        alt="" 
-        loading="lazy"
-      />
-    </div>
-    <div class="bg-overlay"></div>
-    <div class="bg-gradient"></div>
-    <div class="bg-grid"></div>
-    
-    <!-- Floating Elements -->
-    <div class="float-element float-1"></div>
-    <div class="float-element float-2"></div>
+<section class="ub-cta" id="cta">
+  <div class="ub-cta__bg" aria-hidden="true">
+    <div class="ub-cta__gradient"></div>
+    <div class="ub-cta__shape ub-cta__shape--1"></div>
+    <div class="ub-cta__shape ub-cta__shape--2"></div>
+    <div class="ub-cta__noise"></div>
   </div>
 
-  <div class="container">
-    <div class="cta-grid">
-      <!-- Content Side -->
-      <div class="cta-content">
-        <!-- Label -->
-        <div class="content-label" data-animate="fade-in">
-          <span class="label-dot"></span>
-          <span class="label-text">Opening Soon</span>
-        </div>
-
-        <!-- Title -->
-        <h2 class="cta-title" data-animate="fade-in-up">
-          {ctaTitle}
-        </h2>
-
-        <!-- Subtitle -->
-        <p class="cta-subtitle" data-animate="fade-in-up">
-          {ctaSubtitle}
-        </p>
-
-        <!-- CTAs -->
-        <div class="cta-buttons" data-animate="fade-in-up">
-          <a href={ctaPrimary.href} class="btn-primary" data-booking-modal={ctaPrimary.href === '#booking-modal' ? '' : undefined}>
-            <span>{ctaPrimary.text}</span>
-            <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
-          </a>
-          <a href={ctaSecondary.href} class="btn-secondary">
-            <span>{ctaSecondary.text}</span>
-          </a>
-        </div>
-
-        <!-- Benefits -->
-        <div class="cta-benefits" data-animate="fade-in-up">
-          <span class="benefits-label">Waitlist Benefits</span>
-          <div class="benefits-grid">
-            {benefits.map((benefit, i) => (
-              <div class="benefit-item" style={`--i: ${i}`}>
-                <Icon name={benefit.icon} size={20} />
-                <span>{benefit.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+  <div class="ub-cta__container">
+    <div class="ub-cta__content">
+      <div class="ub-cta__eyebrow">
+        <span class="ub-cta__eyebrow-line"></span>
+        <span class="ub-cta__eyebrow-text">{lang === 'fr' ? 'Votre Moment' : 'Your Moment'}</span>
+        <span class="ub-cta__eyebrow-line"></span>
       </div>
 
-      <!-- Form Side -->
-      <div class="cta-form-wrapper" data-animate="slide-right">
-        <div class="form-card glass">
-          <!-- Form Header -->
-          <div class="form-header">
-            <h3 class="form-title">Join the Waitlist</h3>
-            <p class="form-subtitle">Be the first to know when we launch</p>
+      <h2 class="ub-cta__title">{ctaTitle}</h2>
+      <p class="ub-cta__subtitle">{ctaSubtitle}</p>
+
+      <div class="ub-cta__highlights">
+        {highlights.map((h) => (
+          <div class="ub-cta__highlight">
+            <Icon name={h.icon} class="w-5 h-5" />
+            <span>{h.text}</span>
           </div>
-
-          <!-- Form -->
-          <form class="cta-form" action="#" method="POST">
-            <div class="form-group">
-              <label for="cta-name" class="form-label">Full Name</label>
-              <input 
-                type="text" 
-                id="cta-name" 
-                name="name" 
-                class="form-input"
-                placeholder="Your full name"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="cta-email" class="form-label">Email Address</label>
-              <input 
-                type="email" 
-                id="cta-email" 
-                name="email" 
-                class="form-input"
-                placeholder="you@example.com"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="cta-phone" class="form-label">Phone (Optional)</label>
-              <input 
-                type="tel" 
-                id="cta-phone" 
-                name="phone" 
-                class="form-input"
-                placeholder="+237 6XX XXX XXX"
-              />
-            </div>
-
-            <button type="submit" class="form-submit btn-primary">
-              <span>Join Waitlist</span>
-              <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
-            </button>
-
-            <p class="form-privacy">
-              {i.cta.note}
-            </p>
-          </form>
-
-          <!-- Form Decoration -->
-          <div class="form-decoration">
-            <div class="deco-circle"></div>
-          </div>
-        </div>
+        ))}
       </div>
+
+      <div class="ub-cta__actions">
+        <a href={ctaPrimary.href} class="ub-cta__btn-primary">
+          <span>{ctaPrimary.text}</span>
+          <Icon name="lucide:arrow-up-right" class="w-4 h-4" />
+        </a>
+        <a href={ctaSecondary.href} class="ub-cta__btn-secondary">
+          <span>{ctaSecondary.text}</span>
+        </a>
+      </div>
+
+      <p class="ub-cta__note">{i.cta.note}</p>
     </div>
   </div>
 </section>
 
 <style>
-  .cta-section {
+  .ub-cta {
     position: relative;
-    padding: 8rem 0;
+    padding: clamp(5rem, 10vw, 9rem) 0;
     overflow: hidden;
+    background: var(--color-black);
   }
 
-  /* Background */
-  .cta-bg {
-    position: absolute;
-    inset: 0;
+  .ub-cta__bg { position: absolute; inset: 0; pointer-events: none; }
+
+  .ub-cta__gradient {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(225,29,72,0.1), transparent),
+      radial-gradient(ellipse 40% 60% at 80% 100%, rgba(251,113,133,0.06), transparent);
   }
 
-  .bg-image {
-    position: absolute;
-    inset: 0;
+  .ub-cta__shape {
+    position: absolute; border-radius: 50%; filter: blur(100px);
+    mix-blend-mode: screen; pointer-events: none;
   }
 
-  .bg-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .ub-cta__shape--1 {
+    width: 500px; height: 500px;
+    background: rgba(225,29,72,0.08);
+    top: -20%; left: -10%;
+    animation: ub-cta-float 20s ease-in-out infinite;
   }
 
-  .bg-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.97);
+  .ub-cta__shape--2 {
+    width: 300px; height: 300px;
+    background: rgba(251,113,133,0.06);
+    bottom: -10%; right: -5%;
+    animation: ub-cta-float 16s ease-in-out infinite 5s;
   }
 
-  .bg-gradient {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--color-white), rgba(255, 255, 255, 0.8));
-  }
-
-  .bg-grid {
-    position: absolute;
-    inset: 0;
-    background-image: 
-      radial-gradient(circle, rgba(225, 29, 72, 0.03) 1px, transparent 1px);
-    background-size: 32px 32px;
-    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-  }
-
-  .float-element {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.4;
-  }
-
-  .float-1 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(225, 29, 72, 0.2), transparent);
-    top: -100px;
-    right: 10%;
-    animation: float-1 20s ease-in-out infinite;
-  }
-
-  .float-2 {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(251, 113, 133, 0.15), transparent);
-    bottom: -50px;
-    left: 20%;
-    animation: float-2 15s ease-in-out infinite;
-  }
-
-  @keyframes float-1 {
+  @keyframes ub-cta-float {
     0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(-30px, 30px); }
+    50% { transform: translate(20px, -15px); }
   }
 
-  @keyframes float-2 {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(20px, -20px); }
+  .ub-cta__noise {
+    position: absolute; inset: 0; opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
   }
 
-  /* Grid */
-  .cta-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    position: relative;
-    z-index: 10;
-  }
-
-  /* Content */
-  .cta-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .content-label {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    opacity: 0;
-    animation: fade-in 0.8s var(--ease-out-expo) forwards;
-  }
-
-  .label-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--color-red);
-    border-radius: 50%;
-    animation: pulse-dot 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse-dot {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.2); opacity: 0.7; }
-  }
-
-  .label-text {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--color-red);
-  }
-
-  .cta-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    color: var(--color-black);
-    opacity: 0;
-    animation: fade-in-up 0.8s var(--ease-out-expo) 0.1s forwards;
-  }
-
-  .cta-subtitle {
-    font-size: 1.125rem;
-    color: var(--color-gray);
-    line-height: 1.7;
-    max-width: 500px;
-    opacity: 0;
-    animation: fade-in-up 0.8s var(--ease-out-expo) 0.2s forwards;
-  }
-
-  .cta-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    opacity: 0;
-    animation: fade-in-up 0.8s var(--ease-out-expo) 0.3s forwards;
-  }
-
-  /* Benefits */
-  .cta-benefits {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--color-mist);
-    opacity: 0;
-    animation: fade-in-up 0.8s var(--ease-out-expo) 0.4s forwards;
-  }
-
-  .benefits-label {
-    display: block;
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--color-charcoal);
-    margin-bottom: 1rem;
-  }
-
-  .benefits-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-  }
-
-  .benefit-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem;
-    background: var(--color-snow);
-    border-radius: var(--radius-md);
-    transition: all 0.3s var(--ease-out-expo);
-  }
-
-  .benefit-item:hover {
-    background: var(--color-cloud);
-    transform: translateX(4px);
-  }
-
-  .benefit-item svg {
-    color: var(--color-red);
-    flex-shrink: 0;
-  }
-
-  .benefit-item span {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-charcoal);
-  }
-
-  /* Form */
-  .cta-form-wrapper {
-    opacity: 0;
-    animation: slide-right 0.8s var(--ease-out-expo) 0.3s forwards;
-  }
-
-  .form-card {
-    position: relative;
-    padding: 2.5rem;
-    border-radius: var(--radius-2xl);
-    overflow: hidden;
-  }
-
-  .form-header {
-    margin-bottom: 2rem;
-  }
-
-  .form-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-black);
-    margin-bottom: 0.5rem;
-  }
-
-  .form-subtitle {
-    font-size: 0.9375rem;
-    color: var(--color-gray);
-  }
-
-  .cta-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form-submit {
-    width: 100%;
-    justify-content: center;
-    margin-top: 0.5rem;
-  }
-
-  .form-privacy {
-    font-size: 0.75rem;
-    color: var(--color-gray);
+  .ub-cta__container {
+    position: relative; z-index: 2;
+    max-width: 800px; margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
     text-align: center;
   }
 
-  .form-privacy a {
-    color: var(--color-red);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  .ub-cta__content {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 1.5rem;
   }
 
-  .form-privacy a:hover {
-    color: var(--color-red-dark);
-    text-decoration-color: transparent;
+  .ub-cta__eyebrow {
+    display: flex; align-items: center; gap: 1rem;
   }
 
-  .form-decoration {
-    position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 150px;
-    height: 150px;
-    pointer-events: none;
-    opacity: 0.1;
+  .ub-cta__eyebrow-line {
+    width: 40px; height: 1px; background: rgba(255,255,255,0.15);
   }
 
-  .deco-circle {
-    width: 100%;
-    height: 100%;
-    border: 2px solid var(--color-red);
-    border-radius: 50%;
+  .ub-cta__eyebrow-text {
+    font-size: 0.6875rem; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--color-red-light);
   }
 
-  /* Responsive */
-  @media (max-width: 1024px) {
-    .cta-grid {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
+  .ub-cta__title {
+    font-size: clamp(2.5rem, 5.5vw, 4rem); font-weight: 800;
+    line-height: 1.1; letter-spacing: -0.03em;
+    color: var(--color-white); margin: 0;
+    max-width: 650px;
+  }
 
-    .cta-content {
-      text-align: center;
-      align-items: center;
-    }
+  .ub-cta__subtitle {
+    font-size: clamp(1rem, 1.2vw, 1.125rem); line-height: 1.7;
+    color: rgba(255,255,255,0.5); max-width: 540px; margin: 0;
+  }
 
-    .content-label {
-      justify-content: center;
-    }
+  .ub-cta__highlights {
+    display: flex; flex-wrap: wrap;
+    justify-content: center; gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
 
-    .cta-subtitle {
-      text-align: center;
-    }
+  .ub-cta__highlight {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 100px;
+    font-size: 0.8125rem; font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    transition: all 0.3s var(--ease-out-expo);
+  }
 
-    .cta-buttons {
-      justify-content: center;
-    }
+  .ub-cta__highlight:hover {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.8);
+  }
 
-    .benefits-grid {
-      max-width: 400px;
-      margin: 0 auto;
-    }
+  .ub-cta__highlight [data-icon] { color: var(--color-red); }
 
-    .form-card {
-      max-width: 500px;
-      margin: 0 auto;
-    }
+  .ub-cta__actions {
+    display: flex; flex-wrap: wrap;
+    justify-content: center; gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .ub-cta__btn-primary {
+    display: inline-flex; align-items: center; gap: 0.625rem;
+    padding: 1rem 2.25rem; background: var(--color-red);
+    color: var(--color-white); font-weight: 650; font-size: 0.9375rem;
+    border-radius: 100px; text-decoration: none;
+    position: relative; overflow: hidden;
+    transition: all 0.4s var(--ease-out-expo);
+    box-shadow: 0 0 0 0 rgba(225,29,72,0.4);
+  }
+
+  .ub-cta__btn-primary::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--color-red-bright), var(--color-red-dark));
+    opacity: 0; transition: opacity 0.4s; border-radius: inherit;
+  }
+
+  .ub-cta__btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px -8px rgba(225,29,72,0.5);
+  }
+  .ub-cta__btn-primary:hover::before { opacity: 1; }
+  .ub-cta__btn-primary span, .ub-cta__btn-primary [data-icon] { position: relative; z-index: 1; }
+
+  .ub-cta__btn-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 1rem 2rem; color: rgba(255,255,255,0.6);
+    font-weight: 600; font-size: 0.9375rem; text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 100px;
+    transition: all 0.3s var(--ease-out-expo);
+  }
+
+  .ub-cta__btn-secondary:hover {
+    color: var(--color-white);
+    border-color: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .ub-cta__note {
+    font-size: 0.8125rem; color: rgba(255,255,255,0.3);
+    margin: 0; max-width: 400px;
   }
 
   @media (max-width: 640px) {
-    .cta-section {
-      padding: 5rem 0;
-    }
-
-    .benefits-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .form-card {
-      padding: 1.5rem;
-    }
+    .ub-cta__actions { flex-direction: column; width: 100%; }
+    .ub-cta__btn-primary, .ub-cta__btn-secondary { width: 100%; justify-content: center; }
+    .ub-cta__highlights { gap: 0.5rem; }
+    .ub-cta__highlight { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
   }
 
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes slide-right {
-    from {
-      opacity: 0;
-      transform: translateX(40px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+  @media (prefers-reduced-motion: reduce) {
+    .ub-cta__shape { animation: none; }
   }
 </style>
