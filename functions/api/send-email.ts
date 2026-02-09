@@ -201,7 +201,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     }
 
     const resendPayload: Record<string, unknown> = {
-      from: 'Ultimate Beauty Spa <noreply@ultimatebeautyspa.net>',
+      from: 'Ultimate Beauty Spa <onboarding@resend.dev>',
       to: ['hello@ultimatebeautyspa.net'],
       subject: emailContent.subject,
       html: emailContent.html,

@@ -4,6 +4,7 @@ import Layout from '../../../layouts/Layout.astro';
 import Header from '../../../components/Header.astro';
 import Footer from '../../../components/Footer.astro';
 import CTA from '../../../components/CTA.astro';
+import DateTimePicker from '../../../components/DateTimePicker.astro';
 import { t } from '../../../i18n/index';
 import { services as rawServices, getServiceById, getServiceByLang } from '../../../data/services';
 
@@ -281,42 +282,14 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
             </div>
 
             <form id="booking-form" class="sd-booking__form">
-              <div class="sd-field">
-                <label class="sd-field__label">
-                  <Icon name="lucide:calendar" class="w-3.5 h-3.5" />
-                  {i.booking.preferredDate}
-                </label>
-                <input type="date" class="sd-field__input" id="preferred-date" required min={new Date().toISOString().split('T')[0]} />
-              </div>
-
-              <div class="sd-field">
-                <label class="sd-field__label">
-                  <Icon name="lucide:clock" class="w-3.5 h-3.5" />
-                  {i.booking.preferredTime}
-                </label>
-                <select class="sd-field__input" id="preferred-time" required>
-                  <option value="">{i.booking.selectTime}</option>
-                  <option value="9h00">9h00</option>
-                  <option value="10h00">10h00</option>
-                  <option value="11h00">11h00</option>
-                  <option value="12h00">12h00</option>
-                  <option value="13h00">13h00</option>
-                  <option value="14h00">14h00</option>
-                  <option value="15h00">15h00</option>
-                  <option value="16h00">16h00</option>
-                  <option value="17h00">17h00</option>
-                  <option value="18h00">18h00</option>
-                  <option value="19h00">19h00</option>
-                  <option value="20h00">20h00</option>
-                </select>
-              </div>
+              <DateTimePicker lang="fr" />
 
               <div class="sd-field">
                 <label class="sd-field__label">
                   <Icon name="lucide:user" class="w-3.5 h-3.5" />
                   {i.booking.firstName}
                 </label>
-                <input type="text" class="sd-field__input" id="first-name" placeholder="Votre nom" required />
+                <input type="text" class="sd-field__input" id="first-name" name="firstName" placeholder="Votre nom" required />
               </div>
 
               <div class="sd-field">
@@ -324,7 +297,7 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
                   <Icon name="lucide:mail" class="w-3.5 h-3.5" />
                   {i.booking.email}
                 </label>
-                <input type="email" class="sd-field__input" id="email" placeholder="vous@exemple.com" required />
+                <input type="email" class="sd-field__input" id="email" name="email" placeholder="vous@exemple.com" required />
               </div>
 
               <div class="sd-field">
@@ -332,7 +305,7 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
                   <Icon name="lucide:phone" class="w-3.5 h-3.5" />
                   {i.booking.phone}
                 </label>
-                <input type="tel" class="sd-field__input" id="phone" placeholder="+237 6XX XXX XXX" required />
+                <input type="tel" class="sd-field__input" id="phone" name="phone" placeholder="+237 6XX XXX XXX" required />
               </div>
 
               <button type="submit" class="sd-booking__btn" id="submit-btn">
@@ -342,6 +315,8 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
                 </span>
                 <span class="sd-booking__btn-shine"></span>
               </button>
+
+              <div id="booking-alert" class="sd-booking__alert hidden"></div>
 
               <p class="sd-booking__note">
                 <Icon name="lucide:shield-check" class="w-3.5 h-3.5" />
@@ -464,17 +439,31 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
 
   // ── Booking form → Email via Resend ──
   const form = document.getElementById('booking-form');
+  const alertEl = document.getElementById('booking-alert');
+
+  function setAlert(message, type) {
+    if (!alertEl) return;
+    alertEl.textContent = message;
+    alertEl.classList.remove('hidden');
+    alertEl.className = 'sd-booking__alert ' + (type === 'error' ? 'sd-booking__alert--error' : 'sd-booking__alert--success');
+  }
+
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (alertEl) alertEl.classList.add('hidden');
 
-      const dateEl = document.getElementById('preferred-date');
-      const timeEl = document.getElementById('preferred-time');
-      const nameEl = document.getElementById('first-name');
-      const emailEl = document.getElementById('email');
-      const phoneEl = document.getElementById('phone');
+      const formData = new FormData(form);
+      const date = formData.get('date');
+      const time = formData.get('time');
+      const firstName = formData.get('firstName');
+      const email = formData.get('email');
+      const phone = formData.get('phone');
 
-      if (!(dateEl instanceof HTMLInputElement) || !(timeEl instanceof HTMLSelectElement) || !(nameEl instanceof HTMLInputElement) || !(emailEl instanceof HTMLInputElement) || !(phoneEl instanceof HTMLInputElement)) return;
+      if (!date || !time || !firstName || !email || !phone) {
+        setAlert('Veuillez remplir tous les champs obligatoires.', 'error');
+        return;
+      }
 
       /** @type {string[]} */
       const treatments = [];
@@ -497,24 +486,24 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
             type: 'booking',
             service: serviceName,
             treatments,
-            date: dateEl.value,
-            time: timeEl.value,
-            firstName: nameEl.value,
+            date,
+            time,
+            firstName,
             lastName: '',
-            email: emailEl.value,
-            phone: phoneEl.value,
+            email,
+            phone,
             lang: 'fr',
           }),
         });
 
         if (res.ok) {
-          alert('Votre demande de réservation a été envoyée ! Nous confirmerons par email sous 24 heures.');
+          setAlert('Votre demande de réservation a été envoyée ! Confirmation par email sous 24 heures.', 'success');
           form.reset();
         } else {
-          alert('Une erreur est survenue. Veuillez réessayer ou appeler le +237 697 113 339.');
+          setAlert('Une erreur est survenue. Veuillez réessayer ou nous écrire à hello@ultimatebeautyspa.net.', 'error');
         }
       } catch {
-        alert('Erreur réseau. Veuillez réessayer ou appeler le +237 697 113 339.');
+        setAlert('Erreur réseau. Veuillez réessayer ou nous écrire à hello@ultimatebeautyspa.net.', 'error');
       } finally {
         if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = '1'; }
       }
@@ -858,6 +847,25 @@ const nextService = currentIdx < rawServices.length - 1 ? rawServices[currentIdx
     display: flex; align-items: center; gap: 0.375rem;
     font-size: 0.6875rem; color: var(--color-silver); font-weight: 500; justify-content: center;
   }
+
+  .sd-booking__alert {
+    font-size: 0.8125rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    line-height: 1.4;
+    text-align: center;
+  }
+  .sd-booking__alert--error {
+    background: rgba(225, 29, 72, 0.08);
+    color: var(--color-red);
+    border: 1px solid rgba(225, 29, 72, 0.2);
+  }
+  .sd-booking__alert--success {
+    background: rgba(34, 197, 94, 0.08);
+    color: #16a34a;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+  }
+  .hidden { display: none; }
 
   .sd-nav {
     display: flex; justify-content: space-between; gap: 1.5rem;
