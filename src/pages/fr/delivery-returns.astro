@@ -1,0 +1,942 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { t } from '../../i18n/index';
+
+const i = t('fr');
+---
+
+<Layout
+  title="Livraison & Retours | Ultimate Beauty Spa Douala"
+  description="Livraison gratuite pour toute commande de plus de 50 000 XAF à Douala. Découvrez nos options de livraison, délais et politique de retour."
+  image="/images/og/delivery-returns.jpg"
+  imageAlt="Livraison & Retours — Expédition de Produits Ultimate Beauty Spa Douala"
+  lang="fr"
+>
+  <Header slot="header" currentPath="/fr/delivery-returns" lang="fr" />
+
+  <!-- ═══════ HERO ═══════ -->
+  <section class="dr-hero">
+    <div class="dr-hero__bg"></div>
+    <div class="container dr-hero__inner">
+      <span class="dr-hero__badge">
+        <Icon name="lucide:truck" class="w-4 h-4" />
+        Expédition & Retours
+      </span>
+      <h1 class="dr-hero__title">Livraison <span class="dr-hero__amp">&</span> Retours</h1>
+      <p class="dr-hero__sub">
+        Livraison rapide à Douala et retours sans tracas — pour que vous puissiez acheter nos produits de beauté en toute confiance.
+      </p>
+      <div class="dr-hero__stats">
+        <div class="dr-hero__stat">
+          <span class="dr-hero__stat-num">GRATUIT</span>
+          <span class="dr-hero__stat-label">Livraison dès 50 000 XAF</span>
+        </div>
+        <div class="dr-hero__stat-divider"></div>
+        <div class="dr-hero__stat">
+          <span class="dr-hero__stat-num">1–3</span>
+          <span class="dr-hero__stat-label">Jours ouvrables</span>
+        </div>
+        <div class="dr-hero__stat-divider"></div>
+        <div class="dr-hero__stat">
+          <span class="dr-hero__stat-num">7</span>
+          <span class="dr-hero__stat-label">Jours pour retourner</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ HOW IT WORKS ═══════ -->
+  <section class="dr-steps">
+    <div class="container">
+      <h2 class="dr-section-title">Comment ça fonctionne</h2>
+      <p class="dr-section-sub">Du clic sur « Ajouter au panier » jusqu'à votre porte — voici ce qui se passe.</p>
+
+      <div class="dr-steps__grid">
+        <div class="dr-step">
+          <div class="dr-step__num"><span>1</span></div>
+          <div class="dr-step__icon">
+            <Icon name="lucide:shopping-bag" class="w-7 h-7" />
+          </div>
+          <h3 class="dr-step__title">Passez votre commande</h3>
+          <p class="dr-step__text">Parcourez nos produits, ajoutez au panier et choisissez votre mode de livraison préféré.</p>
+        </div>
+        <div class="dr-step__connector"><Icon name="lucide:chevron-right" class="w-5 h-5" /></div>
+        <div class="dr-step">
+          <div class="dr-step__num"><span>2</span></div>
+          <div class="dr-step__icon">
+            <Icon name="lucide:check-circle" class="w-7 h-7" />
+          </div>
+          <h3 class="dr-step__title">Commande confirmée</h3>
+          <p class="dr-step__text">Vous recevrez une confirmation par e-mail ou WhatsApp avec les détails et le délai estimé.</p>
+        </div>
+        <div class="dr-step__connector"><Icon name="lucide:chevron-right" class="w-5 h-5" /></div>
+        <div class="dr-step">
+          <div class="dr-step__num"><span>3</span></div>
+          <div class="dr-step__icon">
+            <Icon name="lucide:package" class="w-7 h-7" />
+          </div>
+          <h3 class="dr-step__title">Nous préparons</h3>
+          <p class="dr-step__text">Vos produits sont soigneusement emballés dans notre spa à Bonamoussadi, Douala, prêts à être expédiés.</p>
+        </div>
+        <div class="dr-step__connector"><Icon name="lucide:chevron-right" class="w-5 h-5" /></div>
+        <div class="dr-step">
+          <div class="dr-step__num"><span>4</span></div>
+          <div class="dr-step__icon">
+            <Icon name="lucide:home" class="w-7 h-7" />
+          </div>
+          <h3 class="dr-step__title">Livré chez vous</h3>
+          <p class="dr-step__text">Recevez votre commande à domicile ou récupérez-la au spa — comme vous préférez.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ DELIVERY OPTIONS ═══════ -->
+  <section class="dr-options">
+    <div class="container">
+      <h2 class="dr-section-title">Options de livraison</h2>
+      <p class="dr-section-sub">Choisissez l'option qui vous convient le mieux.</p>
+
+      <div class="dr-options__grid">
+        <!-- Standard Delivery -->
+        <div class="dr-option-card">
+          <div class="dr-option-card__head">
+            <div class="dr-option-card__icon">
+              <Icon name="lucide:truck" class="w-6 h-6" />
+            </div>
+            <div>
+              <h3 class="dr-option-card__title">Livraison Standard</h3>
+              <span class="dr-option-card__eta">1–3 jours ouvrables</span>
+            </div>
+          </div>
+          <div class="dr-option-card__body">
+            <table class="dr-table">
+              <tbody>
+                <tr>
+                  <td>Commandes de plus de 50 000 XAF à Douala</td>
+                  <td class="dr-table__price dr-table__free">GRATUIT</td>
+                </tr>
+                <tr>
+                  <td>Commandes de moins de 50 000 XAF à Douala</td>
+                  <td class="dr-table__price">2 500 XAF</td>
+                </tr>
+                <tr>
+                  <td>Livraison au Cameroun (autres villes)</td>
+                  <td class="dr-table__price">Dès 5 000 XAF</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Express Delivery -->
+        <div class="dr-option-card dr-option-card--featured">
+          <div class="dr-option-card__badge">Le plus populaire</div>
+          <div class="dr-option-card__head">
+            <div class="dr-option-card__icon">
+              <Icon name="lucide:zap" class="w-6 h-6" />
+            </div>
+            <div>
+              <h3 class="dr-option-card__title">Livraison Express</h3>
+              <span class="dr-option-card__eta">Le jour même ou le lendemain</span>
+            </div>
+          </div>
+          <div class="dr-option-card__body">
+            <table class="dr-table">
+              <tbody>
+                <tr>
+                  <td>Livraison le jour même (commande avant 12h)</td>
+                  <td class="dr-table__price">3 500 XAF</td>
+                </tr>
+                <tr>
+                  <td>Livraison le lendemain (commande avant 21h)</td>
+                  <td class="dr-table__price">2 500 XAF</td>
+                </tr>
+                <tr>
+                  <td>Choisir un créneau (matin / après-midi)</td>
+                  <td class="dr-table__price">3 000 XAF</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- In-Store Pickup -->
+        <div class="dr-option-card">
+          <div class="dr-option-card__head">
+            <div class="dr-option-card__icon">
+              <Icon name="lucide:map-pin" class="w-6 h-6" />
+            </div>
+            <div>
+              <h3 class="dr-option-card__title">Retrait en boutique</h3>
+              <span class="dr-option-card__eta">Prêt en 1 heure</span>
+            </div>
+          </div>
+          <div class="dr-option-card__body">
+            <table class="dr-table">
+              <tbody>
+                <tr>
+                  <td>Retrait au spa — Bonamoussadi, Douala</td>
+                  <td class="dr-table__price dr-table__free">GRATUIT</td>
+                </tr>
+                <tr>
+                  <td>Disponible tous les jours : 9h — 21h</td>
+                  <td class="dr-table__price">—</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="dr-option-card__note">
+              <Icon name="lucide:info" class="w-4 h-4 inline-block mr-1" />
+              Vous recevrez une notification WhatsApp lorsque votre commande sera prête.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ RETURNS POLICY ═══════ -->
+  <section class="dr-returns">
+    <div class="container">
+      <div class="dr-returns__layout">
+        <div class="dr-returns__content">
+          <h2 class="dr-section-title">Retours & Échanges</h2>
+          <p class="dr-section-sub">Votre satisfaction est notre priorité. Si quelque chose ne va pas, nous corrigerons.</p>
+
+          <div class="dr-returns__cards">
+            <div class="dr-return-card">
+              <div class="dr-return-card__icon dr-return-card__icon--green">
+                <Icon name="lucide:rotate-ccw" class="w-5 h-5" />
+              </div>
+              <div>
+                <h3 class="dr-return-card__title">Retour sous 7 jours</h3>
+                <p class="dr-return-card__text">Retournez tout produit non ouvert et non utilisé dans les 7 jours suivant la livraison pour un remboursement ou un échange.</p>
+              </div>
+            </div>
+
+            <div class="dr-return-card">
+              <div class="dr-return-card__icon dr-return-card__icon--blue">
+                <Icon name="lucide:repeat" class="w-5 h-5" />
+              </div>
+              <div>
+                <h3 class="dr-return-card__title">Échanges faciles</h3>
+                <p class="dr-return-card__text">Mauvaise teinte ou taille ? Ramenez le produit au spa et échangez-le — sans question.</p>
+              </div>
+            </div>
+
+            <div class="dr-return-card">
+              <div class="dr-return-card__icon dr-return-card__icon--amber">
+                <Icon name="lucide:shield-check" class="w-5 h-5" />
+              </div>
+              <div>
+                <h3 class="dr-return-card__title">Endommagé ou défectueux ?</h3>
+                <p class="dr-return-card__text">Si votre produit arrive endommagé ou défectueux, contactez-nous dans les 48 heures et nous le remplacerons gratuitement.</p>
+              </div>
+            </div>
+
+            <div class="dr-return-card">
+              <div class="dr-return-card__icon dr-return-card__icon--rose">
+                <Icon name="lucide:ban" class="w-5 h-5" />
+              </div>
+              <div>
+                <h3 class="dr-return-card__title">Articles non retournables</h3>
+                <p class="dr-return-card__text">Pour des raisons d'hygiène, les soins de la peau, produits capillaires et articles de toilettage ouverts ne peuvent être retournés sauf s'ils sont défectueux.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dr-returns__aside">
+          <div class="dr-returns__box">
+            <h3 class="dr-returns__box-title">Comment retourner</h3>
+            <ol class="dr-returns__steps">
+              <li>
+                <span class="dr-returns__step-num">1</span>
+                <div>
+                  <strong>Contactez-nous</strong>
+                  <p>Appelez le <a href="tel:+237697113339">+237 697 113 339</a> ou écrivez à <a href="mailto:hello@ultimatebeautyspa.net">hello@ultimatebeautyspa.net</a></p>
+                </div>
+              </li>
+              <li>
+                <span class="dr-returns__step-num">2</span>
+                <div>
+                  <strong>Obtenez l'approbation</strong>
+                  <p>Nous confirmerons l'éligibilité et vous donnerons un numéro de référence de retour.</p>
+                </div>
+              </li>
+              <li>
+                <span class="dr-returns__step-num">3</span>
+                <div>
+                  <strong>Envoyez ou rapportez</strong>
+                  <p>Déposez le produit à notre spa à Bonamoussadi ou organisez un ramassage.</p>
+                </div>
+              </li>
+              <li>
+                <span class="dr-returns__step-num">4</span>
+                <div>
+                  <strong>Remboursement ou échange</strong>
+                  <p>Nous traiterons votre remboursement dans les 3 jours ouvrables ou l'échange sur place.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FAQ ═══════ -->
+  <section class="dr-faq">
+    <div class="container">
+      <h2 class="dr-section-title">Questions fréquentes</h2>
+      <p class="dr-section-sub">Réponses rapides aux questions courantes sur la livraison et les retours.</p>
+
+      <div class="dr-faq__grid">
+        <details class="dr-faq__item">
+          <summary class="dr-faq__question">
+            <span>Livrez-vous en dehors de Douala ?</span>
+            <Icon name="lucide:chevron-down" class="dr-faq__chevron w-5 h-5" />
+          </summary>
+          <p class="dr-faq__answer">Oui ! Nous livrons dans tout le Cameroun. La livraison standard vers d'autres villes prend 3 à 7 jours ouvrables et les frais varient selon la destination. Contactez-nous pour un devis.</p>
+        </details>
+
+        <details class="dr-faq__item">
+          <summary class="dr-faq__question">
+            <span>Puis-je suivre ma commande ?</span>
+            <Icon name="lucide:chevron-down" class="dr-faq__chevron w-5 h-5" />
+          </summary>
+          <p class="dr-faq__answer">Absolument. Une fois votre commande expédiée, vous recevrez un lien de suivi par WhatsApp ou e-mail pour suivre votre livraison en temps réel.</p>
+        </details>
+
+        <details class="dr-faq__item">
+          <summary class="dr-faq__question">
+            <span>Que se passe-t-il si je suis absent lors de la livraison ?</span>
+            <Icon name="lucide:chevron-down" class="dr-faq__chevron w-5 h-5" />
+          </summary>
+          <p class="dr-faq__answer">Notre équipe de livraison vous appellera avant d'arriver. Si vous n'êtes pas disponible, nous pouvons laisser le colis chez un voisin de confiance ou reprogrammer à un moment qui vous convient.</p>
+        </details>
+
+        <details class="dr-faq__item">
+          <summary class="dr-faq__question">
+            <span>Combien de temps prennent les remboursements ?</span>
+            <Icon name="lucide:chevron-down" class="dr-faq__chevron w-5 h-5" />
+          </summary>
+          <p class="dr-faq__answer">Une fois le produit reçu et inspecté, les remboursements sont traités dans les 3 jours ouvrables. Les remboursements Mobile Money sont instantanés ; les virements bancaires peuvent prendre 2 à 5 jours supplémentaires.</p>
+        </details>
+
+        <details class="dr-faq__item">
+          <summary class="dr-faq__question">
+            <span>Puis-je retourner un produit acheté en boutique ?</span>
+            <Icon name="lucide:chevron-down" class="dr-faq__chevron w-5 h-5" />
+          </summary>
+          <p class="dr-faq__answer">Oui, la même politique de retour de 7 jours s'applique aux achats en boutique. Rapportez simplement le produit avec votre reçu.</p>
+        </details>
+
+        <details class="dr-faq__item">
+          <summary class="dr-faq__question">
+            <span>Acceptez-vous le paiement à la livraison ?</span>
+            <Icon name="lucide:chevron-down" class="dr-faq__chevron w-5 h-5" />
+          </summary>
+          <p class="dr-faq__answer">Oui, nous acceptons le paiement en espèces à la livraison à Douala. Pour les autres villes et les commandes express, un prépaiement par Mobile Money ou virement bancaire est requis.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ CTA ═══════ -->
+  <section class="dr-cta">
+    <div class="container">
+      <div class="dr-cta__box">
+        <Icon name="lucide:headphones" class="w-10 h-10 dr-cta__icon" />
+        <h2 class="dr-cta__title">Besoin d'aide pour une livraison ou un retour ?</h2>
+        <p class="dr-cta__text">Notre équipe est disponible tous les jours de 9h à 21h pour vous assister.</p>
+        <div class="dr-cta__actions">
+          <a href="https://wa.me/237697113339" target="_blank" rel="noopener noreferrer" class="dr-cta__btn dr-cta__btn--primary">
+            <Icon name="lucide:message-circle" class="w-5 h-5" /> WhatsApp
+          </a>
+          <a href="/fr/contact" class="dr-cta__btn dr-cta__btn--secondary">
+            Page Contact
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" lang="fr" />
+</Layout>
+
+<style>
+  /* ═══════ HERO ═══════ */
+  .dr-hero {
+    position: relative;
+    padding: 10rem 0 5rem;
+    overflow: hidden;
+    text-align: center;
+    color: var(--color-white);
+  }
+  .dr-hero__bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, var(--color-black) 0%, var(--color-onyx) 50%, var(--color-charcoal) 100%);
+    z-index: 0;
+  }
+  .dr-hero__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(225, 29, 72, 0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(200, 169, 110, 0.1) 0%, transparent 60%);
+  }
+  .dr-hero__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+  .dr-hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(225, 29, 72, 0.15);
+    border: 1px solid rgba(225, 29, 72, 0.3);
+    color: var(--color-red-light);
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .dr-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+  }
+  .dr-hero__amp {
+    color: var(--color-red);
+  }
+  .dr-hero__sub {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--color-silver);
+    max-width: 36rem;
+    margin: 0 auto 2.5rem;
+  }
+  .dr-hero__stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .dr-hero__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .dr-hero__stat-num {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--color-red-light);
+  }
+  .dr-hero__stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-silver);
+  }
+  .dr-hero__stat-divider {
+    width: 1px;
+    height: 3rem;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  /* ═══════ SECTION TITLES ═══════ */
+  .dr-section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 800;
+    color: var(--color-black);
+    text-align: center;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .dr-section-sub {
+    text-align: center;
+    color: var(--color-gray);
+    font-size: 1.05rem;
+    max-width: 34rem;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+
+  /* ═══════ STEPS ═══════ */
+  .dr-steps {
+    padding: 5rem 0;
+    background: var(--color-snow);
+  }
+  .dr-steps__grid {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+  }
+  .dr-step {
+    flex: 1;
+    max-width: 14rem;
+    text-align: center;
+    position: relative;
+    padding: 0 0.5rem;
+  }
+  .dr-step__num {
+    width: 1.75rem;
+    height: 1.75rem;
+    background: var(--color-red);
+    color: var(--color-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin: 0 auto 0.75rem;
+  }
+  .dr-step__icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: var(--color-red);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+  .dr-step__title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-black);
+    margin-bottom: 0.5rem;
+  }
+  .dr-step__text {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--color-gray);
+  }
+  .dr-step__connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-silver);
+    padding-top: 3.5rem;
+    flex-shrink: 0;
+  }
+
+  /* ═══════ DELIVERY OPTIONS ═══════ */
+  .dr-options {
+    padding: 5rem 0;
+    background: var(--color-white);
+  }
+  .dr-options__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+  .dr-option-card {
+    background: var(--color-snow);
+    border: 1px solid var(--color-mist);
+    border-radius: 1rem;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .dr-option-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+  .dr-option-card--featured {
+    border-color: var(--color-red);
+    background: var(--color-white);
+    box-shadow: 0 4px 20px rgba(225, 29, 72, 0.08);
+  }
+  .dr-option-card__badge {
+    position: absolute;
+    top: 0;
+    right: 1.5rem;
+    background: var(--color-red);
+    color: var(--color-white);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.75rem;
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+  .dr-option-card__head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 1.5rem 0;
+  }
+  .dr-option-card__icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    background: var(--color-red-muted);
+    color: var(--color-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .dr-option-card__title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--color-black);
+  }
+  .dr-option-card__eta {
+    font-size: 0.8rem;
+    color: var(--color-gray);
+  }
+  .dr-option-card__body {
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+  .dr-option-card__note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--color-gray);
+    margin-top: 1rem;
+    line-height: 1.5;
+  }
+
+  /* Table */
+  .dr-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .dr-table td {
+    padding: 0.75rem 0;
+    font-size: 0.85rem;
+    color: var(--color-charcoal);
+    border-bottom: 1px solid var(--color-mist);
+  }
+  .dr-table tr:last-child td {
+    border-bottom: none;
+  }
+  .dr-table__price {
+    text-align: right;
+    font-weight: 700;
+    white-space: nowrap;
+    color: var(--color-black);
+  }
+  .dr-table__free {
+    color: var(--color-success) !important;
+  }
+
+  /* ═══════ RETURNS ═══════ */
+  .dr-returns {
+    padding: 5rem 0;
+    background: var(--color-snow);
+  }
+  .dr-returns__layout {
+    display: grid;
+    grid-template-columns: 1fr 22rem;
+    gap: 3rem;
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+  .dr-returns__content .dr-section-title,
+  .dr-returns__content .dr-section-sub {
+    text-align: left;
+    margin-left: 0;
+  }
+  .dr-returns__cards {
+    display: grid;
+    gap: 1rem;
+  }
+  .dr-return-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-mist);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    transition: box-shadow 0.2s;
+  }
+  .dr-return-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  }
+  .dr-return-card__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .dr-return-card__icon--green {
+    background: #d1fae5;
+    color: #059669;
+  }
+  .dr-return-card__icon--blue {
+    background: #dbeafe;
+    color: #2563eb;
+  }
+  .dr-return-card__icon--amber {
+    background: #fef3c7;
+    color: #d97706;
+  }
+  .dr-return-card__icon--rose {
+    background: var(--color-red-muted);
+    color: var(--color-red);
+  }
+  .dr-return-card__title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-black);
+    margin-bottom: 0.25rem;
+  }
+  .dr-return-card__text {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--color-gray);
+  }
+
+  /* Returns aside */
+  .dr-returns__aside {
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+  }
+  .dr-returns__box {
+    background: var(--color-white);
+    border: 1px solid var(--color-mist);
+    border-radius: 1rem;
+    padding: 1.75rem;
+  }
+  .dr-returns__box-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--color-black);
+    margin-bottom: 1.25rem;
+  }
+  .dr-returns__steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .dr-returns__steps li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .dr-returns__step-num {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--color-red);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+  .dr-returns__steps strong {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-black);
+    margin-bottom: 0.15rem;
+  }
+  .dr-returns__steps p {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--color-gray);
+    margin: 0;
+  }
+  .dr-returns__steps a {
+    color: var(--color-red);
+    text-decoration: none;
+  }
+  .dr-returns__steps a:hover {
+    text-decoration: underline;
+  }
+
+  /* ═══════ FAQ ═══════ */
+  .dr-faq {
+    padding: 5rem 0;
+    background: var(--color-white);
+  }
+  .dr-faq__grid {
+    max-width: 42rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .dr-faq__item {
+    background: var(--color-snow);
+    border: 1px solid var(--color-mist);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .dr-faq__item[open] {
+    border-color: var(--color-red);
+  }
+  .dr-faq__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-black);
+    list-style: none;
+    user-select: none;
+  }
+  .dr-faq__question::-webkit-details-marker {
+    display: none;
+  }
+  .dr-faq__chevron {
+    transition: transform 0.25s;
+    color: var(--color-gray);
+    flex-shrink: 0;
+  }
+  .dr-faq__item[open] .dr-faq__chevron {
+    transform: rotate(180deg);
+    color: var(--color-red);
+  }
+  .dr-faq__answer {
+    padding: 0 1.25rem 1.25rem;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--color-gray);
+    margin: 0;
+  }
+
+  /* ═══════ CTA ═══════ */
+  .dr-cta {
+    padding: 5rem 0;
+    background: var(--color-snow);
+  }
+  .dr-cta__box {
+    max-width: 36rem;
+    margin: 0 auto;
+    text-align: center;
+    background: var(--color-white);
+    border: 1px solid var(--color-mist);
+    border-radius: 1.25rem;
+    padding: 3rem 2rem;
+  }
+  .dr-cta__icon {
+    color: var(--color-red);
+    margin: 0 auto 1rem;
+  }
+  .dr-cta__title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-black);
+    margin-bottom: 0.5rem;
+  }
+  .dr-cta__text {
+    color: var(--color-gray);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+  .dr-cta__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .dr-cta__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .dr-cta__btn--primary {
+    background: var(--color-red);
+    color: var(--color-white);
+  }
+  .dr-cta__btn--primary:hover {
+    background: var(--color-red-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+  }
+  .dr-cta__btn--secondary {
+    background: var(--color-snow);
+    color: var(--color-black);
+    border: 1px solid var(--color-mist);
+  }
+  .dr-cta__btn--secondary:hover {
+    background: var(--color-cloud);
+    transform: translateY(-1px);
+  }
+
+  /* ═══════ MOBILE ═══════ */
+  @media (max-width: 768px) {
+    .dr-hero {
+      padding: 8rem 0 3rem;
+    }
+    .dr-hero__stats {
+      gap: 1rem;
+    }
+    .dr-hero__stat-divider {
+      display: none;
+    }
+    .dr-steps__grid {
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .dr-step {
+      max-width: 100%;
+    }
+    .dr-step__connector {
+      padding: 0.75rem 0;
+      transform: rotate(90deg);
+    }
+    .dr-options__grid {
+      grid-template-columns: 1fr;
+    }
+    .dr-returns__layout {
+      grid-template-columns: 1fr;
+    }
+    .dr-returns__aside {
+      position: static;
+    }
+  }
+</style>

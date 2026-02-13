@@ -421,6 +421,7 @@ export const en = {
     termsOfService: 'Terms of Service',
     accessibility: 'Accessibility',
     cookiesPolicy: 'Cookies Policy',
+    deliveryReturns: 'Delivery & Returns',
     designedBy: 'Designed by',
   },
 

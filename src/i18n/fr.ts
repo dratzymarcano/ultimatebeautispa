@@ -419,6 +419,7 @@ export const fr = {
     termsOfService: 'Conditions d\'Utilisation',
     accessibility: 'Accessibilité',
     cookiesPolicy: 'Politique de Cookies',
+    deliveryReturns: 'Livraison & Retours',
     designedBy: 'Conçu par',
   },
 
